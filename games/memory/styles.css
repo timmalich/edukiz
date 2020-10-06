@@ -55,3 +55,9 @@ body {
 .front-face {
     transform: rotateY(180deg);
 }
+
+.huge-links {
+    font-size: xx-large;
+    color: #9ec9ec;
+    padding: 10pt;
+}
