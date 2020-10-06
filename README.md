@@ -1,12 +1,12 @@
 # simple educational games for kids
-Project is WIP. I only got a couple of *hours* in the next month. Will see how far I can push this...
+The project is WIP. I only got a couple of *hours* in the next month. Will see how far I can push this...
 
 ## Aim
 Simple HTML/JS educational games for children
 
-## Boundries
+## Boundaries
 - Code should be as simple as possible so it's easy for everyone to extend
-- Code should not use super heavy liberies
+- Code should not use super heavy libraries
 - Must run offline (e.g. by simply copying to a smartphone, tablet, raspberry pi, laptop, ...)
 
 ## Planned Games
