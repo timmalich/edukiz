@@ -1,4 +1,4 @@
-# educational games for kids
+# simple educational games for kids
 
 ## Aim
 Simple HTML/JS educational gams for children
