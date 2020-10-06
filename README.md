@@ -1,7 +1,8 @@
 # simple educational games for kids
+Project is WIP. I only got a couple of *hours* in the next month. Will see how far I can push this...
 
 ## Aim
-Simple HTML/JS educational gams for children
+Simple HTML/JS educational games for children
 
 ## Boundries
 - Code should be as simple as possible so it's easy for everyone to extend
@@ -13,6 +14,6 @@ Simple HTML/JS educational gams for children
 Memory Game with:
 - Letters
 - Numbers
-- Animals
+- Animals -> Just starting with this one based on https://github.com/code-sketch/memory-game/blob/master/video-11/index.html. 
 
 # ... 
