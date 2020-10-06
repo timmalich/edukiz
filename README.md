@@ -9,7 +9,7 @@ Simple HTML/JS educational gams for children
 - Must run offline (e.g. by simply copying to a smartphone, tablet, raspberry pi, laptop, ...)
 
 ## Planned Games
-# Memory
+### Memory
 Memory Game with:
 - Letters
 - Numbers
