@@ -6,7 +6,6 @@ Simple HTML/JS educational games for children
 
 ## Boundaries
 - Code should be as simple as possible so it's easy for everyone to extend
-- Code should not use super heavy libraries
 - Must run offline (e.g. by simply copying to a smartphone, tablet, raspberry pi, laptop, ...)
 
 ## Planned Games
@@ -16,4 +15,5 @@ Memory Game with:
 - Numbers
 - Animals -> Just starting with this one based on https://github.com/code-sketch/memory-game/blob/master/video-11/index.html. 
 
-# ... 
+# Open
+Should one use a web framework? Hmmm....
