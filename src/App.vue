@@ -45,6 +45,11 @@ export default {
             },
           ],
         },
+        {
+          href: "/github",
+          title: "GitHub",
+          icon: "fab fa-github",
+        },
       ],
       collapsed: false,
       isOnMobile: false,

@@ -30,6 +30,13 @@ const router = new VueRouter({
       name: "MemoryAnimals",
       component: MemoryAnimals,
     },
+    {
+      path: "/github",
+      name: "github",
+      beforeEnter() {
+        location.href = "https://github.com/timmalich/edukiz";
+      },
+    },
   ],
 });
 

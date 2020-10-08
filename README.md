@@ -28,7 +28,7 @@ Why?
 
 - After the first super simple game, I realized that it's way more pain in the a* than expected to do everything vanilla.  
 - Vue is completely new for me, but even with my pretty limited web ui experience, I felt quite comfortable with it after only about 3 hours of practice. 
-- I also considered Angular, but even though I did make small PoC apps with it, it felt more complicated. Furthermore, it uses TypeScript, which I do not really like. 
+- I also considered Angular, but even though I did make small PoC apps with it, it felt more complicated. 
 - React seems to be a bit more complicated. At least for me after reading the first tutorial.   
 - OpenUi5 suites games not really well. It's rather made for enterprise applications with tables, diagrams and formulars.
 - ... Another one from the thousands of frameworks I didn't even google, because there are just too many.   
