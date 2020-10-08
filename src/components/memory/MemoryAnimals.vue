@@ -199,25 +199,18 @@ export default {
   box-sizing: border-box;
 }
 
-body {
-  height: 100vh;
-  display: flex;
-  background: #3c3fb1;
-}
-
 .memory-game {
-  width: 800pt;
-  height: 800pt;
+  height: 380pt;
+  width: 260pt;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
-  perspective: 1000pt;
 }
 
 .memory-card {
-  width: calc(25% - 10pt);
-  height: calc(33.333% - 10pt);
-  margin: 5pt;
+  width: 70pt;
+  height: 100pt;
+  margin: 3pt;
   position: relative;
   transform: scale(1);
   transform-style: preserve-3d;
