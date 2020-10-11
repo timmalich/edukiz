@@ -1,7 +1,7 @@
 import MemoryAlphabet from '@/components/memory/MemoryAlphabet.vue'
 
 describe('MemoryAlphabet', () => {
-    let maxLevels = 10;
+    let maxLevels = 11;
 
     it('Correct grids are calculated', () => {
         expect(MemoryAlphabet.data().levels[0]).toEqual({rows: 1, columns: 2});
@@ -18,14 +18,14 @@ describe('MemoryAlphabet', () => {
     });
 
     it('Number of rows is equal to number of columns or number of columns-1', () => {
-        for (let level = 0; level <= maxLevels; level++) {
+        for (let level = 0; level < maxLevels; level++) {
             let grid = MemoryAlphabet.data().levels[level];
             expect(grid.rows === grid.columns || grid.rows === grid.columns - 1).toEqual(true);
         }
     });
 
     it('Number of rows * columns is even', () => {
-        for (let level = 0; level < 10; level++) {
+        for (let level = 0; level < maxLevels; level++) {
             let grid = MemoryAlphabet.data().levels[level];
             expect(((grid.rows * grid.columns) % 2) === 0).toBeTruthy();
         }

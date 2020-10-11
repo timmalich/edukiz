@@ -43,6 +43,11 @@ export default {
               title: "Animals",
               icon: "fa fa-paw",
             },
+            {
+              href: "/memory/alphabet",
+              title: "Alphabet",
+              icon: "fa fa-font",
+            }
           ],
         },
         {
