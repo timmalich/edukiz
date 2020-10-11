@@ -2,103 +2,103 @@
   <div>
     <section class="memory-game">
       <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/cat1.svg" alt="cat" />
+        <img class="front-face" src="img/cat1.svg" alt="cat" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/cat1.svg" alt="cat" />
+        <img class="front-face" src="img/cat1.svg" alt="cat" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
 
       <div class="memory-card" data-framework="chicken" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/chicken1.svg" alt="Aurelia" />
+        <img class="front-face" src="img/chicken1.svg" alt="Aurelia" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="chicken" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/chicken1.svg" alt="Aurelia" />
+        <img class="front-face" src="img/chicken1.svg" alt="Aurelia" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
 
       <div class="memory-card" data-framework="dino" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/dino1.svg" alt="dino" />
+        <img class="front-face" src="img/dino1.svg" alt="dino" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="dino" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/dino1.svg" alt="dino" />
+        <img class="front-face" src="img/dino1.svg" alt="dino" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
 
       <div class="memory-card" data-framework="dog" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/dog1.svg" alt="dog" />
+        <img class="front-face" src="img/dog1.svg" alt="dog" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="dog" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/dog1.svg" alt="dog" />
+        <img class="front-face" src="img/dog1.svg" alt="dog" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
 
       <div class="memory-card" data-framework="rabbit" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/rabbit1.svg" alt="rabbit" />
+        <img class="front-face" src="img/rabbit1.svg" alt="rabbit" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="rabbit" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/rabbit1.svg" alt="rabbit" />
+        <img class="front-face" src="img/rabbit1.svg" alt="rabbit" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
 
       <div class="memory-card" data-framework="unicorn" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/unicorn1.svg" alt="unicorn" />
+        <img class="front-face" src="img/unicorn1.svg" alt="unicorn" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>
       <div class="memory-card" data-framework="unicorn" v-on:click="flipCard">
-        <img class="front-face" src="@/assets/img/unicorn1.svg" alt="unicorn" />
+        <img class="front-face" src="img/unicorn1.svg" alt="unicorn" />
         <img
           class="back-face"
-          src="@/assets/img/cat_wallpaper.svg"
+          src="img/cat_wallpaper.svg"
           alt="back face"
         />
       </div>

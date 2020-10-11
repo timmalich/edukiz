@@ -1,9 +1,9 @@
 <template>
   <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-    <img class="front-face" src="@/assets/img/cat1.svg" alt="cat"/>
+    <img class="front-face" src="img/cat1.svg" alt="cat"/>
     <img
         class="back-face"
-        src="@/assets/img/cat_wallpaper.svg"
+        src="img/cat_wallpaper.svg"
         alt="back face"
     />
   </div>
