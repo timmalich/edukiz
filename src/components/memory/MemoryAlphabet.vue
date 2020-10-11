@@ -5,6 +5,25 @@
 export default {
   name: "MemoryAlphabet",
   data() {
+    function calculateLevels () {
+      let maxLevels = 10;
+      let level = 1;
+      let cols = 2;
+      let levels = [];
+      while (level <= maxLevels) {
+        if (cols * (cols - 1) % 2 === 0) {
+          levels.push({rows: cols - 1, columns: cols});
+          level++;
+        }
+        if (cols * cols % 2 === 0) {
+          levels.push({rows: cols, columns: cols})
+          level++;
+        }
+        cols++;
+      }
+      return levels;
+    }
+
     return {
       cards: {},
       firstCard: {},
@@ -12,19 +31,7 @@ export default {
       hasFlippedCard: false,
       lockBoard: false,
       solvedCards: 0,
-      levels: [
-        {rows: 1, columns: 2},
-        {rows: 2, columns: 2},
-        {rows: 2, columns: 3},
-        {rows: 3, columns: 4},
-        {rows: 4, columns: 4},
-        {rows: 4, columns: 5},
-        {rows: 5, columns: 6},
-        {rows: 6, columns: 6},
-        {rows: 6, columns: 7},
-        {rows: 7, columns: 8},
-        {rows: 8, columns: 8},
-      ]
+      levels: calculateLevels()
     };
   },
   created: function () {
