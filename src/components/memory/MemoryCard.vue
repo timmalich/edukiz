@@ -1,11 +1,9 @@
 <template>
   <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-    <img class="front-face" src="img/cat1.svg" alt="cat"/>
-    <img
-        class="back-face"
-        src="img/cat_wallpaper.svg"
-        alt="back face"
-    />
+    <div>
+      <img class="front-face" src="img/cat1.svg" alt="cat"/>
+      <img class="back-face" src="img/cat_wallpaper.svg" alt="back face" />
+    </div>
   </div>
 </template>
 
@@ -13,10 +11,11 @@
 
 <style scoped>
 .memory-card {
-  width: 70pt;
-  height: 100pt;
-  margin: 3pt;
   position: relative;
+  width: 100%;
+  min-width: 30pt;
+  height: 100%;
+  min-height: 30pt;
   transform: scale(1);
   transform-style: preserve-3d;
   transition: transform 0.5s;
@@ -33,10 +32,9 @@
 
 .front-face,
 .back-face {
+  position: absolute;
   width: 100%;
   height: 100%;
-  padding: 0;
-  position: absolute;
   border-radius: 15pt;
   background: #9ec9ec;
   backface-visibility: hidden;

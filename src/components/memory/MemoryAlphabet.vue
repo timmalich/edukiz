@@ -1,13 +1,15 @@
 <template>
   <div>
     <label for="levels">Select level: </label>
-    <select id="levels" v-model="selectedLevel">
+    <select id="levels" v-model="selectedLevel" @change="selectLevel()">
       <option v-for="(level, index) in levels" :key="index" :value="index">
         {{ index + 1 }} ({{ level.cardAmount }} Cards)
       </option>
     </select>
     <br/>
-    <memory-card v-for="card in levels[selectedLevel].cardAmount" :key="card"></memory-card>
+    <div v-bind:style="gridContainer" class="grid-container">
+      <memory-card class="column" v-for="card in levels[selectedLevel].cardAmount" :key="card"></memory-card>
+    </div>
   </div>
 </template>
 
@@ -53,10 +55,28 @@ export default {
   },
   created: function () {
   },
-  methods: {}
+  methods: {
+    selectLevel: function () {
+    }
+  },
+  computed: {
+    gridContainer: function () {
+      return {
+        'grid-template-columns': "repeat(" + this.levels[this.selectedLevel].columns + ", minmax(30pt, 1fr))",
+      }
+    }
+  }
 }
 
 </script>
 
 <style scoped>
+.grid-container {
+  width: 100%;
+  height: 90vh;
+  display: grid;
+  grid-gap: 5pt;
+  justify-items: center;
+  align-items: center;
+}
 </style>
