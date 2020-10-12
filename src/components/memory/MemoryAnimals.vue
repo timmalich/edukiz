@@ -107,6 +107,8 @@
 </template>
 
 <script>
+import Sounds from "./Sounds";
+
 export default {
   name: "MemoryAnimals",
   data() {
@@ -149,12 +151,12 @@ export default {
         this.disableCards();
         this.solvedCards += 2;
         if (this.isAllSolved()) {
-          this.$playBigSuccess();
+          Sounds.playBigSuccess();
         } else {
-          this.$playSuccess();
+          Sounds.playSuccess();
         }
       } else {
-        this.$playError();
+        Sounds.playError();
         this.unflipCards();
       }
     },
