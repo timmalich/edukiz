@@ -14,6 +14,20 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(VueSidebarMenu);
 
+Vue.prototype.$playSound = function (src) {
+  new Audio(src).play().then();
+};
+Vue.prototype.$playError = function () {
+  this.$playSound("sounds/error1.mp3");
+};
+Vue.prototype.$playSuccess = function (){
+  this.$playSound("sounds/success1.mp3");
+};
+Vue.prototype.$playBigSuccess = function (){
+  this.$playSound("sounds/big_success1.mp3");
+}
+
+
 const router = new VueRouter({
   routes: [
     {

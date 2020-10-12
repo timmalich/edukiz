@@ -72,10 +72,6 @@ export default {
     };
   },
   name: "App",
-  mounted() {
-    this.onResize();
-    window.addEventListener("resize", this.onResize);
-  },
   methods: {
     onToggleCollapse(collapsed) {
       this.collapsed = collapsed;
@@ -88,7 +84,11 @@ export default {
         this.isOnMobile = false;
         this.collapsed = false;
       }
-    },
+    }
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener("resize", this.onResize);
   },
 };
 </script>

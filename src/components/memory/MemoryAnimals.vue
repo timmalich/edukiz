@@ -149,12 +149,12 @@ export default {
         this.disableCards();
         this.solvedCards += 2;
         if (this.isAllSolved()) {
-          this.playSound("sounds/big_success1.mp3");
+          this.$playBigSuccess();
         } else {
-          this.playSound("sounds/success1.mp3");
+          this.$playSuccess();
         }
       } else {
-        this.playSound("sounds/error1.mp3");
+        this.$playError();
         this.unflipCards();
       }
     },
@@ -177,9 +177,6 @@ export default {
       return (
         this.firstCard.dataset.framework === this.secondCard.dataset.framework
       );
-    },
-    playSound: function (src) {
-      new Audio(src).play().then();
     },
     isAllSolved: function () {
       return 12 === this.solvedCards;
