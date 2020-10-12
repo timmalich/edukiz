@@ -1,23 +1,31 @@
 <template>
   <div class="memory-card" v-bind:class="{ flip : isFlipped }" data-framework="cat" v-on:click="flipCard">
     <div>
-      <img class="front-face" src="img/cat1.svg" alt="cat"/>
-      <img class="back-face" src="img/cat_wallpaper.svg" alt="back face" />
+      <div class="front-face">
+        <p style="font-size: xx-large">{{ frontFace }} </p>
+      </div>
+      <img class="back-face" src="img/cat_wallpaper.svg" alt="back face"/>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  // TODO beautify card
   name: "MemoryCard",
   data() {
     return {
-      isFlipped: false
+      isFlipped: false,
+      isFlippable: true
     }
   },
+  props: ['frontFace', 'isBoardLocked'],
   methods: {
     flipCard: function () {
-      this.isFlipped = !this.isFlipped;
+      if (this.isFlippable && !this.isBoardLocked && !this.isFlipped) {
+        this.isFlipped = !this.isFlipped;
+        this.$emit('flipped', this);
+      }
     }
   }
 }
