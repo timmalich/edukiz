@@ -1,5 +1,5 @@
 <template>
-  <div class="memory-card" data-framework="cat" v-on:click="flipCard">
+  <div class="memory-card" v-bind:class="{ flip : isFlipped }" data-framework="cat" v-on:click="flipCard">
     <div>
       <img class="front-face" src="img/cat1.svg" alt="cat"/>
       <img class="back-face" src="img/cat_wallpaper.svg" alt="back face" />
@@ -7,7 +7,21 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  name: "MemoryCard",
+  data() {
+    return {
+      isFlipped: false
+    }
+  },
+  methods: {
+    flipCard: function () {
+      this.isFlipped = !this.isFlipped;
+    }
+  }
+}
+</script>
 
 <style scoped>
 .memory-card {
