@@ -7,6 +7,7 @@
           {{ index + 1 }} ({{ level.cardAmount }} Cards)
         </option>
       </select>
+      <button @click="generateCards()">Restart</button>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
       <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.value"
@@ -134,9 +135,11 @@ export default {
         } else {
           Sounds.playError();
           setTimeout(function () {
-            this.flippedCard.isFlipped = false;
+            if(this.flippedCard){
+              this.flippedCard.isFlipped = false;
+              this.flippedCard = null;
+            }
             currentCard.isFlipped = false;
-            this.flippedCard = null;
             this.isBoardLocked = false;
           }.bind(this), 1000);
         }
