@@ -65,36 +65,40 @@ export default {
       return level.columns * level.rows;
     },
     resetExistingCards: function () {
-      if(this.$refs.memoryCards){
+      if (this.$refs.memoryCards) {
         for (let card of this.$refs.memoryCards) {
           card.reset();
         }
       }
     },
+    shuffle: function (array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    },
     generateCards: function () {
       this.cards = [];
       this.flippedCard = null;
-      // TODO make method return unique random letter
-      //function getUniqueRandomLetter(){
-      //  return this.POSSIBLE_CARD_CONTENT[Math.floor(Math.random() * this.POSSIBLE_CARD_CONTENT.length)];
-      //}
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
-
+      let frontFaces = this.shuffle(this.POSSIBLE_CARD_CONTENT.split(''));
       for (let i = 0; i < cardAmount / 2; i++) {
-        let letter = this.POSSIBLE_CARD_CONTENT[i];
+        let frontFace = frontFaces[i];
         this.cards.push({
-          key: letter + 0,
-          value: letter,
+          key: frontFace + 0,
+          value: frontFace,
           isFlipped: false,
           isFlippable: true
         });
         this.cards.push({
-          key: letter + 1,
-          value: letter,
+          key: frontFace + 1,
+          value: frontFace,
           isFlipped: false,
           isFlippable: true
         });
       }
+      this.shuffle(this.cards);
       this.resetExistingCards();
     },
     isGameOver: function () {
