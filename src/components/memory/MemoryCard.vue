@@ -26,6 +26,10 @@ export default {
         this.isFlipped = !this.isFlipped;
         this.$emit('flipped', this);
       }
+    },
+    reset: function() {
+      this.isFlipped = false;
+      this.isFlippable = true;
     }
   }
 }

@@ -10,7 +10,7 @@
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
       <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.value"
-                   :is-board-locked="isBoardLocked" @flipped="cardFlipped" />
+                   :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
   </div>
 </template>
@@ -61,13 +61,19 @@ export default {
     this.generateCards();
   },
   methods: {
-    getCardAmount: function (level){
+    getCardAmount: function (level) {
       return level.columns * level.rows;
     },
+    resetExistingCards: function () {
+      if(this.$refs.memoryCards){
+        for (let card of this.$refs.memoryCards) {
+          card.reset();
+        }
+      }
+    },
     generateCards: function () {
-      // TODO need some better cleanup. flipped card is still flipped after level change
-      this.cards=[];
-
+      this.cards = [];
+      this.flippedCard = null;
       // TODO make method return unique random letter
       //function getUniqueRandomLetter(){
       //  return this.POSSIBLE_CARD_CONTENT[Math.floor(Math.random() * this.POSSIBLE_CARD_CONTENT.length)];
@@ -78,15 +84,20 @@ export default {
         let letter = this.POSSIBLE_CARD_CONTENT[i];
         this.cards.push({
           key: letter + 0,
-          value: letter
+          value: letter,
+          isFlipped: false,
+          isFlippable: true
         });
         this.cards.push({
           key: letter + 1,
-          value: letter
+          value: letter,
+          isFlipped: false,
+          isFlippable: true
         });
       }
+      this.resetExistingCards();
     },
-    isGameOver: function (){
+    isGameOver: function () {
       let cardsInCurrentLevel = this.getCardAmount(this.levels[this.selectedLevel]);
       return this.solvedCards === cardsInCurrentLevel;
     },
@@ -107,9 +118,9 @@ export default {
       } else {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
-          if(this.isGameOver()) {
+          if (this.isGameOver()) {
             Sounds.playBigSuccess();
-          }else{
+          } else {
             Sounds.playSuccess();
           }
 
