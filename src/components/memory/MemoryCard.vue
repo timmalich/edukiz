@@ -10,10 +10,10 @@
         >
           <text
               x="1"
-              y="14"
+              y="15"
               font-size="20"
               font-family="Arial"
-              fill="black"
+              fill="#0056ff"
           >{{ frontFace }}</text>
         </svg>
       </div>
@@ -76,7 +76,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 15pt;
-  background: #9ec9ec;
+  background: #00ff00;
   backface-visibility: hidden;
   display: flex;
 }
@@ -87,7 +87,6 @@ export default {
 
 .front-face {
   transform: rotateY(180deg);
-  resize: both;
   overflow: hidden;
 }
 
