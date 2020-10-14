@@ -1,20 +1,21 @@
 <template>
-  <div id="app" :class="[{ collapsed: collapsed }, { onmobile: isOnMobile }]">
-    <sidebar-menu
-      :menu="menu"
-      :collapsed="collapsed"
-      :theme="selectedTheme"
-      :show-one-child="true"
-      @toggle-collapse="onToggleCollapse"
-    />
-    <div
-      v-if="isOnMobile && !collapsed"
-      class="sidebar-overlay"
-      @click="collapsed = true"
-    />
-    <div>
-      <router-view />
+  <div>
+    <div :class="[{ sidebarCollapsed: collapsed }, { sidebarOnMobile: mobile }]">
+      <sidebar-menu
+          :menu="menu"
+          :collapsed="collapsed"
+          :theme="selectedTheme"
+          :show-one-child="true"
+          @toggle-collapse="onToggleCollapse"
+      />
+      <div
+          v-if="mobile && !collapsed"
+          class="sidebar-overlay"
+          @click="collapsed = true"
+      />
     </div>
+    <router-view
+        :class="[{ sidebarCollapsed: collapsed }, { sidebarExpanded: !collapsed && !mobile }, {sidebarOnMobile: mobile}, 'sidebarRight']"/>
   </div>
 </template>
 
@@ -57,7 +58,7 @@ export default {
         },
       ],
       collapsed: false,
-      isOnMobile: false,
+      mobile: false,
       themes: [
         {
           name: "Default theme",
@@ -78,10 +79,10 @@ export default {
     },
     onResize() {
       if (window.innerWidth <= 767) {
-        this.isOnMobile = true;
+        this.mobile = true;
         this.collapsed = true;
       } else {
-        this.isOnMobile = false;
+        this.mobile = false;
         this.collapsed = false;
       }
     }
@@ -94,14 +95,25 @@ export default {
 </script>
 
 <style>
-#app {
-  padding-left: 280pt;
+.sidebarRight {
+  height: calc(100% - 10pt);
+  position: absolute;
+  display: inline;
+}
+
+.sidebarExpanded {
+  padding-left: 270pt;
   transition: 0.3s ease;
+  width: calc(100% - 290pt);
 }
-#app.collapsed {
+
+.sidebarCollapsed {
   padding-left: 50pt;
+  width: calc(100% - 60pt)
 }
-#app.onmobile {
+
+.sidebarOnMobile {
   padding-left: 50pt;
+  width: calc(100% - 68pt);
 }
 </style>

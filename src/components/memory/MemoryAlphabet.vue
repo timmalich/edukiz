@@ -13,6 +13,7 @@
       <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.value"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
+    <div class="footer" />
   </div>
 </template>
 
@@ -150,7 +151,7 @@ export default {
   computed: {
     gridContainer: function () {
       return {
-        'grid-template-columns': "repeat(" + this.levels[this.selectedLevel].columns + ", minmax(30pt, 1fr))",
+        'grid-template-columns': "repeat(" + this.levels[this.selectedLevel].columns + ", minmax(20pt, 1fr))",
       }
     }
   }
@@ -161,14 +162,19 @@ export default {
 <style scoped>
 .header {
   width: 100%;
-  height: 26pt;
+  height: 25pt;
+}
+
+.footer {
+  width: 100%;
+  height: 25pt;
 }
 
 .grid-container {
   width: 100%;
-  height: 90vh;
+  height: calc(100% - 50pt);
   display: grid;
-  grid-gap: 5pt;
+  grid-gap: 10pt;
   justify-items: center;
   align-items: center;
 }
