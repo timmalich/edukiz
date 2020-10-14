@@ -66,6 +66,7 @@ export default {
       return level.columns * level.rows;
     },
     resetExistingCards: function () {
+      this.solvedCards = 0;
       if (this.$refs.memoryCards) {
         for (let card of this.$refs.memoryCards) {
           card.reset();
