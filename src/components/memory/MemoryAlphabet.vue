@@ -10,7 +10,7 @@
       <button @click="generateCards()">Restart</button>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
-      <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.value"
+      <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.frontFace"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
     <div class="footer" />
@@ -90,13 +90,13 @@ export default {
         let frontFace = frontFaces[i];
         this.cards.push({
           key: frontFace + 0,
-          value: frontFace,
+          frontFace: frontFace,
           isFlipped: false,
           isFlippable: true
         });
         this.cards.push({
           key: frontFace + 1,
-          value: frontFace,
+          frontFace: frontFace,
           isFlipped: false,
           isFlippable: true
         });
@@ -119,7 +119,12 @@ export default {
         secondCard.isFlippable = false;
       }
 
+      let playCharacterSound = function (currentCard){
+        Sounds.playSound("characters/" + currentCard.frontFace.toLowerCase() + ".mp3");
+      }
+
       if (!this.flippedCard) {
+        playCharacterSound(currentCard);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
       } else {
@@ -135,8 +140,9 @@ export default {
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          Sounds.playError();
+          playCharacterSound(currentCard);
           setTimeout(function () {
+            Sounds.playError();
             if(this.flippedCard){
               this.flippedCard.isFlipped = false;
               this.flippedCard = null;
