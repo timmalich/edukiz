@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header">
-      <label for="levels">Select level: </label>
+      <label for="levels" style="color:whitesmoke">Select level: </label>
       <select id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
@@ -10,10 +10,12 @@
       <button @click="generateCards()">Restart</button>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
-      <memory-card class="column" v-for="card in cards" :key="card.key" :front-face="card.frontFace"
+      <memory-card class="column" v-for="card in cards" :key="card.key"
+                   :front-face="card.frontFace"
+                   :sound="card.sound"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
-    <div class="footer" />
+    <div class="footer"/>
   </div>
 </template>
 
@@ -81,6 +83,15 @@ export default {
       }
       return array;
     },
+    createCard: function (key, frontFace) {
+      return {
+        key: key,
+        frontFace: "img/characters/" + frontFace.toUpperCase() + ".svg",
+        sound: "characters/" + frontFace.toLowerCase() + ".mp3",
+        isFlipped: false,
+        isFlippable: true
+      }
+    },
     generateCards: function () {
       this.cards = [];
       this.flippedCard = null;
@@ -88,18 +99,8 @@ export default {
       let frontFaces = this.shuffle(this.POSSIBLE_CARD_CONTENT.split(''));
       for (let i = 0; i < cardAmount / 2; i++) {
         let frontFace = frontFaces[i];
-        this.cards.push({
-          key: frontFace + 0,
-          frontFace: frontFace,
-          isFlipped: false,
-          isFlippable: true
-        });
-        this.cards.push({
-          key: frontFace + 1,
-          frontFace: frontFace,
-          isFlipped: false,
-          isFlippable: true
-        });
+        this.cards.push(this.createCard(this.cards.length, frontFace));
+        this.cards.push(this.createCard(this.cards.length, frontFace));
       }
       this.shuffle(this.cards);
       this.resetExistingCards();
@@ -119,12 +120,8 @@ export default {
         secondCard.isFlippable = false;
       }
 
-      let playCharacterSound = function (currentCard){
-        Sounds.playSound("characters/" + currentCard.frontFace.toLowerCase() + ".mp3");
-      }
-
       if (!this.flippedCard) {
-        playCharacterSound(currentCard);
+        Sounds.playSound(currentCard.sound);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
       } else {
@@ -140,10 +137,10 @@ export default {
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          playCharacterSound(currentCard);
+          Sounds.playSound(currentCard.sound);
           setTimeout(function () {
             Sounds.playError();
-            if(this.flippedCard){
+            if (this.flippedCard) {
               this.flippedCard.isFlipped = false;
               this.flippedCard = null;
             }

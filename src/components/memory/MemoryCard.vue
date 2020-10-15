@@ -1,21 +1,8 @@
 <template>
-  <div class="memory-card" v-bind:class="{ flip : isFlipped }" data-framework="cat" v-on:click="flipCard">
+  <div class="memory-card" v-bind:class="{ flip : isFlipped }" v-on:click="flipCard">
     <div>
       <div class="front-face">
-        <svg
-            class="front-face-inner"
-            viewBox="0 0 16 16"
-            preserveAspectRatio="xMinYMid meet"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-          <text
-              x="1"
-              y="15"
-              font-size="20"
-              font-family="Arial"
-              fill="#0056ff"
-          >{{ frontFace }}</text>
-        </svg>
+        <img class="front-face-inner" :src="frontFace" alt="front face"/>
       </div>
       <div>
         <img class="back-face" src="img/cat_wallpaper.svg" alt="back face"/>
@@ -33,7 +20,7 @@ export default {
       isFlippable: true
     }
   },
-  props: ['frontFace', 'isBoardLocked'],
+  props: ['frontFace', 'isBoardLocked', 'sound'],
   methods: {
     flipCard: function () {
       if (this.isFlippable && !this.isBoardLocked && !this.isFlipped) {
@@ -76,7 +63,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 15pt;
-  background: #00ff00;
+  background: #9de591;
   backface-visibility: hidden;
   display: flex;
 }
