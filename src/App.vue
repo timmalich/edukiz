@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div :class="[{ sidebarCollapsed: collapsed }, { sidebarOnMobile: mobile }]">
+  <div :class="[{sidebarCollapsed: collapsed}]">
+    <div>
       <sidebar-menu
           :menu="menu"
           :collapsed="collapsed"
@@ -14,8 +14,10 @@
           @click="collapsed = true"
       />
     </div>
-    <router-view
-        :class="[{ sidebarCollapsed: collapsed }, { sidebarExpanded: !collapsed && !mobile }, {sidebarOnMobile: mobile}, 'sidebarRight']"/>
+    <div :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'sidebarRight']">
+      <router-view />
+    </div>
+
   </div>
 </template>
 
@@ -94,26 +96,29 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+$generalPaddingRight: 10pt;
+$sidebarCollapsedPaddingLeft: 50pt;
+
 .sidebarRight {
-  height: calc(100% - 10pt);
+  height: 100%;
+  padding-right: $generalPaddingRight;
+  width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight});
+  top: 0;
+  left: 0;
   position: absolute;
-  display: inline;
+  display: grid;
+  background-color: #37373e;
 }
 
 .sidebarExpanded {
   padding-left: 270pt;
+  width: calc(100% - 270pt - #{$generalPaddingRight});
   transition: 0.3s ease;
-  width: calc(100% - 290pt);
 }
 
 .sidebarCollapsed {
   padding-left: 50pt;
-  width: calc(100% - 60pt)
-}
-
-.sidebarOnMobile {
-  padding-left: 50pt;
-  width: calc(100% - 68pt);
+  width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight})
 }
 </style>

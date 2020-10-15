@@ -122,7 +122,6 @@ export default {
     };
   },
   mounted: function () {
-    //debugger; // eslint-disable-line
     this.cards = document.querySelectorAll(".memory-card");
     this.shuffle();
   },
