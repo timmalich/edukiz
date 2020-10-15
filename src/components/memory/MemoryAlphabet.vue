@@ -4,7 +4,7 @@
       <label for="levels">Select level: </label>
       <select id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
-          {{ index + 1 }} ({{ level.cardAmount }} Cards)
+          {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
       <button @click="generateCards()">Restart</button>
