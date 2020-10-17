@@ -75,3 +75,9 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
 #### initialize transcrypt for this repo once by:
     cd /c/dev/git-repos/runtime-api
     transcrypt -c aes-256-cbc -p 'ThePassword' 
+
+#### install ncftp
+    sudo apt-get install ncftp
+    
+#### Distribute
+    ./scripts/distribute.sh 
