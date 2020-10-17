@@ -87,7 +87,7 @@ export default {
       return {
         key: key,
         frontFace: "img/characters/" + frontFace.toUpperCase() + ".svg",
-        sound: "characters/" + frontFace.toLowerCase() + ".mp3",
+        sound: "de/characters/" + frontFace.toLowerCase() + ".mp3",
         isFlipped: false,
         isFlippable: true
       }
