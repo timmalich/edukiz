@@ -1,245 +1,81 @@
 <template>
-  <div>
-    <section class="memory-game">
-      <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-        <img class="front-face" src="img/cat1.svg" alt="cat" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="cat" v-on:click="flipCard">
-        <img class="front-face" src="img/cat1.svg" alt="cat" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-
-      <div class="memory-card" data-framework="chicken" v-on:click="flipCard">
-        <img class="front-face" src="img/chicken1.svg" alt="Aurelia" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="chicken" v-on:click="flipCard">
-        <img class="front-face" src="img/chicken1.svg" alt="Aurelia" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-
-      <div class="memory-card" data-framework="dino" v-on:click="flipCard">
-        <img class="front-face" src="img/dino1.svg" alt="dino" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="dino" v-on:click="flipCard">
-        <img class="front-face" src="img/dino1.svg" alt="dino" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-
-      <div class="memory-card" data-framework="dog" v-on:click="flipCard">
-        <img class="front-face" src="img/dog1.svg" alt="dog" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="dog" v-on:click="flipCard">
-        <img class="front-face" src="img/dog1.svg" alt="dog" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-
-      <div class="memory-card" data-framework="rabbit" v-on:click="flipCard">
-        <img class="front-face" src="img/rabbit1.svg" alt="rabbit" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="rabbit" v-on:click="flipCard">
-        <img class="front-face" src="img/rabbit1.svg" alt="rabbit" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-
-      <div class="memory-card" data-framework="unicorn" v-on:click="flipCard">
-        <img class="front-face" src="img/unicorn1.svg" alt="unicorn" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-      <div class="memory-card" data-framework="unicorn" v-on:click="flipCard">
-        <img class="front-face" src="img/unicorn1.svg" alt="unicorn" />
-        <img
-          class="back-face"
-          src="img/cat_wallpaper.svg"
-          alt="back face"
-        />
-      </div>
-    </section>
-  </div>
+  <MemoryGame :possible-card-configs="possibleCardConfigs"></MemoryGame>
 </template>
 
 <script>
-import Sounds from "./Sounds";
+import MemoryGame from './MemoryGame.vue';
 
 export default {
-  name: "MemoryAnimals",
+  name: "MemoryAlphabet",
+  components: {
+    MemoryGame
+  },
   data() {
+    let possibleCardConfigs = [];
+    let add = function (img, sound){
+      possibleCardConfigs.push({
+        frontFace: "img/" + img + ".svg",
+        sound: "de/words/" + sound + ".mp3",
+      })
+    }
+    add("ambulance1", "krankenwagen");
+    add("bird1", "eule");
+    add("bird2", "eule");
+    add("butterfly", "schmetterling");
+    add("car1", "auto");
+    add("car2", "auto");
+    add("cat1", "katze");
+    add("chicken1", "huhn");
+    add("christmas_tree1", "weihnachtsbaum");
+    add("christmas_tree2","weihnachtsbaum");
+    add("dino1", "dino");
+    add("dog1", "hund");
+    add("dragon1", "drache");
+    add("fire_truck1", "feuerwehr");
+    add("fire_truck2", "feuerwehr");
+    add("fish1", "fisch");
+    add("fish2", "fisch");
+    add("fish3", "fisch");
+    add("fish4", "fisch");
+    add("fish5", "fisch");
+    add("fish6", "fisch");
+    add("fish7", "fisch");
+    add("fish8", "fisch");
+    add("frog1", "frosch");
+    add("frog2", "frosch");
+    add("goat1", "fisch");
+    add("goat2", "fisch");
+    add("penguin1", "pinguin");
+    add("penguin2", "pinguin");
+    add("penguin3", "pinguin");
+    add("penguin5", "pinguin");
+    add("penguin6", "pinguin");
+    add("penguin7", "pinguin");
+    add("penguin8", "pinguin");
+    add("penguin9", "pinguin");
+    add("penguin10", "pinguin");
+    add("penguin11", "pinguin");
+    add("penguin12", "pinguin");
+    add("penguin13", "pinguin");
+    add("penguin14", "pinguin");
+    add("penguin15", "pinguin");
+    add("police_car", "polizei");
+    add("rabbit1", "hase");
+    add("rainbow1", "regenbogen");
+    add("santa1", "weihnachtsmann");
+    add("snail1", "schnecke");
+    add("snail2", "schnecke");
+    add("snail3", "schnecke");
+    add("snowman1", "schneemann");
+    add("tractor1", "traktor");
+    add("tractor2", "traktor");
+    add("tree1", "baum");
+    add("unicorn1", "einhorn");
+    add("unicorn2","einhorn");
     return {
-      cards: {},
-      firstCard: {},
-      secondCard: {},
-      hasFlippedCard: false,
-      lockBoard: false,
-      solvedCards: 0,
-    };
-  },
-  mounted: function () {
-    this.cards = document.querySelectorAll(".memory-card");
-    this.shuffle();
-  },
-  methods: {
-    shuffle: function () {
-      this.cards.forEach((card) => {
-        card.style.order = Math.floor(Math.random() * 12);
-      });
-    },
-    flipCard: function (event) {
-      let currentCard = event.target.parentElement;
+      possibleCardConfigs: possibleCardConfigs
+    }
+  }
+}
 
-      if (this.lockBoard) return;
-      if (currentCard === this.firstCard) return;
-
-      currentCard.classList.add("flip");
-
-      if (!this.hasFlippedCard) {
-        this.hasFlippedCard = true;
-        this.firstCard = currentCard;
-        return;
-      }
-
-      this.secondCard = currentCard;
-      if (this.isMatch()) {
-        this.disableCards();
-        this.solvedCards += 2;
-        if (this.isAllSolved()) {
-          Sounds.playBigSuccess();
-        } else {
-          Sounds.playSuccess();
-        }
-      } else {
-        Sounds.playError();
-        this.unflipCards();
-      }
-    },
-    unflipCards: function () {
-      this.lockBoard = true;
-
-      setTimeout(() => {
-        this.firstCard.classList.remove("flip");
-        this.secondCard.classList.remove("flip");
-
-        this.resetBoard();
-      }, 1000);
-    },
-    disableCards: function () {
-      this.firstCard.removeEventListener("click", this.flipCard);
-      this.secondCard.removeEventListener("click", this.flipCard);
-      this.resetBoard();
-    },
-    isMatch: function () {
-      return (
-        this.firstCard.dataset.framework === this.secondCard.dataset.framework
-      );
-    },
-    isAllSolved: function () {
-      return 12 === this.solvedCards;
-    },
-    resetBoard: function () {
-      [this.hasFlippedCard, this.lockBoard] = [false, false];
-      [this.firstCard, this.secondCard] = [null, null];
-    },
-  },
-};
 </script>
-
-<style scoped>
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-.memory-game {
-  height: 380pt;
-  width: 260pt;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.memory-card {
-  width: 70pt;
-  height: 100pt;
-  margin: 3pt;
-  position: relative;
-  transform: scale(1);
-  transform-style: preserve-3d;
-  transition: transform 0.5s;
-}
-
-.memory-card:active {
-  transform: scale(0.97);
-  transition: transform 0.2s;
-}
-
-.memory-card.flip {
-  transform: rotateY(180deg);
-}
-
-.front-face,
-.back-face {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  position: absolute;
-  border-radius: 15pt;
-  background: #9ec9ec;
-  backface-visibility: hidden;
-}
-
-.back-face {
-  object-fit: cover;
-}
-
-.front-face {
-  transform: rotateY(180deg);
-}
-</style>

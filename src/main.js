@@ -6,7 +6,7 @@ import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 import Home from "./components/Home.vue";
-import Memory from "./components/memory/Memory.vue";
+import Memory from "./components/memory/MemorySelectionPage.vue";
 import MemoryAnimals from "./components/memory/MemoryAnimals.vue";
 import MemoryAlphabet from "./components/memory/MemoryAlphabet";
 
