@@ -59,3 +59,19 @@ npm run lint
 ```
 npm run prettier
 ```
+
+### Distribute
+I'm just using the first recommended free webhoster for distribution. 
+Previously I just put the 'dist' folder on a separate github branch and distributed it directly as github page.
+But: This makes the repository unnecessary huge and is horrible to maintain.
+If you want to contribute you may just contact me for the transcrypted ftp password.
+
+#### install transcrypt
+    git clone https://github.com/elasticdog/transcrypt.git
+    cd transcrypt/
+    #Linux:
+    sudo ln -s ${PWD}/transcrypt /usr/local/bin/transcrypt
+    
+#### initialize transcrypt for this repo once by:
+    cd /c/dev/git-repos/runtime-api
+    transcrypt -c aes-256-cbc -p 'ThePassword' 
