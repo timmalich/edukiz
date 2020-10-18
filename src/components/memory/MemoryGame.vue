@@ -7,7 +7,6 @@
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
-      <button @click="generateCards()">Restart</button>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
       <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i></button>
@@ -16,7 +15,11 @@
                    :sound="card.sound"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
-    <div class="footer"/>
+    <div class="footer">
+      <button @click="previousLevel()" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
+      <button @click="generateCards()" class="game-button"><i class="fas fa-redo-alt"></i></button>
+      <button @click="nextLevel()" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></button>
+    </div>
   </div>
 </template>
 
@@ -56,8 +59,9 @@ export default {
       isBoardLocked: false,
       isGameStarted: false,
       solvedCards: 0,
-      selectedLevel: 4,
-      levels: calculateLevels()
+      selectedLevel: 3,
+      levels: calculateLevels(),
+      timeoutUntilGameStarts: undefined
     };
   },
   created: function () {
@@ -65,6 +69,24 @@ export default {
   },
   props: ['possibleCardConfigs'],
   methods: {
+    isCurrentLevelMaxLevel: function (){
+      return this.selectedLevel === this.levels.length-1;
+    },
+    isCurrentLevelMinLevel: function (){
+      return this.selectedLevel === 0;
+    },
+    nextLevel: function (){
+      if(!this.isCurrentLevelMaxLevel()){
+        this.selectedLevel++;
+      }
+      this.generateCards();
+    },
+    previousLevel: function (){
+      if(!this.isCurrentLevelMinLevel()){
+        this.selectedLevel--;
+      }
+      this.generateCards();
+    },
     getCardAmount: function (level) {
       return level.columns * level.rows;
     },
@@ -104,6 +126,7 @@ export default {
     generateCards: function () {
       this.isBoardLocked = true;
       this.isGameStarted = false;
+      clearTimeout(this.timeoutUntilGameStarts);
       this.cards = [];
       this.flippedCard = null;
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
@@ -114,7 +137,7 @@ export default {
       }
       this.shuffle(this.cards);
       this.showAllCards();
-      setTimeout(function () {
+      this.timeoutUntilGameStarts = setTimeout(function () {
         this.startGame();
       }.bind(this), 10000);
     },
@@ -183,12 +206,16 @@ export default {
 
 .footer {
   width: 100%;
-  height: 25pt;
+  height: 50pt;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .grid-container {
   width: 100%;
-  height: calc(100% - 50pt);
+  height: calc(100% - 50pt - 25pt);
   display: grid;
   grid-gap: 10pt;
   justify-items: center;
@@ -207,6 +234,18 @@ export default {
   background-color: transparent;
   border: none;
   outline: none;
+}
+
+.game-button {
+  font-size: 2rem;
+  height: 40pt;
+  width: 40pt;
+  color: #ffffff;
+  background-color: #4385f4f0;
+  border-radius: 5pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .content {
