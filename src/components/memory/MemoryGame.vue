@@ -1,15 +1,16 @@
 <template>
   <div class="content">
     <div class="header">
-      <label for="levels" style="color:whitesmoke">Select level: </label>
-      <select id="levels" v-model="selectedLevel" @change="generateCards()">
+      <button @click="$router.push('/memory')" class="game-button"><i class="fas fa-reply"></i></button>
+      <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
-      <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i></button>
+      <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i>
+      </button>
       <memory-card class="column" v-for="card in cards" :key="card.key"
                    :front-face="card.frontFace"
                    :sound="card.sound"
@@ -69,20 +70,20 @@ export default {
   },
   props: ['possibleCardConfigs'],
   methods: {
-    isCurrentLevelMaxLevel: function (){
-      return this.selectedLevel === this.levels.length-1;
+    isCurrentLevelMaxLevel: function () {
+      return this.selectedLevel === this.levels.length - 1;
     },
-    isCurrentLevelMinLevel: function (){
+    isCurrentLevelMinLevel: function () {
       return this.selectedLevel === 0;
     },
-    nextLevel: function (){
-      if(!this.isCurrentLevelMaxLevel()){
+    nextLevel: function () {
+      if (!this.isCurrentLevelMaxLevel()) {
         this.selectedLevel++;
       }
       this.generateCards();
     },
-    previousLevel: function (){
-      if(!this.isCurrentLevelMinLevel()){
+    previousLevel: function () {
+      if (!this.isCurrentLevelMinLevel()) {
         this.selectedLevel--;
       }
       this.generateCards();
@@ -199,11 +200,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.header {
-  width: 100%;
-  height: 25pt;
-}
-
+.header,
 .footer {
   width: 100%;
   height: 50pt;
@@ -215,7 +212,7 @@ export default {
 
 .grid-container {
   width: 100%;
-  height: calc(100% - 50pt - 25pt);
+  height: calc(100% - 50pt - 50pt);
   display: grid;
   grid-gap: 10pt;
   justify-items: center;
@@ -236,13 +233,16 @@ export default {
   outline: none;
 }
 
-.game-button {
-  font-size: 2rem;
-  height: 40pt;
-  width: 40pt;
+.clickable-elements, .game-button {
   color: #ffffff;
   background-color: #4385f4f0;
   border-radius: 5pt;
+}
+
+.game-button {
+  height: 40pt;
+  width: 40pt;
+  font-size: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
