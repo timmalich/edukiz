@@ -2,10 +2,10 @@
   <div class="memory-card" v-on:click="flipCard">
     <div>
       <div class="front-face" v-bind:class="[{ flipped : !isFlipped } ]">
-        <img class="front-face-inner" :src="frontFace" alt="front face"/>
+        <img class="front-face-inner no-drag" :src="frontFace" alt="front face"/>
       </div>
       <div>
-        <img class="back-face" src="img/cat_wallpaper.svg" alt="back face" v-bind:class="[{ flipped : isFlipped } ]"/>
+        <img class="back-face no-drag" src="img/cat_wallpaper.svg" alt="back face" v-bind:class="[{ flipped : isFlipped } ]"/>
       </div>
     </div>
   </div>
@@ -64,6 +64,14 @@ export default {
   display: flex;
   transform-style: preserve-3d;
   transition: transform 0.6s;
+}
+
+.no-drag {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
 }
 
 .back-face {
