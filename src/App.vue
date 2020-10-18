@@ -14,8 +14,8 @@
           @click="collapsed = true"
       />
     </div>
-    <div :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'sidebarRight']">
-      <router-view />
+    <div :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'content-window']">
+      <router-view style="position: relative"/>
     </div>
 
   </div>
@@ -100,7 +100,7 @@ export default {
 $generalPaddingRight: 10pt;
 $sidebarCollapsedPaddingLeft: 50pt;
 
-.sidebarRight {
+.content-window {
   height: 100%;
   padding-right: $generalPaddingRight;
   width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight});
@@ -121,4 +121,5 @@ $sidebarCollapsedPaddingLeft: 50pt;
   padding-left: 50pt;
   width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight})
 }
+
 </style>

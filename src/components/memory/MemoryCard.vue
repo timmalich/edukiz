@@ -16,7 +16,7 @@ export default {
   name: "MemoryCard",
   data() {
     return {
-      isFlipped: false,
+      isFlipped: true,
       isFlippable: true
     }
   },
@@ -27,6 +27,9 @@ export default {
         this.isFlipped = !this.isFlipped;
         this.$emit('flipped', this);
       }
+    },
+    forceFlip: function () {
+      this.isFlipped = true;
     },
     reset: function() {
       this.isFlipped = false;

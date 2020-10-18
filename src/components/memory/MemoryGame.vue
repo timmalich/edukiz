@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="header">
       <label for="levels" style="color:whitesmoke">Select level: </label>
       <select id="levels" v-model="selectedLevel" @change="generateCards()">
@@ -10,6 +10,7 @@
       <button @click="generateCards()">Restart</button>
     </div>
     <div v-bind:style="gridContainer" class="grid-container">
+      <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i></button>
       <memory-card class="column" v-for="card in cards" :key="card.key"
                    :front-face="card.frontFace"
                    :sound="card.sound"
@@ -53,6 +54,7 @@ export default {
       cards: undefined,
       flippedCard: undefined,
       isBoardLocked: false,
+      isGameStarted: false,
       solvedCards: 0,
       selectedLevel: 4,
       levels: calculateLevels()
@@ -66,12 +68,23 @@ export default {
     getCardAmount: function (level) {
       return level.columns * level.rows;
     },
-    resetExistingCards: function () {
-      this.solvedCards = 0;
+    showAllCards: function () {
       if (this.$refs.memoryCards) {
         for (let card of this.$refs.memoryCards) {
-          card.reset();
+          card.forceFlip();
         }
+      }
+    },
+    startGame: function () {
+      if (!this.isGameStarted) {
+        this.solvedCards = 0;
+        if (this.$refs.memoryCards) {
+          for (let card of this.$refs.memoryCards) {
+            card.reset();
+          }
+        }
+        this.isGameStarted = true;
+        this.isBoardLocked = false;
       }
     },
     shuffle: function (array) {
@@ -86,11 +99,11 @@ export default {
         key: cardConfig.key,
         frontFace: cardConfig.frontFace,
         sound: cardConfig.sound,
-        isFlipped: false,
-        isFlippable: true
       }
     },
     generateCards: function () {
+      this.isBoardLocked = true;
+      this.isGameStarted = false;
       this.cards = [];
       this.flippedCard = null;
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
@@ -100,7 +113,10 @@ export default {
         this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
       }
       this.shuffle(this.cards);
-      this.resetExistingCards();
+      this.showAllCards();
+      setTimeout(function () {
+        this.startGame();
+      }.bind(this), 10000);
     },
     isGameOver: function () {
       let cardsInCurrentLevel = this.getCardAmount(this.levels[this.selectedLevel]);
@@ -159,7 +175,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   width: 100%;
   height: 25pt;
@@ -177,5 +193,23 @@ export default {
   grid-gap: 10pt;
   justify-items: center;
   align-items: center;
+  position: relative;
+}
+
+.play-button {
+  font-size: 10rem;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+  color: #4385f4f0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.content {
+  position: relative;
 }
 </style>
