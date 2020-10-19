@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import Home from "./components/Home.vue";
 import Memory from "./components/memory/MemorySelectionPage.vue";
 import MemoryAnimals from "./components/memory/MemoryAnimals.vue";
-import MemoryAlphabet from "./components/memory/MemoryAlphabet";
+import MemoryCharacters from "./components/memory/MemoryCharacters";
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
@@ -32,9 +32,9 @@ const router = new VueRouter({
       component: MemoryAnimals,
     },
     {
-      path: "/memory/alphabet",
-      name: "MemoryAlphabet",
-      component: MemoryAlphabet,
+      path: "/memory/characters",
+      name: "MemoryCharacters",
+      component: MemoryCharacters,
     },
     {
       path: "/github",

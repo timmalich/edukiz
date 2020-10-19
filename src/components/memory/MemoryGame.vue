@@ -29,7 +29,7 @@ import MemoryCard from './MemoryCard.vue';
 import Sounds from "./Sounds";
 
 export default {
-  name: "MemoryAlphabet",
+  name: "MemoryCharacters",
   components: {
     MemoryCard
   },

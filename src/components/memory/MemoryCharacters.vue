@@ -6,7 +6,7 @@
 import MemoryGame from './MemoryGame.vue';
 
 export default {
-  name: "MemoryAlphabet",
+  name: "MemoryCharacters",
   components: {
     MemoryGame
   },

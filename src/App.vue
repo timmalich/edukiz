@@ -47,8 +47,8 @@ export default {
               icon: "fa fa-paw",
             },
             {
-              href: "/memory/alphabet",
-              title: "Alphabet",
+              href: "/memory/Characters",
+              title: "Characters",
               icon: "fa fa-font",
             }
           ],
