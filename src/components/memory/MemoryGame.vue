@@ -233,21 +233,6 @@ export default {
   outline: none;
 }
 
-.clickable-elements, .game-button {
-  color: #ffffff;
-  background-color: #4385f4f0;
-  border-radius: 5pt;
-}
-
-.game-button {
-  height: 40pt;
-  width: 40pt;
-  font-size: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .content {
   position: relative;
 }

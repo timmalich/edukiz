@@ -1,13 +1,17 @@
 <template>
   <div>
-    <h1>This is all just under construction.</h1>
-    <img src="favicon.svg" alt="first picture" width="160" height="160" />
+    <NavPage>
+      <img @click="$router.push('/memory')" src="img/games/MemoryBackface.png" class="link-tile" alt="memory games"/>
+    </NavPage>
   </div>
 </template>
 
 <script>
+import NavPage from "./NavPage";
+
 export default {
   name: "Home",
+  components: {NavPage},
   props: {
     msg: String,
   },

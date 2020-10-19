@@ -122,4 +122,35 @@ $sidebarCollapsedPaddingLeft: 50pt;
   width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight})
 }
 
+.clickable-elements, .game-button {
+  color: #ffffff;
+  background-color: #4385f4f0;
+  border-radius: 5pt;
+}
+
+.link-tile {
+  @extend .clickable-elements;
+  position: relative;
+  width: 40%;
+  margin: 5pt;
+  padding: 5pt;
+}
+
+.link-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  max-width: 100%;
+}
+
+.game-button {
+  height: 40pt;
+  width: 40pt;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 </style>
