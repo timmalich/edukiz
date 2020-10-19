@@ -221,13 +221,13 @@ export default {
 }
 
 .play-button {
-  font-size: 10rem;
+  font-size: 7rem;
   position: absolute;
   height: 100%;
   width: 100%;
   text-align: center;
   z-index: 2;
-  color: #4385f4f0;
+  color: #4385f482;
   background-color: transparent;
   border: none;
   outline: none;
