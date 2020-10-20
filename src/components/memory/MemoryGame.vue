@@ -16,6 +16,7 @@
                    :sound="card.sound"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
+    <img src="img/fish8.svg" v-if="isErrorPlaying" class="error-animation" alt="error animation"/>
     <div class="footer">
       <button @click="previousLevel()" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
       <button @click="generateCards()" class="game-button"><i class="fas fa-redo-alt"></i></button>
@@ -62,7 +63,8 @@ export default {
       solvedCards: 0,
       selectedLevel: 3,
       levels: calculateLevels(),
-      timeoutUntilGameStarts: undefined
+      timeoutUntilGameStarts: undefined,
+      isErrorPlaying: false
     };
   },
   created: function () {
@@ -176,7 +178,12 @@ export default {
         } else {
           Sounds.playSound(currentCard.sound);
           setTimeout(function () {
+            // TODO refactore this all into an error component
+            this.isErrorPlaying = true;
             Sounds.playError();
+            setTimeout(function (){
+              this.isErrorPlaying = false;
+            }.bind(this), 4000);
             if (this.flippedCard) {
               this.flippedCard.isFlipped = false;
               this.flippedCard = null;
@@ -236,4 +243,23 @@ export default {
 .content {
   position: relative;
 }
+
+@keyframes error-animation {
+  0% { left: 0; }
+  100% {left: 100%; visibility: hidden }
+}
+
+.error-animation {
+  height: 80pt;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 999;
+  overflow: hidden;
+  animation-name: error-animation;
+  animation-duration: 4s;
+  animation-fill-mode: forwards;
+  visibility: visible;
+}
+
 </style>

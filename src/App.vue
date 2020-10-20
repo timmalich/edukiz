@@ -115,6 +115,7 @@ $sidebarCollapsedPaddingLeft: 50pt;
   padding-left: 270pt;
   width: calc(100% - 270pt - #{$generalPaddingRight});
   transition: 0.3s ease;
+  overflow: hidden;
 }
 
 .sidebarCollapsed {
