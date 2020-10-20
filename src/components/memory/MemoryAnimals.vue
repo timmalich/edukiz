@@ -12,9 +12,9 @@ export default {
   },
   data() {
     let possibleCardConfigs = [];
-    let add = function (img, sound){
+    let add = function (img, sound, filetype){
       possibleCardConfigs.push({
-        frontFace: "img/" + img + ".svg",
+        frontFace: "img/" + img + "." + (filetype ? filetype : "svg"),
         sound: "de/words/" + sound + ".mp3",
       })
     }
@@ -24,12 +24,23 @@ export default {
     add("butterfly", "schmetterling");
     add("car1", "auto");
     add("car2", "auto");
-    add("cat1", "katze");
+    add("cat1", "katze", "png");
     add("chicken1", "huhn");
     add("christmas_tree1", "weihnachtsbaum");
     add("christmas_tree2","weihnachtsbaum");
     add("dino1", "dino");
+    add("dino2", "dino");
+    add("dino3", "dino");
     add("dog1", "hund");
+    add("dragon1", "drache");
+    add("dragon2", "drache");
+    add("dragon3", "drache");
+    add("dragon4", "drache", "png");
+    add("dragon5", "drache");
+    add("dragon6", "drache");
+    add("dragon7", "drache");
+    add("dragon8", "drache", "png");
+    add("dragon9", "drache");
     add("dragon1", "drache");
     add("fire_truck1", "feuerwehr");
     add("fire_truck2", "feuerwehr");
@@ -45,6 +56,7 @@ export default {
     add("frog2", "frosch");
     add("goat1", "fisch");
     add("goat2", "fisch");
+    add("ninja1", "ninja");
     add("penguin1", "pinguin");
     add("penguin2", "pinguin");
     add("penguin3", "pinguin");

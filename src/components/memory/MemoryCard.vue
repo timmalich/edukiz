@@ -85,7 +85,9 @@ export default {
 .front-face-inner {
   margin: auto;
   width: 95%;
-  height: 95%;
+  height: auto;
+  max-width: 95%;
+  max-height: 95%;
 }
 
 </style>
