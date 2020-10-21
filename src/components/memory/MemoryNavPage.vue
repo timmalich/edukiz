@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <NavPage>
+    <NavPage nav-back-link="/">
       <img @click="$router.push('/memory/animals')" src="img/games/MemoryAnimals.png" class="link-tile"
            alt="memory animals"/>
       <img @click="$router.push('/memory/characters')" src="img/games/MemoryCharacters.png" class="link-tile"

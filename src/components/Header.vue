@@ -7,7 +7,7 @@
 <style scoped lang="scss">
 .header {
   width: 100%;
-  height: 50pt;
+  height: 35pt;
   position: relative;
   display: flex;
   justify-content: space-between;

@@ -30,7 +30,6 @@ export default {
     add("christmas_tree2","weihnachtsbaum");
     add("dino1", "dino");
     add("dino2", "dino");
-    add("dino3", "dino");
     add("dog1", "hund");
     add("dragon1", "dad/drache");
     add("dragon2", "dad/drache");

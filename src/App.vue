@@ -146,9 +146,9 @@ $sidebarCollapsedPaddingLeft: 50pt;
 }
 
 .game-button {
-  height: 40pt;
-  width: 40pt;
-  font-size: 2rem;
+  height: 30pt;
+  width: 30pt;
+  font-size: 1.7rem;
   display: flex;
   justify-content: center;
   align-items: center;

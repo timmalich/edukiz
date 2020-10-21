@@ -1,13 +1,13 @@
 <template>
   <div class="content">
-    <div class="header">
+    <Header>
       <button @click="$router.push('/memory')" class="game-button"><i class="fas fa-reply"></i></button>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
-    </div>
+    </Header>
     <div v-bind:style="gridContainer" class="grid-container">
       <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i>
       </button>
@@ -28,11 +28,13 @@
 <script>
 import MemoryCard from './MemoryCard.vue';
 import Sounds from "./Sounds";
+import Header from "../Header.vue"
 
 export default {
   name: "MemoryCharacters",
   components: {
-    MemoryCard
+    MemoryCard,
+    Header
   },
   data() {
     function calculateLevels() {
@@ -61,7 +63,7 @@ export default {
       isBoardLocked: false,
       isGameStarted: false,
       solvedCards: 0,
-      selectedLevel: 3,
+      selectedLevel: 4,
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
       isErrorPlaying: false
@@ -207,10 +209,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.header,
 .footer {
   width: 100%;
-  height: 50pt;
+  height: 35pt;
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -219,7 +220,7 @@ export default {
 
 .grid-container {
   width: 100%;
-  height: calc(100% - 50pt - 50pt);
+  height: calc(100% - 35pt - 35pt);
   display: grid;
   grid-gap: 10pt;
   justify-items: center;
