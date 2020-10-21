@@ -1,17 +1,18 @@
 <template>
   <div>
     <NavPage>
-      <img @click="$router.push('/memory')" src="img/games/MemoryBackface.png" class="link-tile" alt="memory games"/>
+      <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games" />
     </NavPage>
   </div>
 </template>
 
 <script>
 import NavPage from "./NavPage";
+import LinkTile from "./LinkTile";
 
 export default {
   name: "Home",
-  components: {NavPage},
+  components: {LinkTile, NavPage},
   props: {
     msg: String,
   },

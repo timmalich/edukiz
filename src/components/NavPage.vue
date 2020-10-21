@@ -30,4 +30,11 @@ export default {
   position: relative;
 }
 
+.link-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  max-width: 100%;
+}
 </style>
