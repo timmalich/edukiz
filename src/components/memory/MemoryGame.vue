@@ -1,7 +1,6 @@
 <template>
   <div class="content">
-    <Header>
-      <button @click="$router.push('/memory')" class="game-button"><i class="fas fa-reply"></i></button>
+    <Header nav-back-path="/memory">
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)

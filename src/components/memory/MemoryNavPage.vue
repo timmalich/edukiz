@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <NavPage nav-back-link="/">
+    <NavPage nav-back-path="/">
       <link-tile title="Bilder" nav-path="/memory/animals" src="img/games/MemoryAnimals.png" alt="memory animals" />
       <link-tile title="ABC & 123" nav-path="/memory/characters" src="img/games/MemoryCharacters.png" alt="memory characters" />
     </NavPage>

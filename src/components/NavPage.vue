@@ -1,8 +1,6 @@
 <template>
   <div class="content">
-    <Header>
-      <button v-if="navBackLink" @click="navBack" class="game-button"><i class="fas fa-reply"></i></button>
-    </Header>
+    <Header :nav-back-path="navBackPath" />
     <div class="link-area">
       <slot></slot>
     </div>
@@ -15,12 +13,7 @@ import Header from "./Header";
 export default {
   name: "NavPage",
   components: {Header},
-  props: ['navBackLink'],
-  methods: {
-    navBack: function (){
-      this.$router.push(this.navBackLink);
-    }
-  }
+  props: ['navBackPath']
 };
 </script>
 
