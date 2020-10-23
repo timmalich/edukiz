@@ -33,7 +33,8 @@
     "jest": "^26.5.2",
     "prettier": "^2.1.2",
     "vue-devtools": "^5.1.4",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "vuejs-logger": "^1.5.4"
   },
   "eslintConfig": {
     "root": true,
