@@ -9,8 +9,7 @@
 
 <script>
 export default {
-  name: "Header",
-  props: ['navBackPath'],
+  name: "Footer",
   methods: {
     previous: function () {
       this.$emit('previous');
@@ -23,7 +22,6 @@ export default {
     }
   }
 };
-
 </script>
 
 <style scoped lang="scss">

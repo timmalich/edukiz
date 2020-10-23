@@ -1,12 +1,12 @@
 <template>
-  <div class="content">
-    <Header nav-back-path="/memory">
+  <Game nav-back-path="/memory" @previous="previousLevel" @restart="generateCards" @next="nextLevel">
+    <template v-slot:header>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
-    </Header>
+    </template>
     <div v-bind:style="gridContainer" class="grid-container">
       <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i>
       </button>
@@ -16,22 +16,20 @@
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
     <img src="img/fish8.svg" v-if="isErrorPlaying" class="error-animation" alt="error animation"/>
-    <Footer @previous="previousLevel" @restart="generateCards" @next="nextLevel" />
-  </div>
+  </Game>
 </template>
 
 <script>
 import MemoryCard from './MemoryCard.vue';
 import Sounds from "./Sounds";
-import Header from "../Header.vue"
-import Footer from "../Footer.vue"
+import Game from "../Game.vue"
 
 export default {
   name: "MemoryCharacters",
+  extends: Game,
   components: {
     MemoryCard,
-    Header,
-    Footer
+    Game
   },
   data() {
     function calculateLevels() {
@@ -180,7 +178,7 @@ export default {
             // TODO refactore this all into an error component
             this.isErrorPlaying = true;
             Sounds.playError();
-            setTimeout(function (){
+            setTimeout(function () {
               this.isErrorPlaying = false;
             }.bind(this), 4000);
             if (this.flippedCard) {
@@ -209,7 +207,7 @@ export default {
 
 .grid-container {
   width: 100%;
-  height: calc(100% - 35pt - 35pt);
+  height: 100%;
   display: grid;
   grid-gap: 10pt;
   justify-items: center;
@@ -230,13 +228,14 @@ export default {
   outline: none;
 }
 
-.content {
-  position: relative;
-}
-
 @keyframes error-animation {
-  0% { left: 0; }
-  100% {left: 100%; visibility: hidden }
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+    visibility: hidden
+  }
 }
 
 .error-animation {
