@@ -2,6 +2,7 @@
   <div>
     <NavPage>
       <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games" />
+      <LinkTile title="Bewegen" nav-path="/dragdrop" src="img/games/MemoryBackface.png" alt="drag and drop games" />
     </NavPage>
   </div>
 </template>

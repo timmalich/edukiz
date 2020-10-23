@@ -14,7 +14,8 @@
           @click="collapsed = true"
       />
     </div>
-    <div :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'content-window']">
+    <div
+        :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'content-window']">
       <router-view style="position: relative"/>
     </div>
 
@@ -52,6 +53,23 @@ export default {
               icon: "fa fa-font",
             }
           ],
+        },
+        {
+          href: "/dragdrop",
+          title: "Drag and Drop",
+          icon: "far fa-hand-point-up",
+          child: [
+            {
+              href: "/dragdrop/build-words",
+              title: "Wörter Bauen",
+              icon: "fas fa-hammer",
+            },
+            {
+              href: "/dragdrop/characters",
+              title: "Zeichen Finden",
+              icon: "fa fa-font",
+            },
+          ]
         },
         {
           href: "/github",
