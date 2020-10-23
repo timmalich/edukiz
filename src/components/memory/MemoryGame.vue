@@ -16,11 +16,7 @@
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
     <img src="img/fish8.svg" v-if="isErrorPlaying" class="error-animation" alt="error animation"/>
-    <div class="footer">
-      <button @click="previousLevel()" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
-      <button @click="generateCards()" class="game-button"><i class="fas fa-redo-alt"></i></button>
-      <button @click="nextLevel()" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></button>
-    </div>
+    <Footer @previous="previousLevel" @restart="generateCards" @next="nextLevel" />
   </div>
 </template>
 
@@ -28,12 +24,14 @@
 import MemoryCard from './MemoryCard.vue';
 import Sounds from "./Sounds";
 import Header from "../Header.vue"
+import Footer from "../Footer.vue"
 
 export default {
   name: "MemoryCharacters",
   components: {
     MemoryCard,
-    Header
+    Header,
+    Footer
   },
   data() {
     function calculateLevels() {
@@ -208,14 +206,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.footer {
-  width: 100%;
-  height: 35pt;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .grid-container {
   width: 100%;
