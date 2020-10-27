@@ -21,6 +21,8 @@
     "webpack": "^4.44.2"
   },
   "devDependencies": {
+    "@interactjs/interact": "^1.10.0",
+    "@interactjs/interactjs": "^1.10.0",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
