@@ -1,19 +1,19 @@
 <template>
   <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restartGame" @next="nextLevel">
-    <div class="dropzone drop-section drag-drop-zone drop-zone draggable-dropzone--active" ref="dropzone">
-      <ImageContainer class="dropzone drop-element" src="img/characters/A.svg"></ImageContainer>
-      <ImageContainer class="drop-element" src="img/characters/B.svg"></ImageContainer>
-      <ImageContainer class="drop-element" src="img/characters/C.svg"></ImageContainer>
-      <ImageContainer class="drop-element" src="img/characters/D.svg"></ImageContainer>
-      <ImageContainer class="drop-element" src="img/characters/E.svg"></ImageContainer>
+    <div class="drop-section">
+      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/A.svg"></ImageContainer>
+      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/B.svg"></ImageContainer>
+      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/C.svg"></ImageContainer>
+      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/D.svg"></ImageContainer>
+      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/E.svg"></ImageContainer>
     </div>
     <div class="spacer"></div>
-    <div class="drag-section drag-drop-zone draggable-dropzone--occupied" ref="dragzone">
-      <ImageContainer style="touch-action: none" class="drag-drop" src="img/characters/A.svg"></ImageContainer>
-      <ImageContainer src="img/characters/B.svg"></ImageContainer>
-      <ImageContainer src="img/characters/C.svg"></ImageContainer>
-      <ImageContainer src="img/characters/D.svg"></ImageContainer>
-      <ImageContainer src="img/characters/E.svg"></ImageContainer>
+    <div class="drag-section">
+      <ImageContainer class="draggable-element" src="img/characters/A.svg"></ImageContainer>
+      <ImageContainer class="draggable-element" src="img/characters/B.svg"></ImageContainer>
+      <ImageContainer class="draggable-element" src="img/characters/C.svg"></ImageContainer>
+      <ImageContainer class="draggable-element" src="img/characters/D.svg"></ImageContainer>
+      <ImageContainer class="draggable-element" src="img/characters/E.svg"></ImageContainer>
     </div>
   </Game>
 </template>
@@ -22,9 +22,9 @@
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import interact from '@interactjs/interactjs'
-
+/* eslint-disable */
 export default {
-  name: "BuildWords",
+  name: "DDCharacters",
   components: {
     ImageContainer,
     Game,
@@ -41,130 +41,62 @@ export default {
   created: function () {
     this.initGame();
   },
-  mounted: function() {
-    function dragMoveListener (event) {
-
-      let target = event.target
-
-      // keep the dragged position in the data-x/data-y attributes
-      let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-      let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-      // translate the element
-      target.style.webkitTransform =
-          target.style.transform =
-              'translate(' + x + 'px, ' + y + 'px)'
-
-      // update the posiion attributes
-      target.setAttribute('data-x', x)
-      target.setAttribute('data-y', y)
-    }
-
+  mounted: function () {
     interact('.dropzone').dropzone({
-      // only accept elements matching this CSS selector
-      // Require a 75% element overlap for a drop to be possible
       overlap: 0.5,
 
-      // listen for drop related events:
+      ondropactivate: function (event) {
+        console.log('A')
 
+        // add active dropzone feedback
+        event.target.classList.add('drop-active')
+      },
+      ondragenter: function (event) {
+        console.log('B')
 
-        ondropactivate: function (event) {
-          console.log('A')
+        var draggableElement = event.relatedTarget
+        var dropzoneElement = event.target
 
-          // add active dropzone feedback
-          event.target.classList.add('drop-active')
-        },
-        ondragenter: function (event) {
-          console.log('B')
+        // feedback the possibility of a drop
+        dropzoneElement.classList.add('drop-target')
+        draggableElement.classList.add('can-drop')
+      },
+      ondrop: function (event) {
+        event.currentTarget.classList.add('drop-success');
+        event.currentTarget.classList.remove('empty-droppable-element');
 
-          var draggableElement = event.relatedTarget
-          var dropzoneElement = event.target
+        event.relatedTarget.classList.add('drag-success');
+      }
+    })
 
-          // feedback the possibility of a drop
-          dropzoneElement.classList.add('drop-target')
-          draggableElement.classList.add('can-drop')
-          draggableElement.textContent = 'Dragged in'
-        },
-        ondragleave: function (event) {
-          console.log('C')
-
-          // remove the drop feedback style
-          event.target.classList.remove('drop-target')
-          event.relatedTarget.classList.remove('can-drop')
-          event.relatedTarget.textContent = 'Dragged out'
-        },
-        ondrop: function (event) {
-          console.log('D')
-          console.log('DROPPED')
-          event.relatedTarget.textContent = 'Dropped'
-        },
-        ondropdeactivate: function (event) {
-          console.log('E')
-          // remove active dropzone feedback
-          event.target.classList.remove('drop-active')
-          event.target.classList.remove('drop-target')
-        }
-      })
-
-    interact('.drag-drop')
+    interact('.draggable-element')
         .draggable({
           inertia: false,
-          modifiers: [
-          ],
+          modifiers: [],
           autoScroll: false,
-          // dragMoveListener from the dragging demo above
-          listeners: { move: dragMoveListener }
+          listeners: {
+            move: function (event) {
+              let dragElement = event.target
+              let lastElementRelativePostionX = parseFloat(dragElement.getAttribute('data-x')) || 0;
+              let lastElementRelativePostionY = parseFloat(dragElement.getAttribute('data-y')) || 0;
+              let pixelsMovedSinceLastEventX = event.dx;
+              let pixelsMovedSinceLastEventY = event.dy;
+              let updatedX = lastElementRelativePostionX + pixelsMovedSinceLastEventX;
+              let updatedY = lastElementRelativePostionY + pixelsMovedSinceLastEventY;
+
+              dragElement.style.webkitTransform =
+                  dragElement.style.transform =
+                      'translate(' + updatedX + 'px, ' + updatedY + 'px)'
+
+              dragElement.setAttribute('data-x', updatedX)
+              dragElement.setAttribute('data-y', updatedY)
+            }
+          }
         })
     console.log("droppable inti");
   },
-  /* eslint-disable */
+
   methods: {
-    start: function (evt) {
-      console.log("start");
-      this.elementSelected = true;
-      this.selectedElement = evt.currentTarget;
-      this.elementWidth = this.selectedElement.clientWidth;
-      this.elementHeight = this.selectedElement.clientHeight;
-
-      this.backupElement = this.selectedElement.cloneNode(true);
-      // todo
-      this.backupElement.id = this.backupElement.id + "-BackupElementFromDragging"; // todo restore id on the end
-      this.selectedElement.after(this.backupElement);
-      this.backupElement.style.visibility = "hidden";
-
-      this.selectedElement.style.position = "fixed";
-      this.selectedElement.style.width = this.elementWidth + "px";
-      this.selectedElement.style.height = this.elementHeight + "px";
-
-      console.log(this.elementWidth);
-      console.log(this.elementHeight);
-
-      //console.log(evt);
-      //debugger; // eslint-disable-line
-    },
-    move: function (evt) {
-      console.log("move");
-      console.log(evt.targetTouches[0].clientX);
-      console.log(evt.targetTouches[0].clientY);
-      this.selectedElement.style.left = evt.targetTouches[0].clientX + "px";
-      this.selectedElement.style.top = evt.targetTouches[0].clientY + "px";
-      // todo heed mouse / touch position
-      evt.stopPropagation();
-      //debugger; // eslint-disable-line
-    },
-    end: function (evt) {
-      this.elementSelected = false;
-      console.log("end");
-      this.selectedElement.style.width = this.elementWidth;
-      this.selectedElement.style.height = this.elementHeight;
-      //console.log(evt);
-      //debugger; // eslint-disable-line
-      // TODO: create a list of all droppable elements and their coordinates
-      // check with this if they overlap.
-      // if not: restore backup and ID
-      // TODO: https://shopify.github.io/draggable/examples/unique-dropzone.html use this or this: https://bevacqua.github.io/dragula/
-      //
-    },
     initGame: function () {
       // TODO add something
     },
@@ -183,18 +115,8 @@ export default {
 
 <style scoped lang="scss">
 
-.drag-item {
-  width: 100%;
-  height: 100%;
-}
-
 .spacer {
   height: 20%;
-}
-
-.foo {
-  width: 100%;
-  height: 100%;
 }
 
 .drop-section, .drag-section {
@@ -208,8 +130,20 @@ export default {
   grid-template-columns: repeat(5, minmax(20pt, 1fr));
 }
 
-.drop-element {
+.draggable-element{
+  touch-action: none;
+}
+
+.empty-droppable-element {
   filter: grayscale(85%);
+}
+
+.drop-success {
+  background-color: #24ff02;
+}
+
+.drag-success {
+  visibility: hidden;
 }
 
 </style>
