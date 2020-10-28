@@ -21,7 +21,7 @@
 <script>
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
-import interact from '@interactjs/interactjs'
+import {dragDrop} from "../mixins/dragDrop"
 /* eslint-disable */
 export default {
   name: "DDCharacters",
@@ -29,74 +29,24 @@ export default {
     ImageContainer,
     Game,
   },
+  mixins: [dragDrop],
   data() {
-    return {
-      elementSelected: false,
-      elementWidth: undefined,
-      elementHeight: undefined,
-      selectedElement: undefined,
-      backupElement: undefined
-    };
+    return {};
   },
   created: function () {
     this.initGame();
   },
   mounted: function () {
-    interact('.dropzone').dropzone({
-      overlap: 0.5,
-
-      ondropactivate: function (event) {
-        console.log('A')
-
-        // add active dropzone feedback
-        event.target.classList.add('drop-active')
-      },
-      ondragenter: function (event) {
-        console.log('B')
-
-        var draggableElement = event.relatedTarget
-        var dropzoneElement = event.target
-
-        // feedback the possibility of a drop
-        dropzoneElement.classList.add('drop-target')
-        draggableElement.classList.add('can-drop')
-      },
-      ondrop: function (event) {
-        event.currentTarget.classList.add('drop-success');
-        event.currentTarget.classList.remove('empty-droppable-element');
-
-        event.relatedTarget.classList.add('drag-success');
-      }
-    })
-
-    interact('.draggable-element')
-        .draggable({
-          inertia: false,
-          modifiers: [],
-          autoScroll: false,
-          listeners: {
-            move: function (event) {
-              let dragElement = event.target
-              let lastElementRelativePostionX = parseFloat(dragElement.getAttribute('data-x')) || 0;
-              let lastElementRelativePostionY = parseFloat(dragElement.getAttribute('data-y')) || 0;
-              let pixelsMovedSinceLastEventX = event.dx;
-              let pixelsMovedSinceLastEventY = event.dy;
-              let updatedX = lastElementRelativePostionX + pixelsMovedSinceLastEventX;
-              let updatedY = lastElementRelativePostionY + pixelsMovedSinceLastEventY;
-
-              dragElement.style.webkitTransform =
-                  dragElement.style.transform =
-                      'translate(' + updatedX + 'px, ' + updatedY + 'px)'
-
-              dragElement.setAttribute('data-x', updatedX)
-              dragElement.setAttribute('data-y', updatedY)
-            }
-          }
-        })
-    console.log("droppable inti");
+    this.initDragDrop();
   },
 
   methods: {
+    ondrop: function(event){
+      event.currentTarget.classList.add('drop-success');
+      event.currentTarget.classList.remove('empty-droppable-element');
+
+      event.relatedTarget.classList.add('drag-success');
+    },
     initGame: function () {
       // TODO add something
     },
@@ -130,7 +80,7 @@ export default {
   grid-template-columns: repeat(5, minmax(20pt, 1fr));
 }
 
-.draggable-element{
+.draggable-element {
   touch-action: none;
 }
 
