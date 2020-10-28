@@ -1,9 +1,7 @@
 <template>
-  <div class="ratio-wrapper-container">
-    <div class="inner">
+    <div class="wrapper">
       <img :src="src" alt="containerized image">
     </div>
-  </div>
 </template>
 <script>
 export default {
@@ -14,17 +12,9 @@ export default {
 </script>
 
 <style scoped>
-.ratio-wrapper-container {
-  position: relative;
-  width: 100%;
-  min-width: 30pt;
-  height: 100%;
-  min-height: 30pt;
-  border-radius: 15pt;
-  background-color: #a94ed2;
-}
 
-.inner {
+.wrapper {
+  background-color: #a94ed2;
   position: relative;
   width: 100%;
   height: 100%;
@@ -32,9 +22,12 @@ export default {
   max-width: 100%;
   max-height: 100%;
   overflow: hidden;
+  min-width: 30pt;
+  min-height: 30pt;
+  border-radius: 15pt;
 }
 
-.inner > img {
+.wrapper > img {
   margin: auto;
   width: 100%;
   height: auto;
