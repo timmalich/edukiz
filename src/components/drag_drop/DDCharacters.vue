@@ -22,7 +22,7 @@
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
-/* eslint-disable */
+/* eslint-disable */ // TODO REMOVE
 export default {
   name: "DDCharacters",
   components: {
@@ -44,7 +44,6 @@ export default {
     ondrop: function(event){
       event.currentTarget.classList.add('drop-success');
       event.currentTarget.classList.remove('empty-droppable-element');
-
       event.relatedTarget.classList.add('drag-success');
     },
     initGame: function () {
@@ -82,10 +81,15 @@ export default {
 
 .draggable-element {
   touch-action: none;
+  background-color: transparent;
 }
 
 .empty-droppable-element {
   filter: grayscale(85%);
+}
+
+.drop-target-active {
+  background-color: #6060d7;
 }
 
 .drop-success {

@@ -8,26 +8,24 @@ export const dragDrop = {
     // should be called after component is rendered
     initDragDrop: function () {
       interact('.dropzone').dropzone({
-        overlap: 0.5,
-
-        ondropactivate: function (event) {
-          console.log('A')
-
-          // add active dropzone feedback
-          event.target.classList.add('drop-active')
-        },
+        overlap: 0.2,
+        ondropactivate: function () {},
+        ondropdeactivate: function () {},
+        ondropmove: function () {},
         ondragenter: function (event) {
-          console.log('B')
-
-          var draggableElement = event.relatedTarget
-          var dropzoneElement = event.target
-
-          // feedback the possibility of a drop
-          dropzoneElement.classList.add('drop-target')
-          draggableElement.classList.add('can-drop')
+          let dropzoneElement = event.target
+          dropzoneElement.classList.add('drop-target-active');
+          dropzoneElement.classList.remove('empty-droppable-element');
+        },
+        ondragleave: function (event) {
+          let dropzoneElement = event.target
+          dropzoneElement.classList.add('empty-droppable-element');
+          dropzoneElement.classList.remove('drop-target-active');
         },
         ondrop: function (event) {
-          this.ondrop(event);
+          if(typeof this.ondrop === "function"){
+            this.ondrop(event);
+          }
         }.bind(this)
       })
 
@@ -52,6 +50,13 @@ export const dragDrop = {
 
               dragElement.setAttribute('data-x', updatedX)
               dragElement.setAttribute('data-y', updatedY)
+            },
+            end: function (event){
+              let dragElement = event.target
+              dragElement.style.webkitTransform =
+                dragElement.style.transform = '';
+              dragElement.setAttribute('data-x', 0)
+              dragElement.setAttribute('data-y', 0)
             }
           }
         })
