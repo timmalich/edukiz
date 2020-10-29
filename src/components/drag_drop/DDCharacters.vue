@@ -3,12 +3,12 @@
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
-                      class="dropzone empty-droppable-element"></ImageContainer>
+                      class="dropzone empty-droppable-element" ref="droppableElements"></ImageContainer>
     </div>
     <div class="spacer"></div>
     <div class="drag-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
-                      :data-identifier="charConfig.character" :src="charConfig.image"
+                      :data-identifier="charConfig.character" :src="charConfig.image" ref="draggableElements"
                       class="draggable-element"></ImageContainer>
     </div>
   </Game>
@@ -95,9 +95,8 @@ export default {
       let dropElement = event.currentTarget;
       let dragElement = event.relatedTarget;
       if (dropElement.getAttribute('data-identifier') === dragElement.getAttribute('data-identifier')) {
-        dropElement.classList.add('drop-success');
-        dropElement.classList.remove('empty-droppable-element');
-        dragElement.classList.add('drag-success');
+        this.markDropSuccess(dropElement);
+        this.markDragSuccess(dragElement);
       }
     },
     startGame: function () {
@@ -106,9 +105,31 @@ export default {
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
         this.characters.push(this.characterConfigs[i]);
       }
+      this.resetGameComponents();
     },
-    restartGame: function () {
-      this.$log.info("IMPLEMENT ME"); // TODO Implement
+    markDropSuccess : function(element){
+      element.classList.add('drop-success');
+      element.classList.remove('empty-droppable-element');
+    },
+    resetMarkDropSuccess : function(element){
+      element.classList.remove('drop-success');
+      element.classList.add('empty-droppable-element');
+    },
+    markDragSuccess : function(element){
+      element.classList.add('drag-success');
+    },
+    resetMarkDragSuccess: function(element){
+      element.classList.remove('drag-success');
+    },
+    resetGameComponents: function () {
+      if (this.$refs.draggableElements) {
+        for (let element of this.$refs.draggableElements) {
+          this.resetMarkDragSuccess(element.$el);
+        }
+        for (let element of this.$refs.droppableElements) {
+          this.resetMarkDropSuccess(element.$el);
+        }
+      }
     },
     previousLevel: function () {
       if(this.selectedLevel > 0){
