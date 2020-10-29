@@ -23,6 +23,8 @@
 import MemoryCard from './MemoryCard.vue';
 import Sounds from "../Sounds";
 import Game from "../Game.vue"
+import {arrayUtils} from "../mixins/arrayUtils";
+
 
 export default {
   name: "MemoryGame",
@@ -31,6 +33,7 @@ export default {
     MemoryCard,
     Game
   },
+  mixins: [arrayUtils],
   data() {
     function calculateLevels() {
       let maxLevels = 11;
@@ -109,13 +112,6 @@ export default {
         this.isBoardLocked = false;
       }
     },
-    shuffle: function (array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    },
     createCard: function (key, cardConfig) {
       return {
         key: key,
@@ -130,12 +126,12 @@ export default {
       this.cards = [];
       this.flippedCard = null;
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
-      this.shuffle(this.possibleCardConfigs);
+      this.shuffleArray(this.possibleCardConfigs);
       for (let i = 0; i < cardAmount / 2; i++) {
         this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
         this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
       }
-      this.shuffle(this.cards);
+      this.shuffleArray(this.cards);
       this.showAllCards();
       this.timeoutUntilGameStarts = setTimeout(function () {
         this.startGame();
