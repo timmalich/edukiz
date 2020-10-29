@@ -23,6 +23,10 @@ export const dragDrop = {
           dropzoneElement.classList.remove('drop-target-active');
         },
         ondrop: function (event) {
+          let dropzoneElement = event.target;
+          dropzoneElement.classList.add('empty-droppable-element');
+          dropzoneElement.classList.remove('drop-target-active');
+
           if(typeof this.ondrop === "function"){
             this.ondrop(event);
           }
