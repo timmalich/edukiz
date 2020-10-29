@@ -1,19 +1,15 @@
 <template>
   <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restartGame" @next="nextLevel">
     <div class="drop-section">
-      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/A.svg"></ImageContainer>
-      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/B.svg"></ImageContainer>
-      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/C.svg"></ImageContainer>
-      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/D.svg"></ImageContainer>
-      <ImageContainer class="dropzone empty-droppable-element" src="img/characters/E.svg"></ImageContainer>
+      <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
+                      :data-identifier="charConfig.character" :src="charConfig.image"
+                      class="dropzone empty-droppable-element"></ImageContainer>
     </div>
     <div class="spacer"></div>
     <div class="drag-section">
-      <ImageContainer class="draggable-element" src="img/characters/A.svg"></ImageContainer>
-      <ImageContainer class="draggable-element" src="img/characters/B.svg"></ImageContainer>
-      <ImageContainer class="draggable-element" src="img/characters/C.svg"></ImageContainer>
-      <ImageContainer class="draggable-element" src="img/characters/D.svg"></ImageContainer>
-      <ImageContainer class="draggable-element" src="img/characters/E.svg"></ImageContainer>
+      <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
+                      :data-identifier="charConfig.character" :src="charConfig.image"
+                      class="draggable-element"></ImageContainer>
     </div>
   </Game>
 </template>
@@ -22,32 +18,45 @@
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
-/* eslint-disable */ // TODO REMOVE
+import {characterConfigs} from "../mixins/characterConfigs"
+
 export default {
   name: "DDCharacters",
   components: {
     ImageContainer,
     Game,
   },
-  mixins: [dragDrop],
+  mixins: [dragDrop, characterConfigs],
   data() {
-    return {};
+    return {
+      characters: []
+    };
   },
   created: function () {
     this.initGame();
   },
-  mounted: function () {
+  mounted() {
+    this.initDragDrop();
+  },
+  updated: function () {
     this.initDragDrop();
   },
 
   methods: {
-    ondrop: function(event){
-      event.currentTarget.classList.add('drop-success');
-      event.currentTarget.classList.remove('empty-droppable-element');
-      event.relatedTarget.classList.add('drag-success');
+    ondrop: function (event) {
+      let dropElement = event.currentTarget;
+      let dragElement = event.relatedTarget;
+      if (dropElement.getAttribute('data-identifier') === dragElement.getAttribute('data-identifier')) {
+        dropElement.classList.add('drop-success');
+        dropElement.classList.remove('empty-droppable-element');
+        dragElement.classList.add('drag-success');
+      }
     },
     initGame: function () {
-      // TODO add something
+      this.characters = [];
+      for (let i = 0; i < 5; i++) {
+        this.characters.push(this.characterConfigs[i]);
+      }
     },
     restartGame: function () {
       this.$log.info("IMPLEMENT ME"); // TODO Implement
