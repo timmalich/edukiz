@@ -1,5 +1,5 @@
 <template>
-  <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
@@ -56,7 +56,8 @@ export default {
       ],
       droppableCharacters: [],
       draggableCharacters: [],
-      solvedCharacters: 0
+      solvedCharacters: 0,
+      isGameOver: false
     };
   },
   created: function () {
@@ -101,13 +102,17 @@ export default {
       if (character === dragElement.getAttribute('data-identifier')) {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
-          Sounds.playBigSuccess(1000);
+          setTimeout(function(){
+            this.isGameOver = true;
+            Sounds.playBigSuccess();
+          }.bind(this), 800);
         }
         return true;
       }
       return false;
     },
     restart: function () {
+      this.isGameOver = false;
       this.solvedCharacters = 0;
       this.droppableCharacters = [];
       this.draggableCharacters = [];

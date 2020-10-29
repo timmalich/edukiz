@@ -1,5 +1,5 @@
 <template>
-  <Game nav-back-path="/memory" @previous="previousLevel" @restart="generateCards" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/memory" @previous="previousLevel" @restart="generateCards" @next="nextLevel">
     <template v-slot:header>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
@@ -64,7 +64,8 @@ export default {
       selectedLevel: 4,
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
-      isErrorPlaying: false
+      isErrorPlaying: false,
+      isGameOver: false
     };
   },
   created: function () {
@@ -122,6 +123,7 @@ export default {
     generateCards: function () {
       this.isBoardLocked = true;
       this.isGameStarted = false;
+      this.isGameOver = false;
       clearTimeout(this.timeoutUntilGameStarts);
       this.cards = [];
       this.flippedCard = null;
@@ -139,9 +141,10 @@ export default {
         this.startGame();
       }.bind(this), 10000);
     },
-    isGameOver: function () {
+    checkGameOver: function () {
       let cardsInCurrentLevel = this.getCardAmount(this.levels[this.selectedLevel]);
-      return this.solvedCards === cardsInCurrentLevel;
+      this.isGameOver = this.solvedCards === cardsInCurrentLevel;
+      return this.isGameOver;
     },
     cardFlipped: function (currentCard) {
       this.isBoardLocked = true;
@@ -161,7 +164,7 @@ export default {
       } else {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
-          if (this.isGameOver()) {
+          if (this.checkGameOver()) {
             Sounds.playBigSuccess();
           } else {
             Sounds.playSuccess();
