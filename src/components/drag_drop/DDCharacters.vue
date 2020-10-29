@@ -3,12 +3,12 @@
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
-                      class="dropzone empty-droppable-element" ref="droppableElements"></ImageContainer>
+                      class="dropzone empty-droppable-element"></ImageContainer>
     </div>
     <div class="spacer"></div>
     <div class="drag-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
-                      :data-identifier="charConfig.character" :src="charConfig.image" ref="draggableElements"
+                      :data-identifier="charConfig.character" :src="charConfig.image"
                       class="draggable-element"></ImageContainer>
     </div>
   </Game>
@@ -68,16 +68,16 @@ export default {
       let maxElementsInRow = 7;
       let elementAmount = this.levels[this.selectedLevel].elementAmount;
       let gridGap = 10;
-      if(elementAmount / maxElementsInRow > 2){
+      if (elementAmount / maxElementsInRow > 2) {
         gridGap = 3;
-      }else if(elementAmount / maxElementsInRow > 1){
+      } else if (elementAmount / maxElementsInRow > 1) {
         gridGap = 7;
       }
 
       let elementsInRow;
-      if(elementAmount > maxElementsInRow){
+      if (elementAmount > maxElementsInRow) {
         elementsInRow = maxElementsInRow;
-      }else{
+      } else {
         elementsInRow = elementAmount;
       }
 
@@ -93,14 +93,13 @@ export default {
       let dropElement = event.currentTarget;
       let dragElement = event.relatedTarget;
       if (dropElement.getAttribute('data-identifier') === dragElement.getAttribute('data-identifier')) {
-        this.markDropSuccess(dropElement);
-        this.markDragSuccess(dragElement);
         this.solvedCharacters++;
-
-        if(this.solvedCharacters === this.levels[this.selectedLevel].elementAmount){
+        if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
           Sounds.playBigSuccess();
         }
+        return true;
       }
+      return false;
     },
     restart: function () {
       this.solvedCharacters = 0;
@@ -114,38 +113,17 @@ export default {
       this.shuffleArray(this.droppableCharacters);
       this.resetGameComponents();
     },
-    markDropSuccess : function(element){
-      element.classList.add('drop-success');
-      element.classList.remove('empty-droppable-element');
-    },
-    resetMarkDropSuccess : function(element){
-      element.classList.remove('drop-success');
-      element.classList.add('empty-droppable-element');
-    },
-    markDragSuccess : function(element){
-      element.classList.add('drag-success');
-    },
-    resetMarkDragSuccess: function(element){
-      element.classList.remove('drag-success');
-    },
     resetGameComponents: function () {
-      if (this.$refs.draggableElements) {
-        for (let element of this.$refs.draggableElements) {
-          this.resetMarkDragSuccess(element.$el);
-        }
-        for (let element of this.$refs.droppableElements) {
-          this.resetMarkDropSuccess(element.$el);
-        }
-      }
+      this.resetDragAndDropSuccessions();
     },
     previousLevel: function () {
-      if(this.selectedLevel > 0){
+      if (this.selectedLevel > 0) {
         this.selectedLevel--;
       }
       this.restart();
     },
     nextLevel: function () {
-      if(this.selectedLevel < this.levels.length-1){
+      if (this.selectedLevel < this.levels.length - 1) {
         this.selectedLevel++;
       }
       this.restart();

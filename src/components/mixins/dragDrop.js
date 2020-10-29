@@ -1,12 +1,31 @@
 import interact from '@interactjs/interactjs'
 
 export const dragDrop = {
-  data() {
-    return {};
-  },
   methods: {
-    // should be called after component is rendered
+    resetDragAndDropSuccessions: function(){
+      for (let dropzoneElement of document.getElementsByClassName('dropzone')) {
+        this.resetSuccessionDropMark(dropzoneElement);
+      }
+      for (let dragElement of document.getElementsByClassName('draggable-element')) {
+        this.resetSuccessionDragMark(dragElement);
+      }
+    },
+    markSuccess : function(dropzoneElement, dragElement){
+      dropzoneElement.classList.add('drop-success');
+      dropzoneElement.classList.remove('empty-droppable-element');
+      dragElement.classList.add('drag-success');
+    },
+    resetSuccessionDropMark : function(element){
+      element.classList.remove('drop-success');
+      element.classList.add('empty-droppable-element');
+    },
+    resetSuccessionDragMark: function(element){
+      element.classList.remove('drag-success');
+    },
     initDragDrop: function () {
+      function dropzoneContainsDraggedElement(dropzoneElement){
+        return dropzoneElement.classList.contains('drop-success');
+      }
       interact('.dropzone').dropzone({
         overlap: 0.5,
         ondropactivate: function () {},
@@ -14,21 +33,32 @@ export const dragDrop = {
         ondropmove: function () {},
         ondragenter: function (event) {
           let dropzoneElement = event.target
-          dropzoneElement.classList.add('drop-target-active');
-          dropzoneElement.classList.remove('empty-droppable-element');
+          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+            dropzoneElement.classList.add('drop-target-active');
+            dropzoneElement.classList.remove('empty-droppable-element');
+          }
         },
         ondragleave: function (event) {
           let dropzoneElement = event.target
-          dropzoneElement.classList.add('empty-droppable-element');
-          dropzoneElement.classList.remove('drop-target-active');
+          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+            dropzoneElement.classList.add('empty-droppable-element');
+            dropzoneElement.classList.remove('drop-target-active');
+          }
         },
         ondrop: function (event) {
           let dropzoneElement = event.target;
-          dropzoneElement.classList.add('empty-droppable-element');
-          dropzoneElement.classList.remove('drop-target-active');
+          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+            dropzoneElement.classList.add('empty-droppable-element');
+            dropzoneElement.classList.remove('drop-target-active');
 
-          if(typeof this.ondrop === "function"){
-            this.ondrop(event);
+            let dragElement = event.relatedTarget;
+            if(typeof this.ondrop === "function"){
+              if(this.ondrop(event)){
+                this.markSuccess(dropzoneElement, dragElement);
+              }
+            }else{
+              this.markSuccess(dropzoneElement, dragElement);
+            }
           }
         }.bind(this)
       })
