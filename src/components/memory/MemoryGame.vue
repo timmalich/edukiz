@@ -21,7 +21,7 @@
 
 <script>
 import MemoryCard from './MemoryCard.vue';
-import Sounds from "./Sounds";
+import Sounds from "../Sounds";
 import Game from "../Game.vue"
 
 export default {

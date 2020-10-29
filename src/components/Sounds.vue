@@ -1,17 +1,20 @@
 <script>
 export default {
   name: "Sounds",
+  error: new Audio("sounds/error1.mp3"),
+  success: new Audio("sounds/success1.mp3"),
+  bigSuccess: new Audio("sounds/big_success1.mp3"),
   playSound: function (src) {
     new Audio("sounds/" + src).play().then();
   },
   playError: function () {
-    this.playSound("error1.mp3");
+    this.error.play();
   },
   playSuccess: function () {
-    this.playSound("success1.mp3");
+    this.success.play();
   },
   playBigSuccess: function () {
-    this.playSound("big_success1.mp3");
+    this.bigSuccess.play();
   },
 }
 </script>

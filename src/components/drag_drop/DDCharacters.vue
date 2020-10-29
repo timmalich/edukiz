@@ -20,7 +20,7 @@ import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
 import {arrayUtils} from "../mixins/arrayUtils"
-import Sounds from "../memory/Sounds";
+import Sounds from "../Sounds";
 
 export default {
   name: "DDCharacters",
