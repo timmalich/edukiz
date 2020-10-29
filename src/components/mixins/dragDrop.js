@@ -8,7 +8,7 @@ export const dragDrop = {
     // should be called after component is rendered
     initDragDrop: function () {
       interact('.dropzone').dropzone({
-        overlap: 0.2,
+        overlap: 0.5,
         ondropactivate: function () {},
         ondropdeactivate: function () {},
         ondropmove: function () {},

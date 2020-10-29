@@ -23,7 +23,7 @@ export default {
   max-height: 100%;
   overflow: hidden;
   min-width: 30pt;
-  min-height: 30pt;
+  min-height: 25pt;
   border-radius: 15pt;
 }
 
