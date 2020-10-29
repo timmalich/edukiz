@@ -1,13 +1,13 @@
 <template>
   <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
-      <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
+      <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
                       class="dropzone empty-droppable-element" ref="droppableElements"></ImageContainer>
     </div>
     <div class="spacer"></div>
     <div class="drag-section" v-bind:style="gridContainer">
-      <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
+      <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image" ref="draggableElements"
                       class="draggable-element"></ImageContainer>
     </div>
@@ -54,7 +54,8 @@ export default {
         {elementAmount: 20},
         {elementAmount: 21},
       ],
-      characters: [],
+      droppableCharacters: [],
+      draggableCharacters: [],
       solvedCharacters: 0
     };
   },
@@ -103,11 +104,14 @@ export default {
     },
     restart: function () {
       this.solvedCharacters = 0;
-      this.characters = [];
+      this.droppableCharacters = [];
+      this.draggableCharacters = [];
       this.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
-        this.characters.push(this.characterConfigs[i]);
+        this.droppableCharacters.push(this.characterConfigs[i]);
+        this.draggableCharacters.push(this.characterConfigs[i]);
       }
+      this.shuffleArray(this.droppableCharacters);
       this.resetGameComponents();
     },
     markDropSuccess : function(element){
