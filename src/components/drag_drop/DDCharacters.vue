@@ -1,5 +1,5 @@
 <template>
-  <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="resetGameComponents" @next="nextLevel">
+  <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
@@ -57,7 +57,7 @@ export default {
     };
   },
   created: function () {
-    this.startGame();
+    this.restart();
   },
   mounted() {
     this.initDragDrop();
@@ -99,7 +99,8 @@ export default {
         this.markDragSuccess(dragElement);
       }
     },
-    startGame: function () {
+    restart: function () {
+      this.solvedCharacters = 0;
       this.characters = [];
       this.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
@@ -135,13 +136,13 @@ export default {
       if(this.selectedLevel > 0){
         this.selectedLevel--;
       }
-      this.startGame();
+      this.restart();
     },
     nextLevel: function () {
       if(this.selectedLevel < this.levels.length-1){
         this.selectedLevel++;
       }
-      this.startGame();
+      this.restart();
     }
   }
 }
