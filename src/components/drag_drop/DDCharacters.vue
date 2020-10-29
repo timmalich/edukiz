@@ -1,5 +1,5 @@
 <template>
-  <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="restartGame" @next="nextLevel">
+  <Game nav-back-path="/dragdrop" @previous="previousLevel" @restart="resetGameComponents" @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in characters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
@@ -19,6 +19,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
+import {arrayUtils} from "../mixins/arrayUtils"
 
 export default {
   name: "DDCharacters",
@@ -26,7 +27,7 @@ export default {
     ImageContainer,
     Game,
   },
-  mixins: [dragDrop, characterConfigs],
+  mixins: [dragDrop, characterConfigs, arrayUtils],
   data() {
     return {
       selectedLevel: 2,
@@ -101,6 +102,7 @@ export default {
     },
     startGame: function () {
       this.characters = [];
+      this.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
         this.characters.push(this.characterConfigs[i]);
       }
