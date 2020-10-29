@@ -89,13 +89,19 @@ export default {
     }
   },
   methods: {
+    ondragstart: function(event){
+      let dragElement = event.target;
+      Sounds.playCharacter(dragElement.getAttribute('data-identifier'));
+    },
     ondrop: function (event) {
       let dropElement = event.currentTarget;
       let dragElement = event.relatedTarget;
-      if (dropElement.getAttribute('data-identifier') === dragElement.getAttribute('data-identifier')) {
+      let character = dropElement.getAttribute('data-identifier');
+      Sounds.playCharacter(character);
+      if (character === dragElement.getAttribute('data-identifier')) {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
-          Sounds.playBigSuccess();
+          Sounds.playBigSuccess(1000);
         }
         return true;
       }
@@ -107,8 +113,10 @@ export default {
       this.draggableCharacters = [];
       this.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
-        this.droppableCharacters.push(this.characterConfigs[i]);
-        this.draggableCharacters.push(this.characterConfigs[i]);
+        let config =  this.characterConfigs[i];
+        Sounds.preload(config.character.toLowerCase());
+        this.droppableCharacters.push(config);
+        this.draggableCharacters.push(config);
       }
       this.shuffleArray(this.droppableCharacters);
       this.resetGameComponents();

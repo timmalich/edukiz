@@ -69,6 +69,11 @@ export const dragDrop = {
           modifiers: [],
           autoScroll: false,
           listeners: {
+            start: function (event){
+              if(typeof this.ondragstart === "function"){
+                this.ondragstart(event);
+              }
+            }.bind(this),
             move: function (event) {
               let dragElement = event.target
               let lastElementRelativePostionX = parseFloat(dragElement.getAttribute('data-x')) || 0;

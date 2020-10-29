@@ -5,24 +5,39 @@ export default {
   success: new Audio("sounds/success1.mp3"),
   bigSuccess: new Audio("sounds/big_success1.mp3"),
   preloaded: {},
-  preload: function(src){
+  preload: function (src) {
     this.preloaded[src] = new Audio("sounds/" + src);
   },
   playSound: function (src) {
-    if(this.preloaded[src]){
+    if (this.preloaded[src]) {
       this.preloaded[src].play();
-    }else{
+    } else {
       new Audio("sounds/" + src).play().then();
     }
   },
   playError: function () {
     this.error.play();
   },
-  playSuccess: function () {
-    this.success.play();
+  playSuccess: function (timeout) {
+    if (timeout) {
+      setTimeout(function () {
+        this.success.play()
+      }.bind(this), timeout);
+    } else {
+      this.success.play();
+    }
   },
-  playBigSuccess: function () {
-    this.bigSuccess.play();
+  playBigSuccess: function (timeout) {
+    if (timeout) {
+      setTimeout(function () {
+        this.bigSuccess.play()
+      }.bind(this), timeout);
+    } else {
+      this.bigSuccess.play();
+    }
   },
+  playCharacter: function(character){
+    this.playSound('de/characters/' + character.toLowerCase() + '.mp3');
+  }
 }
 </script>
