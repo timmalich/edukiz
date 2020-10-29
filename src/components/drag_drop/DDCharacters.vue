@@ -20,6 +20,7 @@ import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
 import {arrayUtils} from "../mixins/arrayUtils"
+import Sounds from "../memory/Sounds";
 
 export default {
   name: "DDCharacters",
@@ -53,16 +54,12 @@ export default {
         {elementAmount: 20},
         {elementAmount: 21},
       ],
-      characters: []
+      characters: [],
+      solvedCharacters: 0
     };
   },
   created: function () {
     this.restart();
-  },
-  mounted() {
-    this.initDragDrop();
-  },
-  updated: function () {
     this.initDragDrop();
   },
   computed: {
@@ -97,6 +94,11 @@ export default {
       if (dropElement.getAttribute('data-identifier') === dragElement.getAttribute('data-identifier')) {
         this.markDropSuccess(dropElement);
         this.markDragSuccess(dragElement);
+        this.solvedCharacters++;
+
+        if(this.solvedCharacters === this.levels[this.selectedLevel].elementAmount){
+          Sounds.playBigSuccess();
+        }
       }
     },
     restart: function () {
