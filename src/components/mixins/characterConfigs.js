@@ -1,4 +1,4 @@
-export const characterConfigs = { // TODO use in memory to
+export const characterConfigs = {
   data() {
     let possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".split('');
     let characterConfigs = [];

@@ -25,7 +25,7 @@ import Sounds from "../Sounds";
 import Game from "../Game.vue"
 
 export default {
-  name: "MemoryCharacters",
+  name: "MemoryGame",
   extends: Game,
   components: {
     MemoryCard,
@@ -118,8 +118,8 @@ export default {
     },
     createCard: function (key, cardConfig) {
       return {
-        key: cardConfig.key,
-        frontFace: cardConfig.frontFace,
+        key: key,
+        frontFace: cardConfig.image,
         sound: cardConfig.sound,
       }
     },

@@ -1,28 +1,17 @@
 <template>
-  <MemoryGame :possible-card-configs="possibleCardConfigs"></MemoryGame>
+  <MemoryGame :possible-card-configs="characterConfigs"></MemoryGame>
 </template>
 
 <script>
 import MemoryGame from './MemoryGame.vue';
+import {characterConfigs} from "../mixins/characterConfigs"
 
 export default {
   name: "MemoryCharacters",
   components: {
     MemoryGame
   },
-  data() {
-    let possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".split('');
-    let possibleCardConfigs = [];
-    for (let character of possibleCharacters) {
-      possibleCardConfigs.push({
-        frontFace: "img/characters/" + character.toUpperCase() + ".svg",
-        sound: "de/characters/" + character.toLowerCase() + ".mp3",
-      })
-    }
-    return {
-      possibleCardConfigs: possibleCardConfigs
-    }
-  }
+  mixins: [characterConfigs]
 }
 
 </script>
