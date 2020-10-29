@@ -128,8 +128,10 @@ export default {
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
       this.shuffleArray(this.possibleCardConfigs);
       for (let i = 0; i < cardAmount / 2; i++) {
-        this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
-        this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
+        let cardConfig = this.possibleCardConfigs[i];
+        this.cards.push(this.createCard(this.cards.length + "A", cardConfig));
+        this.cards.push(this.createCard(this.cards.length + "B", cardConfig));
+        Sounds.preload(cardConfig.sound);
       }
       this.shuffleArray(this.cards);
       this.showAllCards();

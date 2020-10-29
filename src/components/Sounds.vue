@@ -4,8 +4,16 @@ export default {
   error: new Audio("sounds/error1.mp3"),
   success: new Audio("sounds/success1.mp3"),
   bigSuccess: new Audio("sounds/big_success1.mp3"),
+  preloaded: {},
+  preload: function(src){
+    this.preloaded[src] = new Audio("sounds/" + src);
+  },
   playSound: function (src) {
-    new Audio("sounds/" + src).play().then();
+    if(this.preloaded[src]){
+      this.preloaded[src].play();
+    }else{
+      new Audio("sounds/" + src).play().then();
+    }
   },
   playError: function () {
     this.error.play();
