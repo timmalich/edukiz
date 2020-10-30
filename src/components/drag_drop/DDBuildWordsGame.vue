@@ -1,9 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section dropzone" v-bind:style="gridContainer">
-      <!--<div class="dropzone" v-for="(charConfig, index) in droppableCharacters" :key="index" // TODO REMOVE
-           :data-identifier="charConfig.character"></div> -->
-    </div>
+    <div class="drop-section dropzone" v-bind:style="gridContainer"></div>
     <div class="spacer"></div>
     <div class="drag-section" v-bind:style="gridContainer">
       <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
@@ -34,6 +31,7 @@ export default {
       selectedLevel: 2,
       levels: undefined,
       droppableCharacters: [], // TODO REMOVE
+      currentWordCharacters: [],
       draggableCharacters: [],
       solvedCharacters: 0,
       isGameOver: false
@@ -62,19 +60,20 @@ export default {
     },
     ondrop: function (event) {
       let dragElement = event.relatedTarget;
-      let dropElement = event.currentTarget;
-      dropElement.appendChild(dragElement);
-      dragElement.style.removeProperty('transform');
-      let character = dragElement.getAttribute('data-identifier');
-      Sounds.playCharacter(character);
-      if (character === dragElement.getAttribute('data-identifier')) {
+      let draggedCharacter = dragElement.getAttribute('data-identifier').toLowerCase();
+      let expectedCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
+      if (draggedCharacter === expectedCharacter) {
         this.solvedCharacters++;
+        let dropElement = event.currentTarget;
+        dropElement.appendChild(dragElement);
+        dragElement.style.removeProperty('transform');
+        dragElement.classList.remove('draggable-element');
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           setTimeout(function(){
             this.isGameOver = true;
             Sounds.playBigSuccess();
           }.bind(this), 800);
-        }
+        } // TODO ADD ERROR
         return true;
       }
       return false;
@@ -85,8 +84,8 @@ export default {
       this.droppableCharacters = [];
       this.draggableCharacters = [];
       let word = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words);
-      let wordCharacters = word.split('');
-      for(let character of wordCharacters){
+      this.currentWordCharacters = word.split('');
+      for(let character of this.currentWordCharacters){
         Sounds.preload(character.toLowerCase());
         this.droppableCharacters.push(CharacterUtils.createConfig(character));
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
@@ -150,6 +149,8 @@ export default {
 
 .drop-success {}
 
-.drag-success {}
+.drag-success {
+  background-color: transparent;
+}
 
 </style>
