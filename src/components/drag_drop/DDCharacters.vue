@@ -62,7 +62,7 @@ export default {
   },
   created: function () {
     this.restart();
-    this.initDragDrop();
+    this.initDragDrop(true);
   },
   computed: {
     gridContainer: function () {

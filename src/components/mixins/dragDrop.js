@@ -1,6 +1,10 @@
 import interact from '@interactjs/interactjs'
 
 export const dragDrop = {
+  destroyed() {
+    interact('.dropzone').unset();
+    interact('.draggable-element').unset();
+  },
   methods: {
     resetDragAndDropSuccessions: function(){
       for (let dropzoneElement of document.getElementsByClassName('dropzone')) {
@@ -22,9 +26,12 @@ export const dragDrop = {
     resetSuccessionDragMark: function(element){
       element.classList.remove('drag-success');
     },
-    initDragDrop: function () {
-      function dropzoneContainsDraggedElement(dropzoneElement){
-        return dropzoneElement.classList.contains('drop-success');
+    initDragDrop: function (lockDropzoneSuccessfulAfterDrag) {
+      function isDropzoneLocked(dropzoneElement){
+        if(lockDropzoneSuccessfulAfterDrag){
+          return dropzoneElement.classList.contains('drop-success');
+        }
+        return false;
       }
       interact('.dropzone').dropzone({
         overlap: 0.5,
@@ -33,21 +40,21 @@ export const dragDrop = {
         ondropmove: function () {},
         ondragenter: function (event) {
           let dropzoneElement = event.target
-          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+          if(!isDropzoneLocked(dropzoneElement)){
             dropzoneElement.classList.add('drop-target-active');
             dropzoneElement.classList.remove('empty-droppable-element');
           }
         },
         ondragleave: function (event) {
           let dropzoneElement = event.target
-          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+          if(!isDropzoneLocked(dropzoneElement)){
             dropzoneElement.classList.add('empty-droppable-element');
             dropzoneElement.classList.remove('drop-target-active');
           }
         },
         ondrop: function (event) {
           let dropzoneElement = event.target;
-          if(!dropzoneContainsDraggedElement(dropzoneElement)){
+          if(!isDropzoneLocked(dropzoneElement)){
             dropzoneElement.classList.add('empty-droppable-element');
             dropzoneElement.classList.remove('drop-target-active');
 

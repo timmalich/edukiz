@@ -42,7 +42,7 @@ export default {
   created: function () {
     this.levels = this.wordConfigs.length;
     this.restart();
-    this.initDragDrop();
+    this.initDragDrop(false);
   },
   computed: {
     gridContainer: function () {
