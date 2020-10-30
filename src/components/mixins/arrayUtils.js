@@ -1,11 +1,17 @@
 export const arrayUtils = {
   methods: {
-    shuffleArray: function (array) {
+    shuffleArray: function (array, cloneArray) {
+      let outputArray;
+      if(cloneArray){
+        outputArray = new Array(array.length);
+      }else{
+        outputArray = array;
+      }
       for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [outputArray[i], outputArray[j]] = [array[j], array[i]];
       }
-      return array;
-    }
+      return outputArray;
+    },
   }
 }
