@@ -1,11 +1,14 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section dropzone" v-bind:style="gridContainer"></div>
+    <div class="drop-section dropzone" v-bind:style="gridContainer">
+      <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
+                      :src="charConfig.image" class="drop-element"></ImageContainer>
+    </div>
     <div class="spacer"></div>
-    <div class="drag-section" v-bind:style="gridContainer">
+    <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
       <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
-                      :data-identifier="charConfig.character" :src="charConfig.image"
-                      class="draggable-element"></ImageContainer>
+                      :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
+                      class="draggable-element" ref="draggables"></ImageContainer>
     </div>
   </Game>
 </template>
@@ -30,7 +33,7 @@ export default {
     return {
       selectedLevel: 2,
       levels: undefined,
-      droppableCharacters: [], // TODO REMOVE
+      droppedCharacters: [],
       currentWordCharacters: [],
       draggableCharacters: [],
       solvedCharacters: 0,
@@ -64,10 +67,9 @@ export default {
       let expectedCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
       if (draggedCharacter === expectedCharacter) {
         this.solvedCharacters++;
-        let dropElement = event.currentTarget;
-        dropElement.appendChild(dragElement);
-        dragElement.style.removeProperty('transform');
-        dragElement.classList.remove('draggable-element');
+        let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
+        let characterConfigForMove = this.draggableCharacters.splice(indexOfElementUnderDrag, 1)[0];
+        this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           setTimeout(function(){
             this.isGameOver = true;
@@ -81,13 +83,12 @@ export default {
     restart: function () {
       this.isGameOver = false;
       this.solvedCharacters = 0;
-      this.droppableCharacters = [];
+      this.droppedCharacters = [];
       this.draggableCharacters = [];
       let word = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words);
       this.currentWordCharacters = word.split('');
       for(let character of this.currentWordCharacters){
         Sounds.preload(character.toLowerCase());
-        this.droppableCharacters.push(CharacterUtils.createConfig(character));
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);
@@ -147,9 +148,7 @@ export default {
   background-color: #6060d7;
 }
 
-.drop-success {}
-
-.drag-success {
+.drag-success, .drop-element {
   background-color: transparent;
 }
 
