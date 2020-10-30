@@ -1,8 +1,8 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section" v-bind:style="gridContainer">
-      <div class="dropzone" v-for="(charConfig, index) in droppableCharacters" :key="index"
-           :data-identifier="charConfig.character"></div>
+    <div class="drop-section dropzone" v-bind:style="gridContainer">
+      <!--<div class="dropzone" v-for="(charConfig, index) in droppableCharacters" :key="index" // TODO REMOVE
+           :data-identifier="charConfig.character"></div> -->
     </div>
     <div class="spacer"></div>
     <div class="drag-section" v-bind:style="gridContainer">
@@ -33,7 +33,7 @@ export default {
     return {
       selectedLevel: 2,
       levels: undefined,
-      droppableCharacters: [],
+      droppableCharacters: [], // TODO REMOVE
       draggableCharacters: [],
       solvedCharacters: 0,
       isGameOver: false
@@ -61,9 +61,11 @@ export default {
       Sounds.playCharacter(dragElement.getAttribute('data-identifier'));
     },
     ondrop: function (event) {
-      let dropElement = event.currentTarget;
       let dragElement = event.relatedTarget;
-      let character = dropElement.getAttribute('data-identifier');
+      let dropElement = event.currentTarget;
+      dropElement.appendChild(dragElement);
+      dragElement.style.removeProperty('transform');
+      let character = dragElement.getAttribute('data-identifier');
       Sounds.playCharacter(character);
       if (character === dragElement.getAttribute('data-identifier')) {
         this.solvedCharacters++;
@@ -146,12 +148,8 @@ export default {
   background-color: #6060d7;
 }
 
-.drop-success {
-  background-color: #24ff02;
-}
+.drop-success {}
 
-.drag-success {
-  visibility: hidden;
-}
+.drag-success {}
 
 </style>
