@@ -12,5 +12,5 @@ export const characterConfigs = {
     return {
       characterConfigs: characterConfigs
     }
-  }
+  },
 }

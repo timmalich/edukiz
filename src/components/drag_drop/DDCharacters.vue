@@ -19,7 +19,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
-import {arrayUtils} from "../mixins/arrayUtils"
+import {ArrayUtils} from "../utils/ArrayUtils"
 import Sounds from "../Sounds";
 
 export default {
@@ -28,7 +28,7 @@ export default {
     ImageContainer,
     Game,
   },
-  mixins: [dragDrop, characterConfigs, arrayUtils],
+  mixins: [dragDrop, characterConfigs],
   data() {
     return {
       selectedLevel: 2,
@@ -116,14 +116,14 @@ export default {
       this.solvedCharacters = 0;
       this.droppableCharacters = [];
       this.draggableCharacters = [];
-      this.shuffleArray(this.characterConfigs);
+      ArrayUtils.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
         let config =  this.characterConfigs[i];
         Sounds.preload(config.character.toLowerCase());
         this.droppableCharacters.push(config);
         this.draggableCharacters.push(config);
       }
-      this.shuffleArray(this.droppableCharacters);
+      ArrayUtils.shuffleArray(this.droppableCharacters);
       this.resetGameComponents();
     },
     resetGameComponents: function () {

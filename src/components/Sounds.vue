@@ -37,7 +37,10 @@ export default {
     }
   },
   playCharacter: function(character){
-    this.playSound('de/characters/' + character.toLowerCase() + '.mp3');
+    this.playSound(this.getCharacterPath(character));
+  },
+  getCharacterPath: function(character){
+    return 'de/characters/' + character.toLowerCase() + '.mp3';
   }
 }
 </script>
