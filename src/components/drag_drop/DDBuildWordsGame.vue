@@ -10,6 +10,7 @@
                       :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
                       class="draggable-element" ref="draggables"></ImageContainer>
     </div>
+    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
@@ -21,12 +22,14 @@ import {ArrayUtils} from "../utils/ArrayUtils"
 import Sounds from "../Sounds";
 import {wordConfigs} from "../mixins/wordConfigs";
 import {CharacterUtils} from "../utils/CharacterUtils";
+import ErrorAnimation from "../ErrorAnimation";
 
 export default {
   name: "DDBuildWords",
   components: {
     ImageContainer,
     Game,
+    ErrorAnimation
   },
   mixins: [dragDrop, wordConfigs],
   data() {
@@ -75,10 +78,12 @@ export default {
             this.isGameOver = true;
             Sounds.playBigSuccess();
           }.bind(this), 800);
-        } // TODO ADD ERROR
+        }
         return true;
+      } else{
+        this.$refs.errorAnimation.showError();
+        return false;
       }
-      return false;
     },
     restart: function () {
       this.isGameOver = false;

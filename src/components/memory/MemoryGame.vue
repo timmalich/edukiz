@@ -15,7 +15,7 @@
                    :sound="card.sound"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
-    <img src="img/fish8.svg" v-if="isErrorPlaying" class="error-animation" alt="error animation"/>
+    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
@@ -24,6 +24,7 @@ import MemoryCard from './MemoryCard.vue';
 import Sounds from "../Sounds";
 import Game from "../Game.vue"
 import {ArrayUtils} from "../utils/ArrayUtils";
+import ErrorAnimation from "../ErrorAnimation";
 
 
 export default {
@@ -31,7 +32,8 @@ export default {
   extends: Game,
   components: {
     MemoryCard,
-    Game
+    Game,
+    ErrorAnimation
   },
   data() {
     function calculateLevels() {
@@ -63,7 +65,6 @@ export default {
       selectedLevel: 4,
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
-      isErrorPlaying: false,
       isGameOver: false
     };
   },
@@ -175,12 +176,7 @@ export default {
         } else {
           Sounds.playSound(currentCard.sound);
           setTimeout(function () {
-            // TODO refactore this all into an error component
-            this.isErrorPlaying = true;
-            Sounds.playError();
-            setTimeout(function () {
-              this.isErrorPlaying = false;
-            }.bind(this), 4000);
+            this.$refs.errorAnimation.showError();
             if (this.flippedCard) {
               this.flippedCard.isFlipped = false;
               this.flippedCard = null;

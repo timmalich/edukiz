@@ -1,4 +1,5 @@
 <script>
+// TODO this should be a utils or mixin
 export default {
   name: "Sounds",
   error: new Audio("sounds/error1.mp3"),
