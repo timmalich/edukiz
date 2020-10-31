@@ -1,5 +1,5 @@
 export const ImageUtils = {
-  getCharacterImagePath: function (character) { // TODO USE EVERYWHERE
+  getCharacterImagePath: function (character) {
     return "img/characters/" + character.toUpperCase() + ".svg";
   }
 }

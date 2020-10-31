@@ -1,3 +1,5 @@
+import {ImageUtils} from '../utils/ImageUtils'
+
 export const characterConfigs = {
   data() {
     let possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".split('');
@@ -5,7 +7,7 @@ export const characterConfigs = {
     for (let character of possibleCharacters) {
       characterConfigs.push({
         character: character,
-        image: "img/characters/" + character.toUpperCase() + ".svg",
+        image: ImageUtils.getCharacterImagePath(character),
         sound: "de/characters/" + character.toLowerCase() + ".mp3",
       })
     }
