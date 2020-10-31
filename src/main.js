@@ -13,6 +13,7 @@ import MemoryCharacters from "./components/memory/MemoryCharacters";
 import DDNavPage from "./components/drag_drop/DDNavPage";
 import DDBuildWordsGame from "./components/drag_drop/DDBuildWordsGame";
 import DDCharacters from "./components/drag_drop/DDCharacters";
+import './registerServiceWorker'
 
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
