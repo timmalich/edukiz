@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Header :nav-back-path="this.navBackPath">
+    <Header :nav-back-path="this.navBackPath" :sound="this.explanation">
       <slot name="header"></slot>
     </Header>
     <div class="game-content">
@@ -20,7 +20,7 @@ export default {
     Header,
     Footer
   },
-  props: ['navBackPath', 'isHighlightAnimationRunning'],
+  props: ['navBackPath', 'isHighlightAnimationRunning', 'explanation'],
   methods: {
     previous: function () {
       this.$emit('previous');

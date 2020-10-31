@@ -84,3 +84,11 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
     
 #### Distribute
     ./scripts/distribute.sh 
+
+
+### TODOS
+- erklärende töne
+- ansagen welche buchstabe verschoben werden muss
+- mehr wörter für build words
+- window nicht zoombar ,achen
+- sidebar entfernen

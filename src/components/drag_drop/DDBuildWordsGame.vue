@@ -1,5 +1,5 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation" @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section dropzone" v-bind:style="gridContainer"  v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
       <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
                       :src="charConfig.image" class="drop-element"></ImageContainer>
@@ -40,10 +40,12 @@ export default {
       currentWordCharacters: [],
       draggableCharacters: [],
       solvedCharacters: 0,
-      isGameOver: false
+      isGameOver: false,
+      explanation: "dragdrop_buildwords"
     };
   },
   created: function () {
+    SoundUtils.playExplanation(this.explanation);
     this.levels = this.wordConfigs.length;
     this.restart();
     this.initDragDrop(false);

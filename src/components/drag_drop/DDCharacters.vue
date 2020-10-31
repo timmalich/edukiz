@@ -1,5 +1,7 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop"
+        :explanation="explanation" @previous="previousLevel" @restart="restart"
+        @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
                       :data-identifier="charConfig.character" :src="charConfig.image"
@@ -57,10 +59,12 @@ export default {
       droppableCharacters: [],
       draggableCharacters: [],
       solvedCharacters: 0,
-      isGameOver: false
+      isGameOver: false,
+      explanation: 'dragdrop_characters'
     };
   },
   created: function () {
+    SoundUtils.playExplanation(this.explanation);
     this.restart();
     this.initDragDrop(true);
   },
@@ -90,7 +94,7 @@ export default {
     }
   },
   methods: {
-    ondragstart: function(event){
+    ondragstart: function (event) {
       let dragElement = event.target;
       SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
     },
@@ -102,7 +106,7 @@ export default {
       if (character === dragElement.getAttribute('data-identifier')) {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
-          setTimeout(function(){
+          setTimeout(function () {
             this.isGameOver = true;
             SoundUtils.playBigSuccess();
           }.bind(this), 800);
@@ -118,7 +122,7 @@ export default {
       this.draggableCharacters = [];
       ArrayUtils.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
-        let config =  this.characterConfigs[i];
+        let config = this.characterConfigs[i];
         SoundUtils.preload(config.character.toLowerCase());
         this.droppableCharacters.push(config);
         this.draggableCharacters.push(config);

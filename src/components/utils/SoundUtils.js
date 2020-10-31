@@ -39,5 +39,8 @@ export const SoundUtils = {
   },
   getCharacterPath: function(character){
     return 'de/characters/' + character.toLowerCase() + '.mp3';
+  },
+  playExplanation: function (file){
+    this.playSound('de/explanations/' + file + '.mp3');
   }
 }

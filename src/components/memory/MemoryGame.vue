@@ -1,5 +1,7 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/memory" @previous="previousLevel" @restart="generateCards" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" :explanation="explanation" nav-back-path="/memory"
+        @previous="previousLevel" @restart="generateCards"
+        @next="nextLevel">
     <template v-slot:header>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
@@ -29,7 +31,6 @@ import ErrorAnimation from "../ErrorAnimation";
 
 export default {
   name: "MemoryGame",
-  extends: Game,
   components: {
     MemoryCard,
     Game,
@@ -65,10 +66,12 @@ export default {
       selectedLevel: 4,
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
-      isGameOver: false
+      isGameOver: false,
+      explanation: 'memory'
     };
   },
   created: function () {
+    SoundUtils.playExplanation(this.explanation);
     this.generateCards();
   },
   props: ['possibleCardConfigs'],
