@@ -19,7 +19,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {ArrayUtils} from "../utils/ArrayUtils"
-import Sounds from "../Sounds";
+import {SoundUtils} from "../utils/SoundUtils";
 import {wordConfigs} from "../mixins/wordConfigs";
 import {CharacterUtils} from "../utils/CharacterUtils";
 import ErrorAnimation from "../ErrorAnimation";
@@ -62,7 +62,7 @@ export default {
   methods: {
     ondragstart: function(event){
       let dragElement = event.target;
-      Sounds.playCharacter(dragElement.getAttribute('data-identifier'));
+      SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
     },
     ondrop: function (event) {
       let dragElement = event.relatedTarget;
@@ -76,7 +76,7 @@ export default {
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           setTimeout(function(){
             this.isGameOver = true;
-            Sounds.playBigSuccess();
+            SoundUtils.playBigSuccess();
           }.bind(this), 800);
         }
         return true;
@@ -93,7 +93,7 @@ export default {
       let word = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words);
       this.currentWordCharacters = word.split('');
       for(let character of this.currentWordCharacters){
-        Sounds.preload(character.toLowerCase());
+        SoundUtils.preload(character.toLowerCase());
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);

@@ -1,7 +1,4 @@
-<script>
-// TODO this should be a utils or mixin
-export default {
-  name: "Sounds",
+export const SoundUtils = {
   error: new Audio("sounds/error1.mp3"),
   success: new Audio("sounds/success1.mp3"),
   bigSuccess: new Audio("sounds/big_success1.mp3"),
@@ -44,4 +41,3 @@ export default {
     return 'de/characters/' + character.toLowerCase() + '.mp3';
   }
 }
-</script>

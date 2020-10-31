@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Sounds from "./Sounds";
+import {SoundUtils} from "./utils/SoundUtils";
 import {ArrayUtils} from "./utils/ArrayUtils";
 
 export default {
@@ -32,7 +32,7 @@ export default {
   methods: {
     showError: function () {
       let errorDuration = 4000;
-      Sounds.playError();
+      SoundUtils.playError();
       this.errors.push({
         image: 'img/' + ArrayUtils.getRandomArrayElement(this.errorImages),
         key: new Date().getTime()

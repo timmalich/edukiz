@@ -21,7 +21,7 @@
 
 <script>
 import MemoryCard from './MemoryCard.vue';
-import Sounds from "../Sounds";
+import {SoundUtils} from "../utils/SoundUtils";
 import Game from "../Game.vue"
 import {ArrayUtils} from "../utils/ArrayUtils";
 import ErrorAnimation from "../ErrorAnimation";
@@ -133,7 +133,7 @@ export default {
         let cardConfig = this.possibleCardConfigs[i];
         this.cards.push(this.createCard(this.cards.length + "A", cardConfig));
         this.cards.push(this.createCard(this.cards.length + "B", cardConfig));
-        Sounds.preload(cardConfig.sound);
+        SoundUtils.preload(cardConfig.sound);
       }
       ArrayUtils.shuffleArray(this.cards);
       this.showAllCards();
@@ -158,23 +158,23 @@ export default {
       }
 
       if (!this.flippedCard) {
-        Sounds.playSound(currentCard.sound);
+        SoundUtils.playSound(currentCard.sound);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
       } else {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
           if (this.checkGameOver()) {
-            Sounds.playBigSuccess();
+            SoundUtils.playBigSuccess();
           } else {
-            Sounds.playSuccess();
+            SoundUtils.playSuccess();
           }
 
           blockCards(this.flippedCard, currentCard)
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          Sounds.playSound(currentCard.sound);
+          SoundUtils.playSound(currentCard.sound);
           setTimeout(function () {
             this.$refs.errorAnimation.showError();
             if (this.flippedCard) {

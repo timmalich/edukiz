@@ -20,7 +20,7 @@ import ImageContainer from "../ImageContainer";
 import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
 import {ArrayUtils} from "../utils/ArrayUtils"
-import Sounds from "../Sounds";
+import {SoundUtils} from "../utils/SoundUtils";
 
 export default {
   name: "DDCharacters",
@@ -92,19 +92,19 @@ export default {
   methods: {
     ondragstart: function(event){
       let dragElement = event.target;
-      Sounds.playCharacter(dragElement.getAttribute('data-identifier'));
+      SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
     },
     ondrop: function (event) {
       let dropElement = event.currentTarget;
       let dragElement = event.relatedTarget;
       let character = dropElement.getAttribute('data-identifier');
-      Sounds.playCharacter(character);
+      SoundUtils.playCharacter(character);
       if (character === dragElement.getAttribute('data-identifier')) {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
           setTimeout(function(){
             this.isGameOver = true;
-            Sounds.playBigSuccess();
+            SoundUtils.playBigSuccess();
           }.bind(this), 800);
         }
         return true;
@@ -119,7 +119,7 @@ export default {
       ArrayUtils.shuffleArray(this.characterConfigs);
       for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
         let config =  this.characterConfigs[i];
-        Sounds.preload(config.character.toLowerCase());
+        SoundUtils.preload(config.character.toLowerCase());
         this.droppableCharacters.push(config);
         this.draggableCharacters.push(config);
       }
