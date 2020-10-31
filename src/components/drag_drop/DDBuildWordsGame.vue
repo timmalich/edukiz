@@ -1,6 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section dropzone" v-bind:style="gridContainer">
+    <div class="drop-section dropzone" v-bind:style="gridContainer"  v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
       <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
                       :src="charConfig.image" class="drop-element"></ImageContainer>
     </div>
@@ -155,6 +155,10 @@ export default {
 
 .drag-success, .drop-element {
   background-color: transparent;
+}
+
+.all-drops-successful{
+  background-color: #24ff02;
 }
 
 </style>
