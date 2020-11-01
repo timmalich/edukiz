@@ -110,6 +110,7 @@ $generalPaddingLeft: 10pt;
   position: absolute;
   display: grid;
   background-color: #37373e;
+  overflow: hidden;
 }
 
 .clickable-elements, .game-button {
