@@ -102,9 +102,11 @@ $generalPaddingLeft: 10pt;
 
 .content-window {
   height: 100%;
+  max-height: 100%;
   padding-right: $generalPaddingRight;
   padding-left: $generalPaddingLeft;
   width: calc(100% - #{$generalPaddingLeft} - #{$generalPaddingRight});
+  max-width: calc(100% - #{$generalPaddingLeft} - #{$generalPaddingRight});
   top: 0;
   left: 0;
   position: absolute;
@@ -131,6 +133,15 @@ $generalPaddingLeft: 10pt;
 .game-button > a {
   color: inherit;
   text-decoration: none;
+}
+
+html { height: 100%; }
+body {
+  width: 100%;
+  height: 100%;
+  min-height:100%;
+  margin: 0;
+  padding: 0;
 }
 
 </style>

@@ -2,16 +2,18 @@
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop"
         :explanation="explanation" @previous="previousLevel" @restart="restart"
         @next="nextLevel">
-    <div class="drop-section" v-bind:style="gridContainer">
-      <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
-                      :data-identifier="charConfig.character" :src="charConfig.image"
-                      class="dropzone empty-droppable-element"></ImageContainer>
-    </div>
-    <div class="spacer"></div>
-    <div class="drag-section" v-bind:style="gridContainer">
-      <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
-                      :data-identifier="charConfig.character" :src="charConfig.image"
-                      class="draggable-element"></ImageContainer>
+    <div class="absolut-content">
+      <div class="drop-section" v-bind:style="gridContainer">
+        <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
+                        :data-identifier="charConfig.character" :src="charConfig.image"
+                        class="dropzone empty-droppable-element"></ImageContainer>
+      </div>
+      <div class="spacer"></div>
+      <div class="drag-section" v-bind:style="gridContainer">
+        <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
+                        :data-identifier="charConfig.character" :src="charConfig.image"
+                        class="draggable-element"></ImageContainer>
+      </div>
     </div>
   </Game>
 </template>
@@ -89,7 +91,7 @@ export default {
       return {
         'grid-template-columns': "repeat(" + elementsInRow + ", minmax(20pt, 1fr))",
         'display': 'grid',
-        'grid-gap': gridGap + 'pt'
+        'grid-gap': gridGap + 'pt',
       }
     }
   },
@@ -153,6 +155,7 @@ export default {
 
 .spacer {
   height: 20%;
+  max-height: 20%;
 }
 
 .drop-section, .drag-section {
@@ -183,6 +186,12 @@ export default {
 
 .drag-success {
   visibility: hidden;
+}
+
+.absolut-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 </style>

@@ -39,12 +39,18 @@ export default {
 
 .content {
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
 }
 
 .game-content {
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: calc(100% - 35pt - 35pt);
+  max-height: calc(100% - 35pt - 35pt);
 }
 
 </style>
