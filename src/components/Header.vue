@@ -1,17 +1,27 @@
 <template>
   <div class="header">
-    <button v-if="navBackPath" @click="navBack" class="game-button"><i class="fas fa-reply"></i></button>
+    <div class="header-left">
+      <button v-if="navBackPath" @click="navBack" class="game-button"><i class="fas fa-reply"></i></button>
+      <button v-if="sound" @click="playGameExplanation" class="game-button"><i class="fas fa-question"
+                                                                               style="font-size: 1.3rem"></i><i
+          style="font-size: 1.2rem" class="fas fa-headphones"></i></button>
+    </div>
     <slot></slot>
   </div>
 </template>
 
 <script>
+import {SoundUtils} from './utils/SoundUtils';
+
 export default {
   name: "Header",
-  props: ['navBackPath'],
+  props: ['navBackPath', 'sound'],
   methods: {
     navBack: function () {
       this.$router.push(this.navBackPath);
+    },
+    playGameExplanation: function () {
+      SoundUtils.playExplanation(this.sound);
     }
   }
 };
@@ -26,5 +36,16 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header-left {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-right: -3pt;
+}
+
+.header-left > button {
+  margin-right: 3pt;
 }
 </style>

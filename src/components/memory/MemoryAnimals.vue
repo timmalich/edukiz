@@ -14,7 +14,7 @@ export default {
     let possibleCardConfigs = [];
     let add = function (img, sound, filetype){
       possibleCardConfigs.push({
-        frontFace: "img/" + img + "." + (filetype ? filetype : "svg"),
+        image: "img/" + img + "." + (filetype ? filetype : "svg"),
         sound: "de/words/" + sound + ".mp3",
       })
     }

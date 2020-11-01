@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <Header :nav-back-path="this.navBackPath">
+    <Header :nav-back-path="this.navBackPath" :sound="this.explanation">
       <slot name="header"></slot>
     </Header>
     <div class="game-content">
       <slot></slot>
     </div>
-    <Footer @previous="previous" @restart="restart" @next="next" />
+    <Footer :is-highlight-animation-running="isHighlightAnimationRunning" @previous="previous" @restart="restart" @next="next" />
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     Header,
     Footer
   },
-  props: ['navBackPath'],
+  props: ['navBackPath', 'isHighlightAnimationRunning', 'explanation'],
   methods: {
     previous: function () {
       this.$emit('previous');

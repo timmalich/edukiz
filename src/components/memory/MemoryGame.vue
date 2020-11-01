@@ -1,5 +1,7 @@
 <template>
-  <Game nav-back-path="/memory" @previous="previousLevel" @restart="generateCards" @next="nextLevel">
+  <Game :is-highlight-animation-running="isGameOver" :explanation="explanation" nav-back-path="/memory"
+        @previous="previousLevel" @restart="generateCards"
+        @next="nextLevel">
     <template v-slot:header>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
@@ -15,21 +17,24 @@
                    :sound="card.sound"
                    :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
     </div>
-    <img src="img/fish8.svg" v-if="isErrorPlaying" class="error-animation" alt="error animation"/>
+    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
 <script>
 import MemoryCard from './MemoryCard.vue';
-import Sounds from "./Sounds";
+import {SoundUtils} from "../utils/SoundUtils";
 import Game from "../Game.vue"
+import {ArrayUtils} from "../utils/ArrayUtils";
+import ErrorAnimation from "../ErrorAnimation";
+
 
 export default {
-  name: "MemoryCharacters",
-  extends: Game,
+  name: "MemoryGame",
   components: {
     MemoryCard,
-    Game
+    Game,
+    ErrorAnimation
   },
   data() {
     function calculateLevels() {
@@ -61,10 +66,12 @@ export default {
       selectedLevel: 4,
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
-      isErrorPlaying: false
+      isGameOver: false,
+      explanation: 'memory'
     };
   },
   created: function () {
+    SoundUtils.playExplanation(this.explanation);
     this.generateCards();
   },
   props: ['possibleCardConfigs'],
@@ -109,41 +116,38 @@ export default {
         this.isBoardLocked = false;
       }
     },
-    shuffle: function (array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      return array;
-    },
     createCard: function (key, cardConfig) {
       return {
-        key: cardConfig.key,
-        frontFace: cardConfig.frontFace,
+        key: key,
+        frontFace: cardConfig.image,
         sound: cardConfig.sound,
       }
     },
     generateCards: function () {
       this.isBoardLocked = true;
       this.isGameStarted = false;
+      this.isGameOver = false;
       clearTimeout(this.timeoutUntilGameStarts);
       this.cards = [];
       this.flippedCard = null;
       let cardAmount = this.getCardAmount(this.levels[this.selectedLevel]);
-      this.shuffle(this.possibleCardConfigs);
+      ArrayUtils.shuffleArray(this.possibleCardConfigs);
       for (let i = 0; i < cardAmount / 2; i++) {
-        this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
-        this.cards.push(this.createCard(this.cards.length, this.possibleCardConfigs[i]));
+        let cardConfig = this.possibleCardConfigs[i];
+        this.cards.push(this.createCard(this.cards.length + "A", cardConfig));
+        this.cards.push(this.createCard(this.cards.length + "B", cardConfig));
+        SoundUtils.preload(cardConfig.sound);
       }
-      this.shuffle(this.cards);
+      ArrayUtils.shuffleArray(this.cards);
       this.showAllCards();
       this.timeoutUntilGameStarts = setTimeout(function () {
         this.startGame();
       }.bind(this), 10000);
     },
-    isGameOver: function () {
+    checkGameOver: function () {
       let cardsInCurrentLevel = this.getCardAmount(this.levels[this.selectedLevel]);
-      return this.solvedCards === cardsInCurrentLevel;
+      this.isGameOver = this.solvedCards === cardsInCurrentLevel;
+      return this.isGameOver;
     },
     cardFlipped: function (currentCard) {
       this.isBoardLocked = true;
@@ -157,30 +161,25 @@ export default {
       }
 
       if (!this.flippedCard) {
-        Sounds.playSound(currentCard.sound);
+        SoundUtils.playSound(currentCard.sound);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
       } else {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
-          if (this.isGameOver()) {
-            Sounds.playBigSuccess();
+          if (this.checkGameOver()) {
+            SoundUtils.playBigSuccess();
           } else {
-            Sounds.playSuccess();
+            SoundUtils.playSuccess();
           }
 
           blockCards(this.flippedCard, currentCard)
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          Sounds.playSound(currentCard.sound);
+          SoundUtils.playSound(currentCard.sound);
           setTimeout(function () {
-            // TODO refactore this all into an error component
-            this.isErrorPlaying = true;
-            Sounds.playError();
-            setTimeout(function () {
-              this.isErrorPlaying = false;
-            }.bind(this), 4000);
+            this.$refs.errorAnimation.showError();
             if (this.flippedCard) {
               this.flippedCard.isFlipped = false;
               this.flippedCard = null;

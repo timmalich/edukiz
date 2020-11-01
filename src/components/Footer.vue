@@ -1,8 +1,8 @@
 <template>
   <div class="footer">
-    <button @click="previous()" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
-    <button @click="restart()" class="game-button"><i class="fas fa-redo-alt"></i></button>
-    <button @click="next()" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></button>
+    <button @click="previous()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
+    <button @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-redo-alt"></i></button>
+    <button @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></button>
     <slot></slot>
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script>
 export default {
   name: "Footer",
+  props: ['isHighlightAnimationRunning'],
   methods: {
     previous: function () {
       this.$emit('previous');
@@ -32,5 +33,23 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@keyframes highlight-animation {
+  33% {
+    background-color: #dcb308;
+    color: #4385f4f0;
+  }
+  66% {
+    background-color: #5fec48;
+    color: rgba(67, 133, 243, 0.94);
+  }
+}
+
+.highlight {
+  animation-name: highlight-animation;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
 }
 </style>
