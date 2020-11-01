@@ -30,9 +30,12 @@ export default {
     }
   },
   methods: {
-    showError: function () {
+    showError: function (soundCallback) {
       let errorDuration = 4000;
-      SoundUtils.playError();
+      let error = SoundUtils.playError();
+      if(typeof soundCallback === 'function'){
+        error.addEventListener('ended', soundCallback, {once: true});
+      }
       this.errors.push({
         image: 'img/' + ArrayUtils.getRandomArrayElement(this.errorImages),
         key: new Date().getTime()

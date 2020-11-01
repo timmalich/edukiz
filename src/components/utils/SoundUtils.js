@@ -6,15 +6,28 @@ export const SoundUtils = {
   preload: function (src) {
     this.preloaded[src] = new Audio("sounds/" + src);
   },
+  playSoundsInRow: function (srcArray){
+    let src = srcArray.shift();
+    let audio = new Audio('sounds/' + src + '.mp3');
+    if(srcArray.length > 0){
+      audio.addEventListener('ended', this.playSoundsInRow.bind(this, srcArray));
+    }
+    audio.play();
+    return audio
+  },
   playSound: function (src) {
     if (this.preloaded[src]) {
       this.preloaded[src].play();
+      return this.preloaded[src];
     } else {
-      new Audio("sounds/" + src).play().then();
+      let audio = new Audio("sounds/" + src);
+      audio.play();
+      return audio;
     }
   },
   playError: function () {
     this.error.play();
+    return this.error;
   },
   playSuccess: function (timeout) {
     if (timeout) {
@@ -35,12 +48,12 @@ export const SoundUtils = {
     }
   },
   playCharacter: function(character){
-    this.playSound(this.getCharacterPath(character));
+    return this.playSound(this.getCharacterPath(character));
   },
   getCharacterPath: function(character){
     return 'de/characters/' + character.toLowerCase() + '.mp3';
   },
   playExplanation: function (file){
-    this.playSound('de/explanations/' + file + '.mp3');
+    return this.playSound('de/explanations/' + file + '.mp3');
   }
 }

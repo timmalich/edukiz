@@ -1,10 +1,12 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation" @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section dropzone" v-bind:style="gridContainer"  v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
+  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
+        @previous="previousLevel" @restart="restart" @next="nextLevel">
+    <div class="drop-section dropzone" v-bind:style="gridContainer"
+         v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
       <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
                       :src="charConfig.image" class="drop-element"></ImageContainer>
     </div>
-    <div class="spacer"></div>
+    <div class="spacer">{{ currentWord }}</div>
     <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
       <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
                       :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
@@ -38,6 +40,7 @@ export default {
       levels: undefined,
       droppedCharacters: [],
       currentWordCharacters: [],
+      currentWord: undefined,
       draggableCharacters: [],
       solvedCharacters: 0,
       isGameOver: false,
@@ -45,10 +48,11 @@ export default {
     };
   },
   created: function () {
-    SoundUtils.playExplanation(this.explanation);
     this.levels = this.wordConfigs.length;
-    this.restart();
+    this.restart(true);
     this.initDragDrop(false);
+    SoundUtils.playExplanation(this.explanation).addEventListener('ended',
+        this.playHelpWord.bind(this));
   },
   computed: {
     gridContainer: function () {
@@ -62,7 +66,14 @@ export default {
     }
   },
   methods: {
-    ondragstart: function(event){
+    playHelpWord: function () {
+      let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
+      for (let char of this.currentWordCharacters) {
+        audios.push('de/characters/dad/' + char.toLowerCase());
+      }
+      SoundUtils.playSoundsInRow(audios);
+    },
+    ondragstart: function (event) {
       let dragElement = event.target;
       SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
     },
@@ -76,30 +87,40 @@ export default {
         let characterConfigForMove = this.draggableCharacters.splice(indexOfElementUnderDrag, 1)[0];
         this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
-          setTimeout(function(){
+          setTimeout(function () {
             this.isGameOver = true;
             SoundUtils.playBigSuccess();
           }.bind(this), 800);
         }
         return true;
-      } else{
-        this.$refs.errorAnimation.showError();
+      } else {
+        this.$refs.errorAnimation.showError(function () {
+          SoundUtils.playSoundsInRow([
+            'de/helpers/du_hast_ein',
+            'de/characters/dad/' + draggedCharacter,
+            'de/helpers/aber_wir_brauchen_ein',
+            'de/characters/dad/' + expectedCharacter
+          ])
+        });
         return false;
       }
     },
-    restart: function () {
+    restart: function (muteWordSound) {
       this.isGameOver = false;
       this.solvedCharacters = 0;
       this.droppedCharacters = [];
       this.draggableCharacters = [];
-      let word = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words);
-      this.currentWordCharacters = word.split('');
-      for(let character of this.currentWordCharacters){
+      this.currentWord = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words).toUpperCase();
+      this.currentWordCharacters = this.currentWord.split('');
+      for (let character of this.currentWordCharacters) {
         SoundUtils.preload(character.toLowerCase());
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);
       this.resetGameComponents();
+      if (!muteWordSound) {
+        this.playHelpWord();
+      }
     },
     resetGameComponents: function () {
       this.resetDragAndDropSuccessions();
@@ -124,6 +145,9 @@ export default {
 
 .spacer {
   height: 30%;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.2rem;
 }
 
 .drop-section, .drag-section {
@@ -159,7 +183,7 @@ export default {
   background-color: transparent;
 }
 
-.all-drops-successful{
+.all-drops-successful {
   background-color: #24ff02;
 }
 
