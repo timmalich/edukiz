@@ -3,7 +3,7 @@
     <Header><button class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></button></Header>
     <NavPage>
       <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games" />
-      <LinkTile title="Bewegen" nav-path="/dragdrop" src="img/games/MemoryBackface.png" alt="drag and drop games" />
+      <LinkTile title="Bewegen" nav-path="/dragdrop" src="img/games/DD.png" alt="drag and drop games" />
     </NavPage>
   </div>
 </template>
