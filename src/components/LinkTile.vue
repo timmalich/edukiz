@@ -36,7 +36,7 @@ export default {
 .link-tile {
   display: flex;
   justify-content: space-between;
-  width: 35%;
+  width: 28%;
   padding: 10pt;
 }
 

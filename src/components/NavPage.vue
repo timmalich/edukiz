@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <Header :nav-back-path="navBackPath" />
+    <Header :nav-back-path="navBackPath">
+      <button class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></button>
+    </Header>
     <div class="link-area">
       <slot></slot>
     </div>
@@ -19,15 +21,13 @@ export default {
 
 <style scoped>
 
-.content {
-  position: relative;
-}
-
 .link-area {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   position: relative;
   max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
 </style>

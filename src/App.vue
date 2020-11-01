@@ -1,6 +1,6 @@
 <template>
   <div class="content-window">
-    <router-view style="position: relative"/>
+    <router-view/>
   </div>
 </template>
 
@@ -24,8 +24,16 @@ $generalPaddingLeft: 10pt;
   top: 0;
   left: 0;
   position: absolute;
-  display: grid;
   background-color: #37373e;
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
   overflow: hidden;
 }
 
@@ -49,13 +57,10 @@ $generalPaddingLeft: 10pt;
   text-decoration: none;
 }
 
-html { height: 100%; }
-body {
-  width: 100%;
+html {
   height: 100%;
-  min-height:100%;
-  margin: 0;
-  padding: 0;
+  background-color: #37373e;
+  width: 100%;
 }
 
 </style>
