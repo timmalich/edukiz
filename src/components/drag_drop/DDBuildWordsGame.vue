@@ -92,6 +92,12 @@ export default {
             this.isGameOver = true;
             SoundUtils.playBigSuccess();
           }.bind(this), 800);
+        }else{
+          let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
+          SoundUtils.playSoundsInRow([
+            'de/helpers/super_und_jetzt_ein',
+            'de/characters/dad/' + nextCharacter,
+          ])
         }
         return true;
       } else {
