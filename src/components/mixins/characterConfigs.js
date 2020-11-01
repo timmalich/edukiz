@@ -8,7 +8,7 @@ export const characterConfigs = {
       characterConfigs.push({
         character: character,
         image: ImageUtils.getCharacterImagePath(character),
-        sound: "de/characters/" + character.toLowerCase() + ".mp3",
+        sound: "de/characters/" + character.toLowerCase(),
       })
     }
     return {

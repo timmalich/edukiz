@@ -15,7 +15,7 @@ export default {
     let add = function (img, sound, filetype){
       possibleCardConfigs.push({
         image: "img/" + img + "." + (filetype ? filetype : "svg"),
-        sound: "de/words/" + sound + ".mp3",
+        sound: "de/words/" + sound,
       })
     }
     add("ambulance1", "krankenwagen");
