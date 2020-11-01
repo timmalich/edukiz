@@ -18,9 +18,9 @@
     "sass-loader": "^10.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.4.5",
-    "vue-sidebar-menu": "^4.7.3",
     "webpack": "^4.44.2",
-    "workbox-strategies": "^5.1.4"
+    "workbox-strategies": "^5.1.4",
+    "font-awesome": "^4.7.0"
   },
   "devDependencies": {
     "@interactjs/interact": "^1.10.0",

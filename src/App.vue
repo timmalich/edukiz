@@ -1,24 +1,6 @@
 <template>
-  <div :class="[{sidebarCollapsed: collapsed}]">
-    <div>
-      <sidebar-menu
-          :menu="menu"
-          :collapsed="collapsed"
-          :theme="selectedTheme"
-          :show-one-child="true"
-          @toggle-collapse="onToggleCollapse"
-      />
-      <div
-          v-if="mobile && !collapsed"
-          class="sidebar-overlay"
-          @click="collapsed = true"
-      />
-    </div>
-    <div
-        :class="[{ sidebarExpanded: (!collapsed && !mobile) }, { sidebarCollapsed: mobile || collapsed }, 'content-window']">
-      <router-view style="position: relative"/>
-    </div>
-
+  <div class="content-window">
+    <router-view style="position: relative"/>
   </div>
 </template>
 
@@ -116,29 +98,18 @@ export default {
 
 <style lang="scss">
 $generalPaddingRight: 10pt;
-$sidebarCollapsedPaddingLeft: 50pt;
+$generalPaddingLeft: 10pt;
 
 .content-window {
   height: 100%;
   padding-right: $generalPaddingRight;
-  width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight});
+  padding-left: $generalPaddingLeft;
+  width: calc(100% - #{$generalPaddingLeft} - #{$generalPaddingRight});
   top: 0;
   left: 0;
   position: absolute;
   display: grid;
   background-color: #37373e;
-}
-
-.sidebarExpanded {
-  padding-left: 270pt;
-  width: calc(100% - 270pt - #{$generalPaddingRight});
-  transition: 0.3s ease;
-  overflow: hidden;
-}
-
-.sidebarCollapsed {
-  padding-left: 50pt;
-  width: calc(100% - #{$sidebarCollapsedPaddingLeft} - #{$generalPaddingRight})
 }
 
 .clickable-elements, .game-button {
@@ -154,6 +125,11 @@ $sidebarCollapsedPaddingLeft: 50pt;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.game-button > a {
+  color: inherit;
+  text-decoration: none;
 }
 
 </style>
