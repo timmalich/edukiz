@@ -15,6 +15,7 @@
                         class="draggable-element"></ImageContainer>
       </div>
     </div>
+    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
@@ -25,12 +26,14 @@ import {dragDrop} from "../mixins/dragDrop"
 import {characterConfigs} from "../mixins/characterConfigs"
 import {ArrayUtils} from "../utils/ArrayUtils"
 import {SoundUtils} from "../utils/SoundUtils";
+import ErrorAnimation from "../ErrorAnimation";
 
 export default {
   name: "DDCharacters",
   components: {
     ImageContainer,
     Game,
+    ErrorAnimation
   },
   mixins: [dragDrop, characterConfigs],
   data() {
@@ -114,8 +117,10 @@ export default {
           }.bind(this), 800);
         }
         return true;
+      } else {
+        this.$refs.errorAnimation.showError();
+        return false;
       }
-      return false;
     },
     restart: function () {
       this.isGameOver = false;
