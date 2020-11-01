@@ -37,7 +37,6 @@ export default {
   data() {
     return {
       selectedLevel: 2,
-      levels: undefined,
       droppedCharacters: [],
       currentWordCharacters: [],
       currentWord: undefined,
@@ -48,7 +47,6 @@ export default {
     };
   },
   created: function () {
-    this.levels = this.wordConfigs.length;
     this.restart(true);
     this.initDragDrop(false);
     SoundUtils.playExplanation(this.explanation).addEventListener('ended',
@@ -132,7 +130,7 @@ export default {
       this.restart();
     },
     nextLevel: function () {
-      if (this.selectedLevel < this.levels) {
+      if (this.selectedLevel < this.wordConfigs.length-1) {
         this.selectedLevel++;
       }
       this.restart();
