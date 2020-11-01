@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-content">
     <Header><button class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></button></Header>
     <NavPage>
       <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games" />
@@ -23,4 +23,7 @@ export default {
 </script>
 
 <style scoped>
+.home-content {
+  padding-bottom: 50pt;
+}
 </style>
