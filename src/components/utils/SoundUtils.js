@@ -29,7 +29,7 @@ export const SoundUtils = {
       this.preloaded[src].play();
       return this.preloaded[src];
     } else {
-      let audio = new Audio("sounds/" + src);
+      let audio = new Audio("sounds/" + src + '.mp3');
       this.audios.push(audio);
       audio.play();
       return audio;
@@ -56,14 +56,15 @@ export const SoundUtils = {
     } else {
       this.bigSuccess.play();
     }
+    return this.bigSuccess;
   },
   playCharacter: function(character){
     return this.playSound(this.getCharacterPath(character));
   },
   getCharacterPath: function(character){
-    return 'de/characters/' + character.toLowerCase() + '.mp3';
+    return 'de/characters/' + character.toLowerCase();
   },
   playExplanation: function (file){
-    return this.playSound('de/explanations/' + file + '.mp3');
+    return this.playSound('de/explanations/' + file);
   }
 }

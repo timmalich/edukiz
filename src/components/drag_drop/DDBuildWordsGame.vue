@@ -88,11 +88,11 @@ export default {
         let characterConfigForMove = this.draggableCharacters.splice(indexOfElementUnderDrag, 1)[0];
         this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
-          setTimeout(function () {
-            this.isGameOver = true;
-            SoundUtils.playBigSuccess();
-          }.bind(this), 800);
-        }else{
+          this.isGameOver = true;
+          SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
+              .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
+              );
+        } else {
           let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
           SoundUtils.playSoundsInRow([
             'de/helpers/super_und_jetzt_ein',
