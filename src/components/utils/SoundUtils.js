@@ -6,9 +6,18 @@ export const SoundUtils = {
   preload: function (src) {
     this.preloaded[src] = new Audio("sounds/" + src + '.mp3');
   },
+  audios: [],
+  stopAll: function (){
+    let audio;
+    while ((audio = this.audios.pop())){
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  },
   playSoundsInRow: function (srcArray){
     let src = srcArray.shift();
     let audio = new Audio('sounds/' + src + '.mp3');
+    this.audios.push(audio);
     if(srcArray.length > 0){
       audio.addEventListener('ended', this.playSoundsInRow.bind(this, srcArray));
     }
@@ -21,6 +30,7 @@ export const SoundUtils = {
       return this.preloaded[src];
     } else {
       let audio = new Audio("sounds/" + src);
+      this.audios.push(audio);
       audio.play();
       return audio;
     }

@@ -78,6 +78,7 @@ export default {
       SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
     },
     ondrop: function (event) {
+      SoundUtils.stopAll();
       let dragElement = event.relatedTarget;
       let draggedCharacter = dragElement.getAttribute('data-identifier').toLowerCase();
       let expectedCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
@@ -100,7 +101,7 @@ export default {
             'de/characters/dad/' + draggedCharacter,
             'de/helpers/aber_wir_brauchen_ein',
             'de/characters/dad/' + expectedCharacter
-          ])
+          ]);
         });
         return false;
       }
@@ -110,6 +111,7 @@ export default {
       this.solvedCharacters = 0;
       this.droppedCharacters = [];
       this.draggableCharacters = [];
+      SoundUtils.stopAll();
       this.currentWord = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words).toUpperCase();
       this.currentWordCharacters = this.currentWord.split('');
       for (let character of this.currentWordCharacters) {
