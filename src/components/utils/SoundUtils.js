@@ -4,7 +4,7 @@ export const SoundUtils = {
   bigSuccess: new Audio("sounds/big_success1.mp3"),
   preloaded: {},
   preload: function (src) {
-    this.preloaded[src] = new Audio("sounds/" + src);
+    this.preloaded[src] = new Audio("sounds/" + src + '.mp3');
   },
   playSoundsInRow: function (srcArray){
     let src = srcArray.shift();

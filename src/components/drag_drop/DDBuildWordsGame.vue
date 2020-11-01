@@ -111,7 +111,7 @@ export default {
       this.currentWord = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words).toUpperCase();
       this.currentWordCharacters = this.currentWord.split('');
       for (let character of this.currentWordCharacters) {
-        SoundUtils.preload(character.toLowerCase());
+        SoundUtils.preload('de/characters/' + character.toLowerCase());
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);
