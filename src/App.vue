@@ -24,8 +24,8 @@ $generalPaddingLeft: 10pt;
   top: 0;
   left: 0;
   position: absolute;
+  margin: 0;
   background-color: #37373e;
-  overflow: hidden;
 }
 
 .content {
@@ -34,7 +34,6 @@ $generalPaddingLeft: 10pt;
   max-width: 100%;
   height: 100%;
   max-height: 100%;
-  overflow: hidden;
 }
 
 .clickable-elements, .game-button {
@@ -59,8 +58,29 @@ $generalPaddingLeft: 10pt;
 
 html {
   height: 100%;
-  background-color: #37373e;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 100%;
   width: 100%;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  background-color: #37373e;
+}
+
+body {
+  display: flex;
+  height: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  width: 100%;
+  background-color: #37373e;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
 }
 
 </style>

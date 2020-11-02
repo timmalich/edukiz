@@ -27,6 +27,7 @@ export default {
   justify-content: center;
   position: relative;
   max-width: 100%;
+  height: auto;
   max-height: 100%;
   overflow: auto;
 }
