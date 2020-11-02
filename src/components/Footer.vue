@@ -1,8 +1,8 @@
 <template>
   <div class="footer">
-    <button @click="previous()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></button>
-    <button @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-redo-alt"></i></button>
-    <button @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></button>
+    <div @click="previous()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></div>
+    <div @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-redo-alt"></i></div>
+    <div @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></div>
     <slot></slot>
   </div>
 </template>

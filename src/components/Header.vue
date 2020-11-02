@@ -1,10 +1,10 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <button v-if="navBackPath" @click="navBack" class="game-button"><i class="fas fa-reply"></i></button>
-      <button v-if="sound" @click="playGameExplanation" class="game-button"><i class="fas fa-question"
+      <div v-if="navBackPath" @click="navBack" class="game-button"><i class="fas fa-reply"></i></div>
+      <div v-if="sound" @click="playGameExplanation" class="game-button"><i class="fas fa-question"
                                                                                style="font-size: 1.3rem"></i><i
-          style="font-size: 1.2rem" class="fas fa-headphones"></i></button>
+          style="font-size: 1.2rem" class="fas fa-headphones"></i></div>
     </div>
     <slot></slot>
   </div>
@@ -45,7 +45,7 @@ export default {
   margin-right: -3pt;
 }
 
-.header-left > button {
+.header-left > div {
   margin-right: 3pt;
 }
 </style>

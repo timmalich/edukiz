@@ -40,20 +40,24 @@ $generalPaddingLeft: 10pt;
   color: #ffffff;
   background-color: #4385f4f0;
   border-radius: 5pt;
+  touch-action: manipulation;
 }
 
 .game-button {
   height: 30pt;
-  width: 30pt;
+  width: 40pt;
   font-size: 1.7rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  // apple ignores touch-action: manipulation on input fields... therefore this will work on divs only
+  touch-action: manipulation;
 }
 
 .game-button > a {
   color: inherit;
   text-decoration: none;
+  touch-action: manipulation;
 }
 
 html {
@@ -81,6 +85,7 @@ body {
   top: 0;
   left: 0;
   margin: 0;
+  touch-action: manipulation;
 }
 
 </style>

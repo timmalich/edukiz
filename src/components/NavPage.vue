@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <Header :nav-back-path="navBackPath">
-      <button class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></button>
+      <div class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></div>
     </Header>
     <div class="link-area">
       <slot></slot>
