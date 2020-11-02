@@ -2,18 +2,16 @@
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop"
         :explanation="explanation" @previous="previousLevel" @restart="restart"
         @next="nextLevel">
-    <div class="absolut-content">
-      <div class="drop-section" v-bind:style="gridContainer">
-        <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
-                        :data-identifier="charConfig.character" :src="charConfig.image"
-                        class="dropzone empty-droppable-element"></ImageContainer>
-      </div>
-      <div class="spacer"></div>
-      <div class="drag-section" v-bind:style="gridContainer">
-        <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
-                        :data-identifier="charConfig.character" :src="charConfig.image"
-                        class="draggable-element"></ImageContainer>
-      </div>
+    <div class="drop-section" v-bind:style="gridContainer">
+      <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"
+                      :data-identifier="charConfig.character" :src="charConfig.image"
+                      class="dropzone empty-droppable-element"></ImageContainer>
+    </div>
+    <div class="spacer"></div>
+    <div class="drag-section" v-bind:style="gridContainer">
+      <ImageContainer v-for="charConfig in draggableCharacters" :key="charConfig.character"
+                      :data-identifier="charConfig.character" :src="charConfig.image"
+                      class="draggable-element"></ImageContainer>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
@@ -191,12 +189,6 @@ export default {
 
 .drag-success {
   visibility: hidden;
-}
-
-.absolut-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
 }
 
 </style>

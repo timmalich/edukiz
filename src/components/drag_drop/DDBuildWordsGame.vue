@@ -1,20 +1,18 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
         @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="absolut-content">
-      <div class="drop-section dropzone" v-bind:style="gridContainer"
-           v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
-        <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
-                        :src="charConfig.image" class="drop-element"></ImageContainer>
-      </div>
-      <div class="spacer">{{ currentWord }}</div>
-      <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
-        <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
-                        :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
-                        class="draggable-element" ref="draggables"></ImageContainer>
-      </div>
-      <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
+    <div class="drop-section dropzone" v-bind:style="gridContainer"
+         v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
+      <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
+                      :src="charConfig.image" class="drop-element"></ImageContainer>
     </div>
+    <div class="spacer">{{ currentWord }}</div>
+    <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
+      <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
+                      :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
+                      class="draggable-element" ref="draggables"></ImageContainer>
+    </div>
+    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
@@ -194,12 +192,5 @@ export default {
 .all-drops-successful {
   background-color: #24ff02;
 }
-
-.absolut-content {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
 
 </style>

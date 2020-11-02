@@ -6,7 +6,7 @@
 <script>
 export default {
   name: "ImageContainer",
-  props: ['width', 'height', 'src']
+  props: ['src']
 };
 
 </script>
@@ -28,6 +28,7 @@ export default {
 }
 
 .wrapper > img {
+  position: absolute;
   margin: auto;
   width: 100%;
   height: auto;
