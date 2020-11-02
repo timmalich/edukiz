@@ -25,6 +25,8 @@ export default {
   min-width: 30pt;
   min-height: 25pt;
   border-radius: 15pt;
+  justify-content: center;
+  align-items: center;
 }
 
 .wrapper > img {
