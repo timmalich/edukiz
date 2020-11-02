@@ -71,6 +71,9 @@ export default {
     this.restart();
     this.initDragDrop(true);
   },
+  destroyed: function (){
+    SoundUtils.stopAll();
+  },
   computed: {
     gridContainer: function () {
       let maxElementsInRow = 7;

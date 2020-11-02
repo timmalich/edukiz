@@ -52,6 +52,9 @@ export default {
     SoundUtils.playExplanation(this.explanation).addEventListener('ended',
         this.playHelpWord.bind(this));
   },
+  destroyed: function (){
+    SoundUtils.stopAll();
+  },
   computed: {
     gridContainer: function () {
       let characterAmount = this.wordConfigs[this.selectedLevel].wordLength;

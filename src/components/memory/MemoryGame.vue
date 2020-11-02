@@ -74,6 +74,9 @@ export default {
     SoundUtils.playExplanation(this.explanation);
     this.generateCards();
   },
+  destroyed: function (){
+    SoundUtils.stopAll();
+  },
   props: ['possibleCardConfigs'],
   methods: {
     isCurrentLevelMaxLevel: function () {
