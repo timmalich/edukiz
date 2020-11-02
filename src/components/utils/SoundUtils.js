@@ -2,9 +2,9 @@ export const SoundUtils = {
   error: new Audio("sounds/error1.mp3"),
   success: new Audio("sounds/success1.mp3"),
   bigSuccess: new Audio("sounds/big_success1.mp3"),
-  preloaded: {},
+  cache: {},
   preload: function (src) {
-    this.preloaded[src] = new Audio("sounds/" + src + '.mp3');
+    this.cache[src] = new Audio("sounds/" + src + '.mp3');
   },
   audios: [],
   stopAll: function (){
@@ -16,18 +16,24 @@ export const SoundUtils = {
   },
   playSoundsInRow: function (srcArray){
     let src = srcArray.shift();
-    let audio = new Audio('sounds/' + src + '.mp3');
+    let audio;
+    if (this.cache[src]) {
+      this.cache[src].play();
+      audio = this.cache[src];
+    }else{
+     audio = new Audio('sounds/' + src + '.mp3');
+    }
     this.audios.push(audio);
     if(srcArray.length > 0){
-      audio.addEventListener('ended', this.playSoundsInRow.bind(this, srcArray));
+      audio.addEventListener('ended', this.playSoundsInRow.bind(this, srcArray), {once: true});
     }
     audio.play();
     return audio
   },
   playSound: function (src) {
-    if (this.preloaded[src]) {
-      this.preloaded[src].play();
-      return this.preloaded[src];
+    if (this.cache[src]) {
+      this.cache[src].play();
+      return this.cache[src];
     } else {
       let audio = new Audio("sounds/" + src + '.mp3');
       this.audios.push(audio);
