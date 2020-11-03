@@ -63,7 +63,22 @@ npm run lint
 npm run prettier
 ```
 
+### Release
+Run: `npm run-script tag-deployment`
+
 ### Distribute
+For some reason it's currently almost impossible to get a free and valid SSL certificate for the current webhoster (see distribute old).
+Therefore, I simply decided to a github page again to distribute the content. 
+But: This made the repository unnecessary huge and was horrible to maintain.
+Therefore, I just created a second repository https://github.com/timmalich/edukiz_live. 
+
+To distribute: 
+- clone the other repository too
+- Name it edukiz_live
+- put it next to this repository
+- run: `npm run-script deploy-github`
+
+### Distribute (deprecated but still alive)
 I'm just using the first recommended free webhoster for distribution. 
 Previously I just put the 'dist' folder on a separate github branch and distributed it directly as github page.
 But: This makes the repository unnecessary huge and is horrible to maintain.

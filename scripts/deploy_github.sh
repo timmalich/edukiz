@@ -11,5 +11,5 @@ cd ../edukiz_live/ || exit 1
 git add -A
 git commit -m "${COMMIT_MSG}"
 git tag -a "${LATEST_TAG}" -m "${COMMIT_MSG}"
-git push
+git push --force origin "${LATEST_TAG}"
 echo -e '\033[0;32m \t Success!!!! Yeah!!! '
