@@ -35,10 +35,10 @@ export const SoundUtils = {
     return this.playSound("error1");
   },
   playSuccess: function () {
-    return this.playSound("success1.mp3")
+    return this.playSound("success1")
   },
   playBigSuccess: function () {
-    return this.playSound("big_success1.mp3")
+    return this.playSound("big_success1")
   },
   playCharacter: function (character) {
     return this.playSound(this.getCharacterPath(character));
