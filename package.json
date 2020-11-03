@@ -7,6 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "distribute": "scripts/distribute.sh",
+    "deploy-github": "scripts/deploy_github.sh",
+    "tag-deployment": "scripts/tagDeployment.sh",
     "prettier": "npx prettier --write ./src",
     "test": "jest"
   },
