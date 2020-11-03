@@ -1,76 +1,52 @@
 export const SoundUtils = {
-  error: new Audio("sounds/error1.mp3"),
-  success: new Audio("sounds/success1.mp3"),
-  bigSuccess: new Audio("sounds/big_success1.mp3"),
-  cache: {},
-  preload: function (src) {
-    this.cache[src] = new Audio("sounds/" + src + '.mp3');
-  },
   audios: [],
-  stopAll: function (){
-    let audio;
-    while ((audio = this.audios.pop())){
-      audio.pause();
-      audio.currentTime = 0;
+  preload: function (src) {
+    this.audios[src] = new Audio("sounds/" + src + '.mp3');
+  },
+  stopAll: function () {
+    for (let src in this.audios) {
+      this.audios[src].pause();
+      this.audios[src].currentTime = 0;
     }
   },
-  playSoundsInRow: function (srcArray){
-    let src = srcArray.shift();
-    let audio;
-    if (this.cache[src]) {
-      this.cache[src].play();
-      audio = this.cache[src];
-    }else{
-     audio = new Audio('sounds/' + src + '.mp3');
-    }
-    this.audios.push(audio);
-    if(srcArray.length > 0){
-      audio.addEventListener('ended', this.playSoundsInRow.bind(this, srcArray), {once: true});
-    }
-    audio.play();
-    return audio
-  },
-  playSound: function (src) {
-    if (this.cache[src]) {
-      this.cache[src].play();
-      return this.cache[src];
-    } else {
-      let audio = new Audio("sounds/" + src + '.mp3');
-      this.audios.push(audio);
-      audio.play();
+  getFromCache: function(src){
+    let audio = this.audios[src];
+    if(audio && audio.readyState){
       return audio;
     }
   },
+  playSoundsInRow: function (srcArray) {
+    let src = srcArray.shift();
+    if (srcArray.length > 0) {
+      return this.playSound(src).addEventListener('ended', this.playSoundsInRow.bind(this, srcArray), {once: true});
+    }
+    return this.playSound(src);
+  },
+  playSound: function (src) {
+    let audio = this.getFromCache(src);
+    if (!audio) {
+      audio = new Audio("sounds/" + src + '.mp3');
+      this.audios[src] = audio;
+    }
+    audio.play();
+    return audio;
+  },
   playError: function () {
-    this.error.play();
-    return this.error;
+    return this.playSound("error1");
   },
-  playSuccess: function (timeout) {
-    if (timeout) {
-      setTimeout(function () {
-        this.success.play()
-      }.bind(this), timeout);
-    } else {
-      this.success.play();
-    }
+  playSuccess: function () {
+    return this.playSound("success1.mp3")
   },
-  playBigSuccess: function (timeout) {
-    if (timeout) {
-      setTimeout(function () {
-        this.bigSuccess.play()
-      }.bind(this), timeout);
-    } else {
-      this.bigSuccess.play();
-    }
-    return this.bigSuccess;
+  playBigSuccess: function () {
+    return this.playSound("big_success1.mp3")
   },
-  playCharacter: function(character){
+  playCharacter: function (character) {
     return this.playSound(this.getCharacterPath(character));
   },
-  getCharacterPath: function(character){
+  getCharacterPath: function (character) {
     return 'de/characters/' + character.toLowerCase();
   },
-  playExplanation: function (file){
+  playExplanation: function (file) {
     return this.playSound('de/explanations/' + file);
   }
 }

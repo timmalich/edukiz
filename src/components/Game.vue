@@ -43,6 +43,7 @@ export default {
   max-width: 100%;
   height: calc(100% - 35pt - 35pt);
   max-height: calc(100% - 35pt - 35pt);
+  overflow: hidden;
 }
 
 </style>
