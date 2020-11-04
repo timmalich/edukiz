@@ -1,12 +1,17 @@
 export const SoundUtils = {
-  audios: [],
+  audios: {},
+  eventListeners: [],
   preload: function (src) {
     this.audios[src] = new Audio("sounds/" + src + '.mp3');
   },
   stopAll: function () {
-    for (let src in this.audios) {
-      this.audios[src].pause();
-      this.audios[src].currentTime = 0;
+    for (const eventListener of this.eventListeners) {
+      this.audios[eventListener.src].removeEventListener('ended', eventListener.listener);
+    }
+
+    for (const audio of Object.values(this.audios)) {
+      audio.pause();
+      audio.currentTime = 0;
     }
   },
   getFromCache: function(src){
@@ -17,9 +22,13 @@ export const SoundUtils = {
   },
   playSoundsInRow: function (srcArray) {
     let src = srcArray.shift();
+    this.eventListeners.shift();
     if (srcArray.length > 0) {
-      return this.playSound(src).addEventListener('ended', this.playSoundsInRow.bind(this, srcArray), {once: true});
+      let nextSound = this.playSoundsInRow.bind(this, srcArray);
+      this.eventListeners.push({src: src, listener: nextSound});
+      return this.playSound(src).addEventListener('ended', nextSound, {once: true});
     }
+
     return this.playSound(src);
   },
   playSound: function (src) {
