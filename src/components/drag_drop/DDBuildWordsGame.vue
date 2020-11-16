@@ -67,9 +67,6 @@ export default {
     }
   },
   methods: {
-    showRewardPreview: function (){
-      this.$eventHub.$emit('showRewardPreview')
-    },
     playHelpWord: function () {
       let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
       for (let char of this.currentWordCharacters) {
@@ -93,12 +90,13 @@ export default {
         this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           this.isGameOver = true;
+          this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
           SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
               .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
               );
         } else {
           let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
-          this.showRewardPreview();
+          this.$eventHub.$emit('showRewardPreview');
           SoundUtils.playSoundsInRow([
             'de/helpers/super_und_jetzt_ein',
             'de/characters/dad/' + nextCharacter,

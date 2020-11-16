@@ -17,6 +17,7 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(VueLogger);
 Vue.prototype.$eventHub = new Vue();
+localStorage.rewards = 0;
 
 const router = new VueRouter({
   routes: [

@@ -66,14 +66,6 @@ export default {
   transition: transform 0.6s;
 }
 
-.no-drag {
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-}
-
 .back-face {
   object-fit: cover;
 }

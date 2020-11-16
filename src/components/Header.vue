@@ -9,15 +9,15 @@
     <div class="header-center">
       <div @click="showRewardPreview()" class="reward">
         <div>{{ rewards }}</div>
-        <img v-bind:class="[{'reward-final': isRewardFinalActive} ]" src="img/star1.svg" alt="reward"/>
+        <img class="no-drag" v-bind:class="[{'reward-final': isRewardFinalActive}]" v-bind:style="rewardFinal" src="img/star1.svg" alt="reward"/>
       </div>
     </div>
     <div class="header-right">
       <slot></slot>
     </div>
     <img v-if="isRewardPreviewActive || isRewardShowActive"
-         v-bind:class="[{ 'reward-preview' : isRewardPreviewActive }, {'reward-show': isRewardShowActive} ]"
-         src=" img/star2.svg" alt="reward-preview"/>
+         v-bind:class="[{ 'reward-preview' : isRewardPreviewActive }, {'reward-show': isRewardShowActive}]"
+         src=" img/star2.svg" class="no-drag" alt="reward-preview"/>
   </div>
 </template>
 
@@ -29,19 +29,33 @@ export default {
   props: ['navBackPath', 'sound'],
   data() {
     return {
-      rewards: 1,
+      rewards: 0,
+      currentNewRewards: 0,
       isRewardPreviewActive: false,
       isRewardShowActive: false,
       isRewardFinalActive: false
     }
   },
-  created() {
+  mounted: function () {
     this.$eventHub.$on('showRewardPreview', this.showRewardPreview);
-    this.$eventHub.$on('showReward', this.showRewardPreview);
+    this.$eventHub.$on('showReward', this.showReward);
+    this.rewards = localStorage.rewards ? localStorage.rewards : 0;
+  },
+  watch: {
+    rewards(newRewards) {
+      localStorage.rewards = newRewards;
+    }
   },
   beforeDestroy() {
     this.$eventHub.$off('showRewardPreview');
     this.$eventHub.$off('showReward');
+  },
+  computed: {
+    rewardFinal: function () {
+      return {
+        'animation-iteration-count': this.currentNewRewards
+      }
+    }
   },
   methods: {
     navBack: function () {
@@ -49,9 +63,6 @@ export default {
     },
     playGameExplanation: function () {
       SoundUtils.playExplanation(this.sound);
-    },
-    increaseRewards: function (amount) {
-      this.rewards += amount;
     },
     showRewardPreview: function () {
       if (!this.isRewardPreviewActive) {
@@ -61,18 +72,29 @@ export default {
         }.bind(this), 2000);
       }
     },
-    showReward: function () {
+    showReward: function (increaseRewardAmount) {
+      increaseRewardAmount = parseInt(increaseRewardAmount) || 1;
       if (!this.isRewardShowActive) {
+        // this is the first animation. within 4 seconds the big star will be shown and slowly merge to the header star
+        // afterwards the header star will spin too
         this.isRewardShowActive = true;
         setTimeout(function () {
           this.isRewardShowActive = false;
         }.bind(this), 4000);
-        setTimeout(function(){
+        setTimeout(function () {
+          // this is the second animation. the spinning star in the header
+          // for every award we will let it spin 1 round in 1 second
+          this.currentNewRewards = increaseRewardAmount;
+          for (let i = 1; i <= increaseRewardAmount; i++) {
+            setTimeout(function () {
+              this.rewards = parseInt(this.rewards) + 1 || 1;
+            }.bind(this), i * 1000);
+          }
           if (!this.isRewardFinalActive) {
             this.isRewardFinalActive = true;
             setTimeout(function () {
               this.isRewardFinalActive = false;
-            }.bind(this), 4000);
+            }.bind(this), increaseRewardAmount * 1000 + 1000);
           }
         }.bind(this), 3500)
       }
@@ -220,15 +242,16 @@ export default {
 
 .reward-final {
   animation-name: reward-final-animation;
-  animation-duration: 4s;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
 }
 
 @keyframes reward-final-animation {
-  0%{
+  0% {
     transform: rotateY(0deg);
   }
   100% {
-    transform: rotateY(1440deg);
+    transform: rotateY(360deg);
   }
 }
 
