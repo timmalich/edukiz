@@ -1,6 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
-        @previous="previousLevel" @restart="restart" @next="nextLevel">
+        @previous="previousLevel" @restart="restart" @next="nextLevel" :bus="bus">
     <div class="drop-section dropzone" v-bind:style="gridContainer"
          v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
       <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
@@ -67,6 +67,9 @@ export default {
     }
   },
   methods: {
+    showRewardPreview: function (){
+      this.$eventHub.$emit('showRewardPreview')
+    },
     playHelpWord: function () {
       let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
       for (let char of this.currentWordCharacters) {
@@ -95,6 +98,7 @@ export default {
               );
         } else {
           let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
+          this.showRewardPreview();
           SoundUtils.playSoundsInRow([
             'de/helpers/super_und_jetzt_ein',
             'de/characters/dad/' + nextCharacter,

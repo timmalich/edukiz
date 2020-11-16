@@ -31,6 +31,12 @@ export default {
       isRewardPreviewActive: false
     }
   },
+  created() {
+    this.$eventHub.$on('showRewardPreview', this.showRewardPreview);
+  },
+  beforeDestroy() {
+    this.$eventHub.off('showRewardPreview');
+  },
   methods: {
     navBack: function () {
       this.$router.push(this.navBackPath);
