@@ -7,7 +7,7 @@
           style="font-size: 1.2rem" class="fas fa-headphones"></i></div>
     </div>
     <div class="header-center">
-      <div class="reward" v-if="this.isRewardVisible()">
+      <div @click="showRewardPreview()" class="reward">
         <div>{{ rewards }}</div>
         <img src="img/star1.svg" alt="reward"/>
       </div>
@@ -15,9 +15,7 @@
     <div class="header-right">
       <slot></slot>
     </div>
-    <transition :duration="2000" name="fade">
-      <img class="reward-preview" src="img/star2.svg" alt="reward-preview"/>
-    </transition>
+    <img v-if="isRewardPreviewActive" class="reward-preview" src="img/star2.svg" alt="reward-preview"/>
   </div>
 </template>
 
@@ -29,18 +27,8 @@ export default {
   props: ['navBackPath', 'sound'],
   data() {
     return {
-      rewards: 1
-    }
-  },
-  computed: {
-    rewAni: function () {
-      let characterAmount = this.wordConfigs[this.selectedLevel].wordLength;
-      let gridGap = 2;
-      return {
-        'grid-template-columns': "repeat(" + characterAmount + ", minmax(20pt, 1fr))",
-        'display': 'grid',
-        'grid-gap': gridGap + 'pt'
-      }
+      rewards: 1,
+      isRewardPreviewActive: false
     }
   },
   methods: {
@@ -53,8 +41,14 @@ export default {
     increaseRewards: function (amount) {
       this.rewards += amount;
     },
-    isRewardVisible: function () {
-      return this.rewards > 0;
+    showRewardPreview: function () {
+      if(this.isRewardPreviewActive){
+        return;
+      }
+      this.isRewardPreviewActive = true;
+      setTimeout(function (){
+        this.isRewardPreviewActive = false;
+      }.bind(this), 2000);
     }
   }
 };
@@ -122,7 +116,6 @@ export default {
   animation-name: reward-preview-animation;
   overflow: hidden;
   animation-duration: 2s;
-  animation-iteration-count: 200; // TODO remove
   animation-direction: reverse;
 }
 
@@ -130,13 +123,12 @@ export default {
   0% {
     visibility: visible;
     transform: rotate(-45grad);
-    bottom: 0;
   }
   25% {
     transform: rotate(45grad);
   }
   37.5% {
-    bottom: -100%; // TODO var
+    bottom: -40%;
   }
   50% {
     transform: rotate(-45grad);
@@ -146,7 +138,7 @@ export default {
   }
   100% {
     transform: rotate(-45grad);
-    bottom: 0;
+    bottom: -90%;
     visibility: hidden;
   }
 }
