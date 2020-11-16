@@ -1,6 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
-        @previous="previousLevel" @restart="restart" @next="nextLevel" :bus="bus">
+        @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section dropzone" v-bind:style="gridContainer"
          v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
       <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
