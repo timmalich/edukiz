@@ -1,5 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
+        :current-level="selectedLevel"
         @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="drop-section dropzone" v-bind:style="gridContainer"
          v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
@@ -52,7 +53,7 @@ export default {
     SoundUtils.playExplanation(this.explanation).addEventListener('ended',
         this.playHelpWord.bind(this));
   },
-  destroyed: function (){
+  destroyed: function () {
     SoundUtils.stopAll();
   },
   computed: {
@@ -90,7 +91,7 @@ export default {
         this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           this.isGameOver = true;
-          this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
+          this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
           SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
               .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
               );

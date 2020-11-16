@@ -9,7 +9,8 @@
     <div class="header-center">
       <div @click="showRewardPreview()" class="reward">
         <div>{{ rewards }}</div>
-        <img class="no-drag" v-bind:class="[{'reward-final': isRewardFinalActive}]" v-bind:style="rewardFinal" src="img/star1.svg" alt="reward"/>
+        <img class="no-drag" v-bind:class="[{'reward-final': isRewardFinalActive}]" v-bind:style="rewardFinal"
+             :src="getRewardHeaderImage()" alt="reward"/>
       </div>
     </div>
     <div class="header-right">
@@ -17,7 +18,7 @@
     </div>
     <img v-if="isRewardPreviewActive || isRewardShowActive"
          v-bind:class="[{ 'reward-preview' : isRewardPreviewActive }, {'reward-show': isRewardShowActive}]"
-         src=" img/star2.svg" class="no-drag" alt="reward-preview"/>
+         :src="getNextRewardImage()" class="no-drag" alt="reward-preview"/>
   </div>
 </template>
 
@@ -26,14 +27,15 @@ import {SoundUtils} from './utils/SoundUtils';
 
 export default {
   name: "Header",
-  props: ['navBackPath', 'sound'],
+  props: ['navBackPath', 'sound', 'currentLevel'],
   data() {
     return {
       rewards: 0,
       currentNewRewards: 0,
       isRewardPreviewActive: false,
       isRewardShowActive: false,
-      isRewardFinalActive: false
+      isRewardFinalActive: false,
+      rewardImages: ['star1', 'star2', 'star3', 'star4', 'star5']
     }
   },
   mounted: function () {
@@ -58,6 +60,28 @@ export default {
     }
   },
   methods: {
+    getDecimalPart: function(n){
+      n+="";
+      return n = parseInt(n.slice(n.length-2, n.length-1)) || 0;
+    },
+    getRewardHeaderImage: function () {
+      let n = this.getDecimalPart(this.rewards);
+      // n is a number between 0 and 9 now. so we need to ensure that it's bigger than our image array length
+      n = n % this.rewardImages.length;
+      return "img/" + this.rewardImages[n] + ".svg";
+    },
+    getNextRewardImage: function (){
+      let lastNumberOfCurrentRewards = this.rewards+"";
+      lastNumberOfCurrentRewards = parseInt(lastNumberOfCurrentRewards.slice(lastNumberOfCurrentRewards.length-1)) || 0;
+
+      let n = this.getDecimalPart(this.rewards);
+      // only show the next reward animation if it can be reached on current success
+      if(this.currentLevel + 1 + lastNumberOfCurrentRewards >= 10){
+        n++;
+      }
+      n = n % this.rewardImages.length;
+      return "img/" + this.rewardImages[n] + ".svg"
+    },
     navBack: function () {
       this.$router.push(this.navBackPath);
     },

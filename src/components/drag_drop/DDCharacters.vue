@@ -1,6 +1,6 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop"
-        :explanation="explanation" @previous="previousLevel" @restart="restart"
+        :explanation="explanation" @previous="previousLevel" @restart="restart" :current-level="selectedLevel"
         @next="nextLevel">
     <div class="drop-section" v-bind:style="gridContainer">
       <ImageContainer v-for="charConfig in droppableCharacters" :key="charConfig.character"

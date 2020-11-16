@@ -1,7 +1,7 @@
 <template>
   <Game :is-highlight-animation-running="isGameOver" :explanation="explanation" nav-back-path="/memory"
         @previous="previousLevel" @restart="generateCards"
-        @next="nextLevel">
+        @next="nextLevel" :current-level="selectedLevel">
     <template v-slot:header>
       <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
         <option v-for="(level, index) in levels" :key="index" :value="index">
