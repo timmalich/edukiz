@@ -7,9 +7,9 @@
           style="font-size: 1.2rem" class="fas fa-headphones"></i></div>
     </div>
     <div class="header-center">
-      <div @click="showReward()" class="reward">
+      <div @click="showRewardPreview()" class="reward">
         <div>{{ rewards }}</div>
-        <img src="img/star1.svg" alt="reward"/>
+        <img v-bind:class="[{'reward-final': isRewardFinalActive} ]" src="img/star1.svg" alt="reward"/>
       </div>
     </div>
     <div class="header-right">
@@ -31,14 +31,17 @@ export default {
     return {
       rewards: 1,
       isRewardPreviewActive: false,
-      isRewardShowActive: false
+      isRewardShowActive: false,
+      isRewardFinalActive: false
     }
   },
   created() {
     this.$eventHub.$on('showRewardPreview', this.showRewardPreview);
+    this.$eventHub.$on('showReward', this.showRewardPreview);
   },
   beforeDestroy() {
-    this.$eventHub.off('showRewardPreview');
+    this.$eventHub.$off('showRewardPreview');
+    this.$eventHub.$off('showReward');
   },
   methods: {
     navBack: function () {
@@ -51,22 +54,28 @@ export default {
       this.rewards += amount;
     },
     showRewardPreview: function () {
-      if (this.isRewardPreviewActive) {
-        return;
+      if (!this.isRewardPreviewActive) {
+        this.isRewardPreviewActive = true;
+        setTimeout(function () {
+          this.isRewardPreviewActive = false;
+        }.bind(this), 2000);
       }
-      this.isRewardPreviewActive = true;
-      setTimeout(function () {
-        this.isRewardPreviewActive = false;
-      }.bind(this), 2000);
     },
     showReward: function () {
-      if (this.isRewardShowActive) {
-        return;
+      if (!this.isRewardShowActive) {
+        this.isRewardShowActive = true;
+        setTimeout(function () {
+          this.isRewardShowActive = false;
+        }.bind(this), 4000);
+        setTimeout(function(){
+          if (!this.isRewardFinalActive) {
+            this.isRewardFinalActive = true;
+            setTimeout(function () {
+              this.isRewardFinalActive = false;
+            }.bind(this), 4000);
+          }
+        }.bind(this), 3500)
       }
-      this.isRewardShowActive = true;
-      setTimeout(function () {
-        this.isRewardShowActive = false;
-      }.bind(this), 4000);
     }
   }
 };
@@ -146,7 +155,6 @@ export default {
 
 @keyframes reward-preview-animation {
   0% {
-    bottom: -10%;
     visibility: visible;
     transform: rotate(-45deg);
   }
@@ -165,6 +173,7 @@ export default {
   100% {
     transform: rotate(-45deg);
     visibility: hidden;
+    bottom: -90%;
   }
 }
 
@@ -184,7 +193,7 @@ export default {
     height: 100%;
     left: 0;
   }
-  60%{
+  60% {
     transform: rotateZ(0deg) rotateY(720deg);
     width: 100%;
     height: 100%;
@@ -194,7 +203,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  90%{
+  90% {
     left: -20%;
     bottom: 30%;
     transform: rotateZ(45deg) rotateY(1440deg);
@@ -209,5 +218,18 @@ export default {
   }
 }
 
+.reward-final {
+  animation-name: reward-final-animation;
+  animation-duration: 4s;
+}
+
+@keyframes reward-final-animation {
+  0%{
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(1440deg);
+  }
+}
 
 </style>
