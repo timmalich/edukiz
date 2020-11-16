@@ -140,7 +140,7 @@ export default {
 
 .header-left {
   display: flex;
-  justify-content: left;
+  justify-content: flex-start;
   align-items: center;
   margin-right: -3pt;
   width: 33.333%;
@@ -162,7 +162,7 @@ export default {
 .header-right {
   width: 33.333%;
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
 .reward {
