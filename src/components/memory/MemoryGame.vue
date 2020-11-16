@@ -171,8 +171,10 @@ export default {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
           if (this.checkGameOver()) {
+            this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
             SoundUtils.playBigSuccess();
           } else {
+            this.$eventHub.$emit('showRewardPreview');
             SoundUtils.playSuccess();
           }
 

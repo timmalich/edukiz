@@ -113,9 +113,12 @@ export default {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
           setTimeout(function () {
+            this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
             this.isGameOver = true;
             SoundUtils.playBigSuccess();
           }.bind(this), 800);
+        }else{
+          this.$eventHub.$emit('showRewardPreview');
         }
         return true;
       } else {
