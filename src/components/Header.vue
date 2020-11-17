@@ -40,7 +40,7 @@ export default {
   },
   mounted: function () {
     this.$eventHub.$on('showRewardPreview', this.showRewardPreview);
-    this.$eventHub.$on('showReward', this.showReward);
+    this.$eventHub.$on('showReward', this.showReward)
     this.rewards = localStorage.rewards ? localStorage.rewards : 0;
   },
   watch: {
@@ -185,7 +185,6 @@ export default {
   bottom: -90%;
   height: 100%;
   width: 100%;
-  opacity: 50%;
   animation-name: reward-preview-animation;
   overflow: hidden;
   animation-duration: 2s;
@@ -227,7 +226,6 @@ export default {
   0% {
     bottom: -100%;
     visibility: visible;
-    opacity: 100;
     transform: rotateZ(45deg)
   }
   37.5% {
