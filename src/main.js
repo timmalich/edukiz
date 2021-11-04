@@ -11,6 +11,8 @@ import MemoryCharacters from "./components/memory/MemoryCharacters";
 import DDNavPage from "./components/drag_drop/DDNavPage";
 import DDBuildWordsGame from "./components/drag_drop/DDBuildWordsGame";
 import DDCharacters from "./components/drag_drop/DDCharacters";
+import ArithmeticNavPage from "./components/arithmetic/ArithmeticNavPage";
+import CalculateNumbers0_19 from "./components/arithmetic/CalculateNumbers0_19";
 import './registerServiceWorker'
 
 Vue.config.productionTip = false;
@@ -55,6 +57,15 @@ const router = new VueRouter({
       path: "/dragdrop/characters",
       name: "DDCharacters",
       component: DDCharacters,
+    },
+    {
+      path: "/arithmetic",
+      name: "Arithmetic",
+      component: ArithmeticNavPage,
+    },{
+      path: "/arithmetic/numbers-0-to-19",
+      name: "CalculateNumbers0_19",
+      component: CalculateNumbers0_19,
     },
     {
       path: "/github",
