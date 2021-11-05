@@ -2,18 +2,17 @@
   <Game :is-highlight-animation-running="isGameOver" nav-back-path="/arithmetic" :explanation="explanation"
         :current-level="selectedLevel"
         @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <!-- TODO use static grid container (4) a+b=c -->
-    <div class="exercise-section" v-bind:style="gridContainer"
+    <div class="grid-container4 exercise-section dropzone"
          v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
-      <ImageContainer key="firstElement" :src="firstElement.image"></ImageContainer>
-      <ImageContainer key="operatorElement" :src="operator.image"></ImageContainer>
-      <ImageContainer key="secondElement" :src="secondElement.image"></ImageContainer>
-      <ImageContainer key="equals" src="img/characters/=.svg"></ImageContainer>
+      <ImageContainer class="drop-element" key="firstElement" :src="firstElement.image"></ImageContainer>
+      <ImageContainer class="drop-element" key="operatorElement" :src="operator.image"></ImageContainer>
+      <ImageContainer class="drop-element" key="secondElement" :src="secondElement.image"></ImageContainer>
+      <ImageContainer class="drop-element" key="equals" src="img/characters/=.svg"></ImageContainer>
     </div>
-    <div class="spacer"></div>
-    <div class="solution-section" v-bind:style="gridContainer">
-      <ImageContainer key="solEl1" :src="secondElement.image" class="drop-element"></ImageContainer>
-      <ImageContainer key="selEl2" :src="secondElement.image" class="drop-element"></ImageContainer>
+    <div class="solution-section dropzone" v-bind:style="gridContainerSolutionZone">
+      <div/>
+      <ImageContainer v-for="(numberConfig, index) in droppedNumbers" :key="index"
+                      :src="numberConfig.image" class="drop-element"></ImageContainer>
     </div>
     <div class="spacer"></div>
     <div class="choice-section" v-bind:style="gridContainer" ref="dragSection">
@@ -33,6 +32,7 @@ import {SoundUtils} from "../utils/SoundUtils";
 import {numberConfigs} from "../mixins/numberConfigs";
 import ErrorAnimation from "../ErrorAnimation";
 import {CharacterUtils} from "../utils/CharacterUtils";
+import {dragDrop} from "../mixins/dragDrop"
 
 export default {
   name: "CalculateNumbers0_19",
@@ -41,13 +41,11 @@ export default {
     Game,
     ErrorAnimation
   },
-  mixins: [numberConfigs],
+  mixins: [numberConfigs, dragDrop],
   data() {
     return {
       selectedLevel: 1,
-      droppedCharacters: [],
-      currentWordCharacters: [],
-      currentWord: undefined,
+      droppedNumbers: [],
       choices: [],
       firstElement: {},
       secondElement: {},
@@ -59,6 +57,7 @@ export default {
   },
   created: function () {
     this.restart(true);
+    this.initDragDrop(false);
     SoundUtils.playExplanation(this.explanation).addEventListener('ended',
         this.playHelpWord.bind(this));
   },
@@ -66,11 +65,25 @@ export default {
     SoundUtils.stopAll();
   },
   computed: {
+    gridContainerSolutionZone: function () {
+      let columns = 1;
+      let solutionCharacterLength = (this.solution.number + "").length
+      if (solutionCharacterLength === 1) {
+        columns = 3;
+      } else if (solutionCharacterLength === 2) {
+        columns = 4;
+      }
+      return {
+        'grid-template-columns': "repeat(" + columns + ", minmax(20pt, 1fr))",
+        'display': 'grid',
+        'grid-gap': '2pt'
+      }
+    },
     gridContainer: function () {
-      let choicesAmount = 4;
+      let columns = 4;
       let gridGap = 2;
       return {
-        'grid-template-columns': "repeat(" + choicesAmount + ", minmax(20pt, 1fr))",
+        'grid-template-columns': "repeat(" + columns + ", minmax(20pt, 1fr))",
         'display': 'grid',
         'grid-gap': gridGap + 'pt'
       }
@@ -78,21 +91,30 @@ export default {
   },
   methods: {
     playHelpWord: function () {
-      let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
+      /*
+      let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + 3];
       for (let char of this.currentWordCharacters) {
         audios.push('de/characters/dad/' + char.toLowerCase());
       }
       SoundUtils.playSoundsInRow(audios);
+
+       */
     },
-    onPress: function () {
+    ondrop: function (event) {
       SoundUtils.stopAll();
-      let isCorrect = true;
-      if (isCorrect) {
+      let dragElement = event.relatedTarget;
+      let draggedNumber = parseInt(dragElement.getAttribute('data-identifier'));
+      if (draggedNumber === this.solution.number) {
         this.isGameOver = true;
         this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
+        /*
         SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
             .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
-            );
+            );*/
+        let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
+        let characterConfigForMove = this.choices.splice(indexOfElementUnderDrag, 1)[0];
+        this.droppedNumbers.push(characterConfigForMove);
+        return true;
       } else {
         this.$refs.errorAnimation.showError(function () {
           SoundUtils.playSoundsInRow([
@@ -118,12 +140,9 @@ export default {
       // l4: max 9, -, 8 choices
       // l5: max 19, +-, 8 choices
       // l6: min -9, +-, 8 choices
-      console.log("DEBBBBBBBBBBBBBBBBBBBBUG")
       this.firstElement = this.numberConfigs[1]
-      console.log("DEBBBBBBX " + this.firstElement.number)
 
       this.secondElement = this.numberConfigs[2]
-      console.log("DEBBBBBBy " + this.numberConfigs[this.firstElement.number + this.secondElement.number] + this.firstElement.number + this.secondElement.number)
       this.solution = this.numberConfigs[this.firstElement.number + this.secondElement.number];
       console.log(this.solution)
       this.choicesAmount = 4;
@@ -160,8 +179,15 @@ export default {
 
 <style scoped lang="scss">
 
+.grid-container4 {
+  grid-template-columns: repeat(4, minmax(20pt, 1fr));
+  display: grid;
+  grid-gap: 2pt
+}
+
 .spacer {
   height: 10%;
+  width: 100%;
   color: #ffffff;
   text-align: center;
   font-size: 1.2rem;
@@ -175,6 +201,11 @@ export default {
   align-items: center;
   position: relative;
   max-width: 100%;
+}
+
+.exercise-section {
+  padding-top: 2%;
+  padding-bottom: 8%;
 }
 
 .solution-section {
@@ -197,8 +228,6 @@ export default {
   background-color: transparent;
 }
 
-.all-drops-successful {
-  background-color: #24ff02;
-}
+.all-drops-successful {}
 
 </style>
