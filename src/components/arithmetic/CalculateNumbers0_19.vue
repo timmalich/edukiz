@@ -18,6 +18,7 @@
     <div class="choice-section" v-bind:style="gridContainer" ref="dragSection">
       <ImageContainer v-for="(numberConfig, index) in choices" :key="index"
                       :data-identifier="numberConfig.number" :data-draggable-index="index" :src="numberConfig.image"
+                      v-bind:class="[{'level-finished': isLevelFinished}]"
                       class="draggable-element" ref="draggables"></ImageContainer>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
@@ -51,6 +52,7 @@ export default {
       secondElement: {},
       solution: {},
       isGameOver: false,
+      isLevelFinished: false,
       explanation: "dragdrop_buildwords",
       operator: CharacterUtils.createConfig("+")
     };
@@ -100,13 +102,18 @@ export default {
 
        */
     },
+    levelCompleted: function(){
+      this.isLevelFinished = true;
+      setTimeout(function () {
+        this.isGameOver = true;
+        this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
+      }.bind(this), 2000);
+    },
     ondrop: function (event) {
       SoundUtils.stopAll();
       let dragElement = event.relatedTarget;
       let draggedNumber = parseInt(dragElement.getAttribute('data-identifier'));
       if (draggedNumber === this.solution.number) {
-        this.isGameOver = true;
-        this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
         /*
         SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
             .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
@@ -114,6 +121,7 @@ export default {
         let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
         let characterConfigForMove = this.choices.splice(indexOfElementUnderDrag, 1)[0];
         this.droppedNumbers.push(characterConfigForMove);
+        this.levelCompleted();
         return true;
       } else {
         this.$refs.errorAnimation.showError(function () {
@@ -129,7 +137,9 @@ export default {
     },
     restart: function (muteWordSound) {
       this.isGameOver = false;
+      this.isLevelFinished = false;
       this.choices = [];
+      this.droppedNumbers = [];
       SoundUtils.stopAll();
       // ideas:
       // auto level up after 2 correct solutions
@@ -160,6 +170,9 @@ export default {
       if (!muteWordSound) {
         this.playHelpWord();
       }
+    },
+    resetGameComponents: function () {
+      this.resetDragAndDropSuccessions();
     },
     previousLevel: function () {
       if (this.selectedLevel > 0) {
@@ -229,5 +242,21 @@ export default {
 }
 
 .all-drops-successful {}
+
+.level-finished {
+  animation-name: flip-numbers;
+  animation-duration: 1500ms;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flip-numbers {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(90deg);
+  }
+}
 
 </style>
