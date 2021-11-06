@@ -45,13 +45,15 @@ export default {
   mixins: [numberConfigs, dragDrop],
   data() {
     return {
-      selectedLevel: 1,
+      selectedLevel: 4, // TODO persist level + allow conditional forward and backward
       maxLevel: 6,
       droppedNumbers: [],
       choices: [],
       firstElement: {},
       secondElement: {},
-      solution: {},
+      solution: {
+        numberConfigs: []
+      },
       isGameOver: false,
       isLevelFinished: false,
       explanation: "dragdrop_buildwords",
@@ -63,7 +65,7 @@ export default {
     this.restart(true);
     this.initDragDrop(false);
     //SoundUtils.playExplanation(this.explanation).addEventListener('ended',
-     //   this.playHelpWord.bind(this));
+    //   this.playHelpWord.bind(this));
   },
   destroyed: function () {
     SoundUtils.stopAll();
@@ -71,7 +73,7 @@ export default {
   computed: {
     gridContainerSolutionZone: function () {
       let columns = 1;
-      let solutionCharacterLength = (this.solution.number + "").length
+      let solutionCharacterLength = this.solution.numberConfigs.length;
       if (solutionCharacterLength === 1) {
         columns = 3;
       } else if (solutionCharacterLength === 2) {
@@ -105,11 +107,11 @@ export default {
        */
     },
     randomNumberFrom0ToN(highestPossibleNumber) {
-      return Math.floor(Math.random() * (highestPossibleNumber+1));
+      return Math.floor(Math.random() * (highestPossibleNumber + 1));
     },
-    increaseLevel: function(){
+    increaseLevel: function () {
       let roundsToFinishUntilNextLevel = 3;
-      if(this.finishedRounds % roundsToFinishUntilNextLevel === 0 && this.selectedLevel < this.maxLevel){
+      if (this.finishedRounds % roundsToFinishUntilNextLevel === 0 && this.selectedLevel < this.maxLevel) {
         this.selectedLevel++;
       }
     },
@@ -119,14 +121,15 @@ export default {
       this.increaseLevel();
       setTimeout(function () {
         this.isGameOver = true;
-        this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
+        this.$eventHub.$emit('showReward', [this.selectedLevel]);
       }.bind(this), 2000);
     },
     ondrop: function (event) {
       SoundUtils.stopAll();
       let dragElement = event.relatedTarget;
       let draggedNumber = parseInt(dragElement.getAttribute('data-identifier'));
-      if (draggedNumber === this.solution.number) {
+      let expectedSolutionPart = this.solution.numberConfigs[this.droppedNumbers.length].number;
+      if (draggedNumber === expectedSolutionPart) {
         /*
         SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
             .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
@@ -134,7 +137,10 @@ export default {
         let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
         let characterConfigForMove = this.choices.splice(indexOfElementUnderDrag, 1)[0];
         this.droppedNumbers.push(characterConfigForMove);
-        this.levelCompleted();
+        if(this.droppedNumbers.length === this.solution.numberConfigs.length){
+          this.levelCompleted();
+        }
+
         return true;
       } else {
         this.$refs.errorAnimation.showError(function () {
@@ -148,15 +154,14 @@ export default {
         return false;
       }
     },
-    getTwoRandomNumbersHavingATotalOfMax9: function () {
-      let maxTotal = 9;
+    getTwoRandomNumbersHavingATotalOfMaxN: function (maxTotal = 9) {
       let firstNumber;
       let secondNumber;
-      if(this.finishedRounds % 2 === 0){
+      if (this.finishedRounds % 2 === 0) {
         // with this approach we will likely get higher numbers as total, but we want an equal distribution from 0 to n
         firstNumber = this.randomNumberFrom0ToN(maxTotal);
         secondNumber = this.randomNumberFrom0ToN(maxTotal - firstNumber);
-      }else{
+      } else {
         // with this approach we will likely get lower numbers as total, but we want an equal distribution from 0 to n
         let total = this.randomNumberFrom0ToN(maxTotal);
         firstNumber = this.randomNumberFrom0ToN(total)
@@ -164,15 +169,56 @@ export default {
       }
       return ArrayUtils.shuffleArray([firstNumber, secondNumber]);
     },
-    generateLevel: function () {
-      //if(this.selectedLevel <= 1){ TODO add more
-      let randomNumbers = this.getTwoRandomNumbersHavingATotalOfMax9();
-      this.firstElement = this.numberConfigs[randomNumbers[0]];
-      this.secondElement = this.numberConfigs[randomNumbers[1]];
-      this.solution = this.numberConfigs[this.firstElement.number + this.secondElement.number];
-      this.choicesAmount = 4;
-      //}
+    createSolution: function (number) {
+      let numberConfigs;
+      if (number.toString().length > 1) {
+        let split = number.toString().split("").map(Number);
+        let firstPart = split[0];
+        let secondPart = split[1];
+        numberConfigs = [this.numberConfigs[firstPart], this.numberConfigs[secondPart]];
+      } else {
+        numberConfigs = [this.numberConfigs[number]];
+      }
+      return {
+        asInt: number,
+        numberConfigs: numberConfigs
+      }
     },
+    generateLevel: function () {
+      let randomNumbers;
+      switch (this.selectedLevel) {
+        case 1:
+          randomNumbers = this.getTwoRandomNumbersHavingATotalOfMaxN(5);
+          this.firstElement = this.numberConfigs[randomNumbers[0]];
+          this.secondElement = this.numberConfigs[randomNumbers[1]];
+          this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+          this.choicesAmount = 4;
+          break;
+        case 2:
+          randomNumbers = this.getTwoRandomNumbersHavingATotalOfMaxN(5);
+          this.firstElement = this.numberConfigs[randomNumbers[0]];
+          this.secondElement = this.numberConfigs[randomNumbers[1]];
+          this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+          this.choicesAmount = 8;
+          break;
+        case 3:
+          randomNumbers = this.getTwoRandomNumbersHavingATotalOfMaxN(9);
+          this.firstElement = this.numberConfigs[randomNumbers[0]];
+          this.secondElement = this.numberConfigs[randomNumbers[1]];
+          this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+          this.choicesAmount = 8;
+          break;
+        case 4:
+          this.firstElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+          this.secondElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+          this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+          this.choicesAmount = 8;
+          break;
+        default:
+          // TODO highest level
+      }
+    }
+    ,
     restart: function (muteWordSound) {
       this.isGameOver = false;
       this.isLevelFinished = false;
@@ -183,36 +229,43 @@ export default {
       // auto level up after 2 correct solutions
       // l1: max 5, +, 4 choices
       // l2: max 5, +, 8 choices
-      // l3: max 10, +, 8 choices
+      // l3: max 9, +, 8 choices
       // l4: max 19, +, 8 choices
       // l5: max 9, -, 8 choices
       // l6: max 19, +-, 8 choices
       // l7: min -9, +-, 8 choices
       this.generateLevel();
 
-      for (let i = 0; i < this.choicesAmount - 1; i++) {
+      for (let i = 0; i < this.choicesAmount - this.solution.numberConfigs.length; i++) {
         let randomNumberConfig = ArrayUtils.getRandomArrayElement(this.numberConfigs);
         this.choices.push(randomNumberConfig);
         SoundUtils.preload('de/characters/' + randomNumberConfig.number);
       }
-      this.choices.push(this.solution);
-      SoundUtils.preload('de/characters/' + this.solution.number);
+
+      for (let el in this.solution.numberConfigs) {
+        let numberConfig = this.solution.numberConfigs[el];
+        this.choices.push(numberConfig);
+        SoundUtils.preload('de/characters/' + numberConfig.number);
+      }
       this.choices = ArrayUtils.shuffleArray(this.choices);
 
       ArrayUtils.shuffleArray(this.choices);
       if (!muteWordSound) {
         //this.playHelpWord();
       }
-    },
+    }
+    ,
     resetGameComponents: function () {
       this.resetDragAndDropSuccessions();
-    },
+    }
+    ,
     previousLevel: function () {
       if (this.selectedLevel > 0) {
         this.selectedLevel--;
       }
       this.restart();
-    },
+    }
+    ,
     nextLevel: function () {
       if (this.selectedLevel < this.numberConfigs.length - 1) {
         this.selectedLevel++;

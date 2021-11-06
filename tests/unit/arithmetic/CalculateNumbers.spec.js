@@ -9,26 +9,32 @@ const factory = (values = {}) => {
   })
 }
 
+const expectMaxTotalOfNumbers = function (maxTotal, numbers){
+  let sum = numbers[0] + numbers[1];
+  if (sum > maxTotal) {
+    throw numbers[0] + " + " + numbers[1] + " is greater than " + maxTotal
+  }
+}
+
+const expectNumbersNotNegative = function (numbers){
+  expect(numbers[0]).toBeGreaterThanOrEqual(0)
+  expect(numbers[1]).toBeGreaterThanOrEqual(0)
+}
+
 describe('CalculateNumbers0_19', () => {
-  it('getTwoRandomNumbersHavingATotalOfMax9 returns numbers whose sum is greater than 9  ', () => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        let numbers = CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMax9(i, j);
-        let sum = numbers[0] + numbers[1];
-        console.log(sum)
-        if (sum > 9) {
-          throw numbers[0] + " + " + numbers[1] + " is greater than 9"
-        }
-      }
+  it('getTwoRandomNumbersHavingATotalOfMaxN returns numbers whose sum is greater than N', () => {
+    for (let i = 0; i < 100; i++) {
+      let maxTotal = 9;
+      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
+      maxTotal = 5;
+      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
     }
   });
-  it('getTwoRandomNumbersHavingATotalOfMax9 return a number which is lass than 0', () => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        let numbers = CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMax9(i, j);
-        expect(numbers[0]).toBeGreaterThanOrEqual(0)
-        expect(numbers[1]).toBeGreaterThanOrEqual(0)
-      }
+
+  it('getTwoRandomNumbersHavingATotalOfMaxN return a number which is lass than N', () => {
+    for (let i = 0; i < 100; i++) {
+      expectNumbersNotNegative(CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(9));
+      expectNumbersNotNegative(CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(5));
     }
   });
 
@@ -49,8 +55,8 @@ describe('CalculateNumbers0_19', () => {
     expect(maxLevel).toBeGreaterThanOrEqual(6);
 
     let roundsToBeFinished = maxLevel * finishedRoundsUntilLevelIncrease + 10;
-    for (let i = 0; i < roundsToBeFinished; i++){
-        wrapper.vm.levelCompleted();
+    for (let i = 0; i < roundsToBeFinished; i++) {
+      wrapper.vm.levelCompleted();
     }
     expect(wrapper.vm.$data.finishedRounds).toEqual(roundsToBeFinished);
     expect(wrapper.vm.$data.selectedLevel).toEqual(maxLevel);
