@@ -1,6 +1,6 @@
 <template>
   <NavPage nav-back-path="/">
-    <link-tile title="Zahlen 0-19" nav-path="/arithmetic/numbers-0-to-19" src="img/games/DDCharacters.png"
+    <link-tile title="Zahlen 0-19" nav-path="/arithmetic/numbers-0-to-19" src="img/games/Calculate.png"
                alt="calculate with numbers from 0 to 19"/>
   </NavPage>
 </template>

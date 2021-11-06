@@ -60,8 +60,8 @@ export default {
   created: function () {
     this.restart(true);
     this.initDragDrop(false);
-    SoundUtils.playExplanation(this.explanation).addEventListener('ended',
-        this.playHelpWord.bind(this));
+    //SoundUtils.playExplanation(this.explanation).addEventListener('ended',
+     //   this.playHelpWord.bind(this));
   },
   destroyed: function () {
     SoundUtils.stopAll();
