@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       selectedLevel: 1,
+      maxLevel: 6,
       droppedNumbers: [],
       choices: [],
       firstElement: {},
@@ -55,7 +56,7 @@ export default {
       isLevelFinished: false,
       explanation: "dragdrop_buildwords",
       operator: CharacterUtils.createConfig("+"),
-      restarts: 0
+      finishedRounds: 0
     };
   },
   created: function () {
@@ -106,8 +107,16 @@ export default {
     randomNumberFrom0ToN(highestPossibleNumber) {
       return Math.floor(Math.random() * (highestPossibleNumber+1));
     },
+    increaseLevel: function(){
+      let roundsToFinishUntilNextLevel = 3;
+      if(this.finishedRounds % roundsToFinishUntilNextLevel === 0 && this.selectedLevel < this.maxLevel){
+        this.selectedLevel++;
+      }
+    },
     levelCompleted: function () {
       this.isLevelFinished = true;
+      this.finishedRounds++;
+      this.increaseLevel();
       setTimeout(function () {
         this.isGameOver = true;
         this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
@@ -143,7 +152,7 @@ export default {
       let maxTotal = 9;
       let firstNumber;
       let secondNumber;
-      if(this.restarts % 2 === 0){
+      if(this.finishedRounds % 2 === 0){
         // with this approach we will likely get higher numbers as total, but we want an equal distribution from 0 to n
         firstNumber = this.randomNumberFrom0ToN(maxTotal);
         secondNumber = this.randomNumberFrom0ToN(maxTotal - firstNumber);
@@ -165,7 +174,6 @@ export default {
       //}
     },
     restart: function (muteWordSound) {
-      this.restarts++;
       this.isGameOver = false;
       this.isLevelFinished = false;
       this.choices = [];
