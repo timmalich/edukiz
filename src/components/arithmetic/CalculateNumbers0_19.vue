@@ -45,7 +45,7 @@ export default {
   mixins: [numberConfigs, dragDrop],
   data() {
     return {
-      selectedLevel: 5, // TODO persist level + allow conditional forward and backward
+      selectedLevel: 6, // TODO persist level + allow conditional forward and backward
       maxLevel: 6,
       droppedNumbers: [],
       choices: [],
@@ -189,6 +189,23 @@ export default {
       this.operator = CharacterUtils.createConfig("+");
       this.choicesAmount = 8;
 
+      let generateSubtraction = function () {
+        this.firstElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+        this.secondElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+        // ensure we do not get into the negative range
+        if (this.firstElement.number < this.secondElement.number) {
+          [this.firstElement, this.secondElement] = [this.secondElement, this.firstElement];
+        }
+        this.solution = this.createSolution(this.firstElement.number - this.secondElement.number);
+        this.operator = CharacterUtils.createConfig("-");
+      }.bind(this);
+
+      let generateAddition0To18 = function () {
+        this.firstElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+        this.secondElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
+        this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+      }.bind(this);
+
       switch (this.selectedLevel) {
         case 1:
           randomNumbers = this.getTwoRandomNumbersHavingATotalOfMaxN(5);
@@ -210,26 +227,17 @@ export default {
           this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
           break;
         case 4:
-          this.firstElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
-          this.secondElement = this.numberConfigs[this.randomNumberFrom0ToN(9)];
-          this.solution = this.createSolution(this.firstElement.number + this.secondElement.number);
+          generateAddition0To18();
           break;
         case 5:
-          randomNumbers = this.getTwoRandomNumbersHavingATotalOfMaxN(9);
-
-          // ensure we do not get into the negative range
-          if (randomNumbers[0] > randomNumbers[1]) {
-            this.firstElement = this.numberConfigs[randomNumbers[0]];
-            this.secondElement = this.numberConfigs[randomNumbers[1]];
-          } else {
-            this.firstElement = this.numberConfigs[randomNumbers[1]];
-            this.secondElement = this.numberConfigs[randomNumbers[0]];
-          }
-          this.solution = this.createSolution(this.firstElement.number - this.secondElement.number);
-          this.operator = CharacterUtils.createConfig("-");
+          generateSubtraction();
           break;
         default:
-          // TODO highest level
+          if (this.finishedRounds % 2 === 0) {
+            generateSubtraction();
+          } else {
+            generateAddition0To18();
+          }
       }
     }
     ,
@@ -239,10 +247,7 @@ export default {
       this.choices = [];
       this.droppedNumbers = [];
       SoundUtils.stopAll();
-      // ideas:
-      // auto level up after 2 correct solutions
-      // l6: max 19, +-, 8 choices
-      // l7: min -9, +-, 8 choices
+
       this.generateLevel();
 
       for (let i = 0; i < this.choicesAmount - this.solution.numberConfigs.length; i++) {
