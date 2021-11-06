@@ -102,7 +102,10 @@ export default {
 
        */
     },
-    levelCompleted: function(){
+    randomNumberFrom0To9() {
+      return Math.floor(Math.random() * 10);
+    },
+    levelCompleted: function () {
       this.isLevelFinished = true;
       setTimeout(function () {
         this.isGameOver = true;
@@ -135,6 +138,26 @@ export default {
         return false;
       }
     },
+    reduceNumbersSoSumIsMax9: function (firstRandomNumber, secondRandomNumber) {
+      if (firstRandomNumber + secondRandomNumber > 9) {
+        let reducer = firstRandomNumber + secondRandomNumber - 9;
+        if (firstRandomNumber > secondRandomNumber) {
+          firstRandomNumber -= reducer;
+        } else {
+          secondRandomNumber -= reducer;
+        }
+      }
+      return [firstRandomNumber, secondRandomNumber]
+    },
+    generateLevel: function () {
+      //if(this.selectedLevel <= 1){ TODO add more
+      let randomNumbers = this.reduceNumbersSoSumIsMax9(this.randomNumberFrom0To9(), this.randomNumberFrom0To9());
+      this.firstElement = this.numberConfigs[randomNumbers[0]];
+      this.secondElement = this.numberConfigs[randomNumbers[1]];
+      this.solution = this.numberConfigs[this.firstElement.number + this.secondElement.number];
+      this.choicesAmount = 4;
+      //}
+    },
     restart: function (muteWordSound) {
       this.isGameOver = false;
       this.isLevelFinished = false;
@@ -143,19 +166,14 @@ export default {
       SoundUtils.stopAll();
       // ideas:
       // auto level up after 2 correct solutions
-      // l1: max 15, +, 4 choices
-      // l1: max 10, +, 4 choices
-      // l2: max 10, +, 8 choices
-      // l3: max 19, +, 8 choices
-      // l4: max 9, -, 8 choices
-      // l5: max 19, +-, 8 choices
-      // l6: min -9, +-, 8 choices
-      this.firstElement = this.numberConfigs[1]
-
-      this.secondElement = this.numberConfigs[2]
-      this.solution = this.numberConfigs[this.firstElement.number + this.secondElement.number];
-      console.log(this.solution)
-      this.choicesAmount = 4;
+      // l1: max 5, +, 4 choices
+      // l2: max 5, +, 8 choices
+      // l3: max 10, +, 8 choices
+      // l4: max 19, +, 8 choices
+      // l5: max 9, -, 8 choices
+      // l6: max 19, +-, 8 choices
+      // l7: min -9, +-, 8 choices
+      this.generateLevel();
 
       for (let i = 0; i < this.choicesAmount - 1; i++) {
         let randomNumberConfig = ArrayUtils.getRandomArrayElement(this.numberConfigs);
@@ -168,7 +186,7 @@ export default {
 
       ArrayUtils.shuffleArray(this.choices);
       if (!muteWordSound) {
-        this.playHelpWord();
+        //this.playHelpWord();
       }
     },
     resetGameComponents: function () {
@@ -241,7 +259,8 @@ export default {
   background-color: transparent;
 }
 
-.all-drops-successful {}
+.all-drops-successful {
+}
 
 .level-finished {
   animation-name: flip-numbers;
