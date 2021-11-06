@@ -54,7 +54,8 @@ export default {
       isGameOver: false,
       isLevelFinished: false,
       explanation: "dragdrop_buildwords",
-      operator: CharacterUtils.createConfig("+")
+      operator: CharacterUtils.createConfig("+"),
+      restarts: 0
     };
   },
   created: function () {
@@ -102,8 +103,8 @@ export default {
 
        */
     },
-    randomNumberFrom0To9() {
-      return Math.floor(Math.random() * 10);
+    randomNumberFrom0ToN(highestPossibleNumber) {
+      return Math.floor(Math.random() * (highestPossibleNumber+1));
     },
     levelCompleted: function () {
       this.isLevelFinished = true;
@@ -138,20 +139,25 @@ export default {
         return false;
       }
     },
-    reduceNumbersSoSumIsMax9: function (firstRandomNumber, secondRandomNumber) {
-      if (firstRandomNumber + secondRandomNumber > 9) {
-        let reducer = firstRandomNumber + secondRandomNumber - 9;
-        if (firstRandomNumber > secondRandomNumber) {
-          firstRandomNumber -= reducer;
-        } else {
-          secondRandomNumber -= reducer;
-        }
+    getTwoRandomNumbersHavingATotalOfMax9: function () {
+      let maxTotal = 9;
+      let firstNumber;
+      let secondNumber;
+      if(this.restarts % 2 === 0){
+        // with this approach we will likely get higher numbers as total, but we want an equal distribution from 0 to n
+        firstNumber = this.randomNumberFrom0ToN(maxTotal);
+        secondNumber = this.randomNumberFrom0ToN(maxTotal - firstNumber);
+      }else{
+        // with this approach we will likely get lower numbers as total, but we want an equal distribution from 0 to n
+        let total = this.randomNumberFrom0ToN(maxTotal);
+        firstNumber = this.randomNumberFrom0ToN(total)
+        secondNumber = total - firstNumber;
       }
-      return [firstRandomNumber, secondRandomNumber]
+      return ArrayUtils.shuffleArray([firstNumber, secondNumber]);
     },
     generateLevel: function () {
       //if(this.selectedLevel <= 1){ TODO add more
-      let randomNumbers = this.reduceNumbersSoSumIsMax9(this.randomNumberFrom0To9(), this.randomNumberFrom0To9());
+      let randomNumbers = this.getTwoRandomNumbersHavingATotalOfMax9();
       this.firstElement = this.numberConfigs[randomNumbers[0]];
       this.secondElement = this.numberConfigs[randomNumbers[1]];
       this.solution = this.numberConfigs[this.firstElement.number + this.secondElement.number];
@@ -159,6 +165,7 @@ export default {
       //}
     },
     restart: function (muteWordSound) {
+      this.restarts++;
       this.isGameOver = false;
       this.isLevelFinished = false;
       this.choices = [];
