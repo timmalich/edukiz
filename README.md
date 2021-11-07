@@ -5,7 +5,7 @@ Project _coding_ language is english.
 Anyway: As long as no native english speaker can contribute to this project, I am only able to provide german sounds.
 Soon I may add chinese as well...
 
-## Aim
+## Objective
 
 Simple HTML/JS educational games for children
 
