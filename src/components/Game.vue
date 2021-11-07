@@ -6,7 +6,8 @@
     <div class="game-content">
       <slot></slot>
     </div>
-    <Footer :is-highlight-animation-running="isHighlightAnimationRunning" @previous="previous" @restart="restart" @next="next" />
+    <Footer :is-highlight-animation-running="isHighlightAnimationRunning" :previous-level-disabled="previousLevelDisabled"
+            :next-level-disabled="nextLevelDisabled" @previous="previous" @restart="restart" @next="next" />
   </div>
 </template>
 
@@ -20,7 +21,7 @@ export default {
     Header,
     Footer
   },
-  props: ['navBackPath', 'isHighlightAnimationRunning', 'explanation', 'currentLevel'],
+  props: ['navBackPath', 'isHighlightAnimationRunning', 'explanation', 'currentLevel', 'previousLevelDisabled', 'nextLevelDisabled'],
   methods: {
     previous: function () {
       this.$emit('previous');

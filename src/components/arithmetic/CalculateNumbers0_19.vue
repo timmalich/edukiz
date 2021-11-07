@@ -1,5 +1,6 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/arithmetic" :explanation="explanation"
+  <Game :is-highlight-animation-running="isGameOver" :previous-level-disabled="previousLevelDisabled"
+        :next-level-disabled="nextLevelDisabled" nav-back-path="/arithmetic" :explanation="explanation"
         :current-level="selectedLevel"
         @previous="previousLevel" @restart="restart" @next="nextLevel">
     <div class="grid-container4 exercise-section dropzone"
@@ -45,7 +46,8 @@ export default {
   mixins: [numberConfigs, dragDrop],
   data() {
     return {
-      selectedLevel: 6, // TODO persist level + allow conditional forward and backward
+      selectedLevel: 1,
+      unlockedLevels: 1,
       maxLevel: 6,
       droppedNumbers: [],
       choices: [],
@@ -58,11 +60,34 @@ export default {
       isLevelFinished: false,
       explanation: "dragdrop_buildwords",
       operator: CharacterUtils.createConfig("+"),
-      finishedRounds: 0
+      finishedRounds: 0,
+      previousLevelDisabled: true,
+      nextLevelDisabled: true
     };
   },
-  created: function () {
+  mounted: function () {
+    if (localStorage.calculateNumbers0To18_selectedLevel) {
+      this.selectedLevel = Number.parseInt(localStorage.calculateNumbers0To18_selectedLevel);
+    } else {
+      localStorage.calculateNumbers0To18_selectedLevel = this.selectedLevel;
+    }
+
+    if (localStorage.calculateNumbers0To18_unlockedLevels) {
+      this.unlockedLevels = Number.parseInt(localStorage.calculateNumbers0To18_unlockedLevels);
+    } else {
+      localStorage.calculateNumbers0To18_unlockedLevels = this.unlockedLevels;
+    }
     this.restart(true);
+  },
+  watch: {
+    selectedLevel(newValue) {
+      localStorage.calculateNumbers0To18_selectedLevel = newValue;
+    },
+    unlockedLevels(newValue) {
+      localStorage.calculateNumbers0To18_unlockedLevels = newValue;
+    }
+  },
+  created: function () {
     this.initDragDrop(false);
     //SoundUtils.playExplanation(this.explanation).addEventListener('ended',
     //   this.playHelpWord.bind(this));
@@ -113,6 +138,7 @@ export default {
       let roundsToFinishUntilNextLevel = 3;
       if (this.finishedRounds % roundsToFinishUntilNextLevel === 0 && this.selectedLevel < this.maxLevel) {
         this.selectedLevel++;
+        this.unlockedLevels++;
       }
     },
     levelCompleted: function () {
@@ -239,15 +265,18 @@ export default {
             generateAddition0To18();
           }
       }
-    }
-    ,
+    },
+    handleLevelButtons : function (){
+      this.nextLevelDisabled = this.selectedLevel >= this.unlockedLevels;
+      this.previousLevelDisabled = this.selectedLevel <= 1;
+    },
     restart: function (muteWordSound) {
       this.isGameOver = false;
       this.isLevelFinished = false;
       this.choices = [];
       this.droppedNumbers = [];
       SoundUtils.stopAll();
-
+      this.handleLevelButtons();
       this.generateLevel();
 
       for (let i = 0; i < this.choicesAmount - this.solution.numberConfigs.length; i++) {
@@ -271,17 +300,15 @@ export default {
     ,
     resetGameComponents: function () {
       this.resetDragAndDropSuccessions();
-    }
-    ,
+    },
     previousLevel: function () {
-      if (this.selectedLevel > 0) {
+      if (this.selectedLevel > 1) {
         this.selectedLevel--;
       }
       this.restart();
-    }
-    ,
+    },
     nextLevel: function () {
-      if (this.selectedLevel < this.numberConfigs.length - 1) {
+      if (this.selectedLevel < this.maxLevel && this.selectedLevel < this.unlockedLevels) {
         this.selectedLevel++;
       }
       this.restart();

@@ -2,7 +2,6 @@
     <NavPage>
       <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games"/>
       <LinkTile title="Bewegen" nav-path="/dragdrop" src="img/games/DD.png" alt="drag and drop games"/>
-      <!-- TODO other image -->
       <LinkTile title="Rechnen" nav-path="/arithmetic" src="img/games/Calculate.png" alt="calculation games"/>
     </NavPage>
 </template>
