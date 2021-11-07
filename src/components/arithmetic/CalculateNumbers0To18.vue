@@ -58,7 +58,7 @@ export default {
       },
       isGameOver: false,
       isLevelFinished: false,
-      explanation: "dragdrop_buildwords",
+      explanation: "calculation0To18",
       operator: CharacterUtils.createConfig("+"),
       finishedRounds: 0,
       previousLevelDisabled: true,
@@ -89,8 +89,7 @@ export default {
   },
   created: function () {
     this.initDragDrop(false);
-    //SoundUtils.playExplanation(this.explanation).addEventListener('ended',
-    //   this.playHelpWord.bind(this));
+    SoundUtils.playExplanation(this.explanation).addEventListener('ended', this.playHelpWord.bind(this));
   },
   destroyed: function () {
     SoundUtils.stopAll();
@@ -139,12 +138,27 @@ export default {
       if (this.finishedRounds % roundsToFinishUntilNextLevel === 0 && this.selectedLevel < this.maxLevel) {
         this.selectedLevel++;
         this.unlockedLevels++;
+        return true;
       }
+      return false;
     },
     levelCompleted: function () {
       this.isLevelFinished = true;
       this.finishedRounds++;
-      this.increaseLevel();
+
+      let audios = [
+        'de/words/dad/super',
+        'de/characters/dad/' + this.firstElement.number,
+        'de/words/dad/' + (this.operator.character === "+" ? "plus" : "minus"),
+        'de/characters/dad/' + this.secondElement.number,
+        'de/words/dad/istgleich',
+        'de/characters/dad/' + this.solution.asInt];
+      let levelIncreased = this.increaseLevel();
+      if(levelIncreased){
+        audios.push('de/helpers/next_level')
+      }
+
+      SoundUtils.playSoundsInRow(audios);
       setTimeout(function () {
         this.isGameOver = true;
         this.$eventHub.$emit('showReward', [this.selectedLevel]);
@@ -156,10 +170,6 @@ export default {
       let draggedNumber = parseInt(dragElement.getAttribute('data-identifier'));
       let expectedSolutionPart = this.solution.numberConfigs[this.droppedNumbers.length].number;
       if (draggedNumber === expectedSolutionPart) {
-        /*
-        SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
-            .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
-            );*/
         let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
         let characterConfigForMove = this.choices.splice(indexOfElementUnderDrag, 1)[0];
         this.droppedNumbers.push(characterConfigForMove);
@@ -170,13 +180,24 @@ export default {
         return true;
       } else {
         this.$refs.errorAnimation.showError(function () {
-          SoundUtils.playSoundsInRow([
-            'de/helpers/du_hast_ein',
-            'de/characters/dad/0',
-            'de/helpers/aber_wir_brauchen_ein',
-            'de/characters/dad/1'
-          ]);
-        });
+          let audios = [
+            'de/helpers/nicht_ganz_richtig',
+            'de/characters/dad/' + this.firstElement.number,
+            'de/words/dad/' + (this.operator.character === "+" ? "plus" : "minus"),
+            'de/characters/dad/' + this.secondElement.number,
+            'de/words/dad/ist',
+            'de/characters/dad/' + this.solution.asInt
+          ];
+          if (this.solution.numberConfigs.length > 1) {
+            audios.push('de/helpers/das_ist_eine');
+            audios.push('de/characters/dad/' + this.solution.numberConfigs[0].number);
+            audios.push('de/helpers/und_eine');
+            audios.push('de/characters/dad/' + this.solution.numberConfigs[1].number);
+            SoundUtils.playSoundsInRow(audios);
+          } else {
+            SoundUtils.playSoundsInRow(audios);
+          }
+        }.bind(this));
         return false;
       }
     },
@@ -266,7 +287,7 @@ export default {
           }
       }
     },
-    handleLevelButtons : function (){
+    handleLevelButtons: function () {
       this.nextLevelDisabled = this.selectedLevel >= this.unlockedLevels;
       this.previousLevelDisabled = this.selectedLevel <= 1;
     },

@@ -37,7 +37,11 @@ export const SoundUtils = {
       audio = new Audio("sounds/" + src + '.mp3');
       this.audios[src] = audio;
     }
-    audio.play();
+    try{
+      audio.play();
+    }catch (e){
+      console.error("no audio file for: sounds/" + src + ".mp3");
+    }
     return audio;
   },
   playError: function () {
