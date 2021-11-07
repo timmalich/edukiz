@@ -1,8 +1,8 @@
 import {shallowMount} from '@vue/test-utils'
-import CalculateNumbers0_19 from '@/components/arithmetic/CalculateNumbers0_19.vue'
+import CalculateNumbers0To18 from '@/components/arithmetic/CalculateNumbers0To18.vue'
 
 const factory = (values = {}) => {
-  return shallowMount(CalculateNumbers0_19, {
+  return shallowMount(CalculateNumbers0To18, {
     data() {
       return {...values}
     }
@@ -21,20 +21,20 @@ const expectNumbersNotNegative = function (numbers){
   expect(numbers[1]).toBeGreaterThanOrEqual(0)
 }
 
-describe('CalculateNumbers0_19', () => {
+describe('CalculateNumbers0To18', () => {
   it('getTwoRandomNumbersHavingATotalOfMaxN returns numbers whose sum is greater than N', () => {
     for (let i = 0; i < 100; i++) {
       let maxTotal = 9;
-      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
+      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0To18.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
       maxTotal = 5;
-      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
+      expectMaxTotalOfNumbers(maxTotal, CalculateNumbers0To18.methods.getTwoRandomNumbersHavingATotalOfMaxN(maxTotal));
     }
   });
 
   it('getTwoRandomNumbersHavingATotalOfMaxN return a number which is lass than N', () => {
     for (let i = 0; i < 100; i++) {
-      expectNumbersNotNegative(CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(9));
-      expectNumbersNotNegative(CalculateNumbers0_19.methods.getTwoRandomNumbersHavingATotalOfMaxN(5));
+      expectNumbersNotNegative(CalculateNumbers0To18.methods.getTwoRandomNumbersHavingATotalOfMaxN(9));
+      expectNumbersNotNegative(CalculateNumbers0To18.methods.getTwoRandomNumbersHavingATotalOfMaxN(5));
     }
   });
 

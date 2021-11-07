@@ -37,7 +37,7 @@ import {CharacterUtils} from "../utils/CharacterUtils";
 import {dragDrop} from "../mixins/dragDrop"
 
 export default {
-  name: "CalculateNumbers0_19",
+  name: "CalculateNumbers0To18",
   components: {
     ImageContainer,
     Game,
