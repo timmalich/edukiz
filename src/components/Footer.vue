@@ -1,8 +1,15 @@
 <template>
   <div class="footer">
-    <div @click="previous()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></div>
-    <div @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-redo-alt"></i></div>
-    <div @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button"><i class="fas fa-arrow-alt-circle-right"></i></div>
+    <div @click="previous()"
+         v-bind:class="[{ highlight : isHighlightAnimationRunning && !previousLevelDisabled}, {disabled: previousLevelDisabled} ]"
+         class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></div>
+    <div @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button">
+      <i class="fas fa-redo-alt"></i>
+    </div>
+    <div @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning && !nextLevelDisabled}, {disabled: nextLevelDisabled} ]"
+         class="game-button">
+      <i class="fas fa-arrow-alt-circle-right"></i>
+    </div>
     <slot></slot>
   </div>
 </template>
@@ -10,16 +17,20 @@
 <script>
 export default {
   name: "Footer",
-  props: ['isHighlightAnimationRunning'],
+  props: ['isHighlightAnimationRunning', 'nextLevelDisabled', 'previousLevelDisabled'],
   methods: {
     previous: function () {
-      this.$emit('previous');
+      if(!this.previousLevelDisabled){
+        this.$emit('previous');
+      }
     },
     restart: function () {
       this.$emit('restart');
     },
     next: function () {
-      this.$emit('next');
+      if(!this.nextLevelDisabled){
+        this.$emit('next');
+      }
     }
   }
 };
@@ -51,5 +62,9 @@ export default {
   animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
+}
+
+.disabled {
+  background-color: #7f7f7f;
 }
 </style>

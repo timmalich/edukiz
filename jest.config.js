@@ -8,5 +8,6 @@ module.exports = {
   coverageReporters: [
     "html",
     "text-summary"
-  ]
+  ],
+  transformIgnorePatterns: ["/node_modules/(?!@interactjs/)"]
 }
