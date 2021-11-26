@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { createApp } from 'vue'
 import App from "./App.vue";
 import {createRouter, createWebHashHistory} from "vue-router";
@@ -15,8 +14,6 @@ import DDCharacters from "./components/drag_drop/DDCharacters";
 import ArithmeticNavPage from "./components/arithmetic/ArithmeticNavPage";
 import CalculateNumbers0To18 from "./components/arithmetic/CalculateNumbers0To18";
 import './registerServiceWorker'
-
-Vue.config.productionTip = false;
 
 if(!localStorage.rewards){
   localStorage.rewards=0;
