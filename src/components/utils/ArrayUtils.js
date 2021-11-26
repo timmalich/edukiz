@@ -13,9 +13,9 @@ export const ArrayUtils = {
     return outputArray;
   },
   getRandomArrayIndex(array) {
-    return Math.floor(Math.random() * (array.length));
+    return Math.floor(Math.random() * array.length);
   },
   getRandomArrayElement(array) {
     return array[this.getRandomArrayIndex(array)];
-  }
-}
+  },
+};

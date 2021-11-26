@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
+import { createApp } from "vue";
 import App from "./App.vue";
-import {createRouter, createWebHashHistory} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import "@fortawesome/fontawesome-free/css/all.css";
-import mitt from 'mitt';
+import mitt from "mitt";
 
 import Home from "./components/Home.vue";
 import Memory from "./components/memory/MemoryNavPage.vue";
@@ -13,10 +13,10 @@ import DDBuildWordsGame from "./components/drag_drop/DDBuildWordsGame";
 import DDCharacters from "./components/drag_drop/DDCharacters";
 import ArithmeticNavPage from "./components/arithmetic/ArithmeticNavPage";
 import CalculateNumbers0To18 from "./components/arithmetic/CalculateNumbers0To18";
-import './registerServiceWorker'
+import "./registerServiceWorker";
 
-if(!localStorage.rewards){
-  localStorage.rewards=0;
+if (!localStorage.rewards) {
+  localStorage.rewards = 0;
 }
 
 const router = createRouter({
@@ -41,11 +41,13 @@ const router = createRouter({
       path: "/memory/characters",
       name: "MemoryCharacters",
       component: MemoryCharacters,
-    },{
+    },
+    {
       path: "/dragdrop",
       name: "DragDrop",
       component: DDNavPage,
-    },{
+    },
+    {
       path: "/dragdrop/build-words",
       name: "DDBuildWords",
       component: DDBuildWordsGame,
@@ -59,7 +61,8 @@ const router = createRouter({
       path: "/arithmetic",
       name: "Arithmetic",
       component: ArithmeticNavPage,
-    },{
+    },
+    {
       path: "/arithmetic/numbers-0-to-19",
       name: "CalculateNumbers0To18",
       component: CalculateNumbers0To18,
@@ -78,4 +81,4 @@ const emitter = mitt();
 const app = createApp(App);
 app.use(router);
 app.config.globalProperties.emitter = emitter;
-app.mount('#app');
+app.mount("#app");

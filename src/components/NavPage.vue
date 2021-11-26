@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <Header :nav-back-path="navBackPath">
-      <div class="game-button"><a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a></div>
+      <div class="game-button">
+        <a href="https://github.com/timmalich/edukiz" class="fab fa-github"></a>
+      </div>
     </Header>
     <div class="link-area">
       <slot></slot>
@@ -14,13 +16,12 @@ import Header from "./Header";
 
 export default {
   name: "NavPage",
-  components: {Header},
-  props: ['navBackPath']
+  components: { Header },
+  props: ["navBackPath"],
 };
 </script>
 
 <style scoped>
-
 .link-area {
   display: flex;
   flex-wrap: wrap;

@@ -1,22 +1,28 @@
 <template>
   <div class="link-tile">
     <figure class="link-tile-box">
-      <figcaption><b>{{ title }}</b></figcaption>
-      <img @click="nav" :src="this.src" class="link-tile clickable-elements" :alt="alt" />
+      <figcaption>
+        <b>{{ title }}</b>
+      </figcaption>
+      <img
+        @click="nav"
+        :src="this.src"
+        class="link-tile clickable-elements"
+        :alt="alt"
+      />
     </figure>
   </div>
 </template>
 <script>
 export default {
   name: "LinkTile",
-  props: ['navPath', 'src', 'alt', 'title'],
+  props: ["navPath", "src", "alt", "title"],
   methods: {
     nav: function () {
       this.$router.push(this.navPath);
-    }
-  }
+    },
+  },
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -45,5 +51,4 @@ export default {
   width: 100%;
   padding: 5pt;
 }
-
 </style>

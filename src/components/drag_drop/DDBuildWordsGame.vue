@@ -1,17 +1,36 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" nav-back-path="/dragdrop" :explanation="explanation"
-        :current-level="selectedLevel"
-        @previous="previousLevel" @restart="restart" @next="nextLevel">
-    <div class="drop-section dropzone" v-bind:style="gridContainer"
-         v-bind:class="[{ 'all-drops-successful' : isGameOver } ]">
-      <ImageContainer v-for="(charConfig, index) in droppedCharacters" :key="index"
-                      :src="charConfig.image" class="drop-element"></ImageContainer>
+  <Game
+    :is-highlight-animation-running="isGameOver"
+    nav-back-path="/dragdrop"
+    :explanation="explanation"
+    :current-level="selectedLevel"
+    @previous="previousLevel"
+    @restart="restart"
+    @next="nextLevel"
+  >
+    <div
+      class="drop-section dropzone"
+      v-bind:style="gridContainer"
+      v-bind:class="[{ 'all-drops-successful': isGameOver }]"
+    >
+      <ImageContainer
+        v-for="(charConfig, index) in droppedCharacters"
+        :key="index"
+        :src="charConfig.image"
+        class="drop-element"
+      ></ImageContainer>
     </div>
     <div class="spacer">{{ currentWord }}</div>
     <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
-      <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
-                      :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
-                      class="draggable-element" :ref="setDraggableRef"></ImageContainer>
+      <ImageContainer
+        v-for="(charConfig, index) in draggableCharacters"
+        :key="index"
+        :data-identifier="charConfig.character"
+        :data-draggable-index="index"
+        :src="charConfig.image"
+        class="draggable-element"
+        :ref="setDraggableRef"
+      ></ImageContainer>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
@@ -20,11 +39,11 @@
 <script>
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
-import {dragDrop} from "../mixins/dragDrop"
-import {ArrayUtils} from "../utils/ArrayUtils"
-import {SoundUtils} from "../utils/SoundUtils";
-import {wordConfigs} from "../mixins/wordConfigs";
-import {CharacterUtils} from "../utils/CharacterUtils";
+import { dragDrop } from "../mixins/dragDrop";
+import { ArrayUtils } from "../utils/ArrayUtils";
+import { SoundUtils } from "../utils/SoundUtils";
+import { wordConfigs } from "../mixins/wordConfigs";
+import { CharacterUtils } from "../utils/CharacterUtils";
 import ErrorAnimation from "../ErrorAnimation";
 
 export default {
@@ -32,7 +51,7 @@ export default {
   components: {
     ImageContainer,
     Game,
-    ErrorAnimation
+    ErrorAnimation,
   },
   mixins: [dragDrop, wordConfigs],
   data() {
@@ -45,14 +64,16 @@ export default {
       draggableCharacters: [],
       solvedCharacters: 0,
       isGameOver: false,
-      explanation: "dragdrop_buildwords"
+      explanation: "dragdrop_buildwords",
     };
   },
   created: function () {
     this.restart(true);
     this.initDragDrop(false);
-    SoundUtils.playExplanation(this.explanation).addEventListener('ended',
-        this.playHelpWord.bind(this));
+    SoundUtils.playExplanation(this.explanation).addEventListener(
+      "ended",
+      this.playHelpWord.bind(this)
+    );
   },
   unmounted: function () {
     SoundUtils.stopAll();
@@ -62,64 +83,84 @@ export default {
       let characterAmount = this.wordConfigs[this.selectedLevel].wordLength;
       let gridGap = 2;
       return {
-        'grid-template-columns': "repeat(" + characterAmount + ", minmax(20pt, 1fr))",
-        'display': 'grid',
-        'grid-gap': gridGap + 'pt'
-      }
-    }
+        "grid-template-columns":
+          "repeat(" + characterAmount + ", minmax(20pt, 1fr))",
+        display: "grid",
+        "grid-gap": gridGap + "pt",
+      };
+    },
   },
   beforeUpdate() {
     this.draggables = [];
   },
   methods: {
-    setDraggableRef(el){
-      if(el){
+    setDraggableRef(el) {
+      if (el) {
         this.draggables.push(el);
       }
     },
     playHelpWord: function () {
-      let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
+      let audios = [
+        "de/helpers/wir_schreiben_das_wort",
+        "de/words/dad/" + this.currentWord.toLowerCase(),
+      ];
       for (let char of this.currentWordCharacters) {
-        audios.push('de/characters/dad/' + char.toLowerCase());
+        audios.push("de/characters/dad/" + char.toLowerCase());
       }
       SoundUtils.playSoundsInRow(audios);
     },
     ondragstart: function (event) {
       let dragElement = event.target;
-      SoundUtils.playCharacter(dragElement.getAttribute('data-identifier'));
+      SoundUtils.playCharacter(dragElement.getAttribute("data-identifier"));
     },
     ondrop: function (event) {
       SoundUtils.stopAll();
       let dragElement = event.relatedTarget;
-      let draggedCharacter = dragElement.getAttribute('data-identifier').toLowerCase();
-      let expectedCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
+      let draggedCharacter = dragElement
+        .getAttribute("data-identifier")
+        .toLowerCase();
+      let expectedCharacter =
+        this.currentWordCharacters[this.solvedCharacters].toLowerCase();
       if (draggedCharacter === expectedCharacter) {
         this.solvedCharacters++;
-        let indexOfElementUnderDrag = dragElement.getAttribute("data-draggable-index");
-        let characterConfigForMove = this.draggableCharacters.splice(indexOfElementUnderDrag, 1)[0];
+        let indexOfElementUnderDrag = dragElement.getAttribute(
+          "data-draggable-index"
+        );
+        let characterConfigForMove = this.draggableCharacters.splice(
+          indexOfElementUnderDrag,
+          1
+        )[0];
         this.droppedCharacters.push(characterConfigForMove);
-        if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
+        if (
+          this.solvedCharacters ===
+          this.wordConfigs[this.selectedLevel].wordLength
+        ) {
           this.isGameOver = true;
-          this.emitter.emit('showReward', [this.selectedLevel + 1]);
-          SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
-              .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
-              );
+          this.emitter.emit("showReward", [this.selectedLevel + 1]);
+          SoundUtils.playSound(
+            "de/words/dad/" + this.currentWord.toLowerCase()
+          ).addEventListener(
+            "ended",
+            SoundUtils.playBigSuccess.bind(SoundUtils),
+            { once: true }
+          );
         } else {
-          let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
-          this.emitter.emit('showRewardPreview');
+          let nextCharacter =
+            this.currentWordCharacters[this.solvedCharacters].toLowerCase();
+          this.emitter.emit("showRewardPreview");
           SoundUtils.playSoundsInRow([
-            'de/helpers/super_und_jetzt_ein',
-            'de/characters/dad/' + nextCharacter,
-          ])
+            "de/helpers/super_und_jetzt_ein",
+            "de/characters/dad/" + nextCharacter,
+          ]);
         }
         return true;
       } else {
         this.$refs.errorAnimation.showError(function () {
           SoundUtils.playSoundsInRow([
-            'de/helpers/du_hast_ein',
-            'de/characters/dad/' + draggedCharacter,
-            'de/helpers/aber_wir_brauchen_ein',
-            'de/characters/dad/' + expectedCharacter
+            "de/helpers/du_hast_ein",
+            "de/characters/dad/" + draggedCharacter,
+            "de/helpers/aber_wir_brauchen_ein",
+            "de/characters/dad/" + expectedCharacter,
           ]);
         });
         return false;
@@ -131,10 +172,12 @@ export default {
       this.droppedCharacters = [];
       this.draggableCharacters = [];
       SoundUtils.stopAll();
-      this.currentWord = ArrayUtils.getRandomArrayElement(this.wordConfigs[this.selectedLevel].words).toUpperCase();
-      this.currentWordCharacters = this.currentWord.split('');
+      this.currentWord = ArrayUtils.getRandomArrayElement(
+        this.wordConfigs[this.selectedLevel].words
+      ).toUpperCase();
+      this.currentWordCharacters = this.currentWord.split("");
       for (let character of this.currentWordCharacters) {
-        SoundUtils.preload('de/characters/' + character.toLowerCase());
+        SoundUtils.preload("de/characters/" + character.toLowerCase());
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);
@@ -157,13 +200,12 @@ export default {
         this.selectedLevel++;
       }
       this.restart();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 .spacer {
   height: 30%;
   color: #ffffff;
@@ -171,7 +213,8 @@ export default {
   font-size: 1.2rem;
 }
 
-.drop-section, .drag-section {
+.drop-section,
+.drag-section {
   width: 100%;
   height: 40%;
   max-height: 40%;
@@ -200,12 +243,12 @@ export default {
   background-color: #6060d7;
 }
 
-.drag-success, .drop-element {
+.drag-success,
+.drop-element {
   background-color: transparent;
 }
 
 .all-drops-successful {
   background-color: #24ff02;
 }
-
 </style>

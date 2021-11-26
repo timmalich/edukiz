@@ -1,43 +1,59 @@
 <template>
   <div class="content">
-    <Header :nav-back-path="this.navBackPath" :sound="this.explanation" :current-level="currentLevel">
+    <Header
+      :nav-back-path="this.navBackPath"
+      :sound="this.explanation"
+      :current-level="currentLevel"
+    >
       <slot name="header"></slot>
     </Header>
     <div class="game-content">
       <slot></slot>
     </div>
-    <Footer :is-highlight-animation-running="isHighlightAnimationRunning" :previous-level-disabled="previousLevelDisabled"
-            :next-level-disabled="nextLevelDisabled" @previous="previous" @restart="restart" @next="next" />
+    <Footer
+      :is-highlight-animation-running="isHighlightAnimationRunning"
+      :previous-level-disabled="previousLevelDisabled"
+      :next-level-disabled="nextLevelDisabled"
+      @previous="previous"
+      @restart="restart"
+      @next="next"
+    />
   </div>
 </template>
 
 <script>
-import Header from "./Header.vue"
-import Footer from "./Footer.vue"
+import Header from "./Header.vue";
+import Footer from "./Footer.vue";
 
 export default {
   name: "Game",
   components: {
     Header,
-    Footer
+    Footer,
   },
-  props: ['navBackPath', 'isHighlightAnimationRunning', 'explanation', 'currentLevel', 'previousLevelDisabled', 'nextLevelDisabled'],
+  props: [
+    "navBackPath",
+    "isHighlightAnimationRunning",
+    "explanation",
+    "currentLevel",
+    "previousLevelDisabled",
+    "nextLevelDisabled",
+  ],
   methods: {
     previous: function () {
-      this.$emit('previous');
+      this.$emit("previous");
     },
     restart: function () {
-      this.$emit('restart');
+      this.$emit("restart");
     },
     next: function () {
-      this.$emit('next');
-    }
-  }
-}
+      this.$emit("next");
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 .game-content {
   position: relative;
   width: 100%;
@@ -46,5 +62,4 @@ export default {
   max-height: calc(100% - 35pt - 35pt);
   overflow: hidden;
 }
-
 </style>

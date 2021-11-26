@@ -3,15 +3,14 @@
 </template>
 
 <script>
-import MemoryGame from './MemoryGame.vue';
-import {characterConfigs} from "../mixins/characterConfigs"
+import MemoryGame from "./MemoryGame.vue";
+import { characterConfigs } from "../mixins/characterConfigs";
 
 export default {
   name: "MemoryCharacters",
   components: {
-    MemoryGame
+    MemoryGame,
   },
-  mixins: [characterConfigs]
-}
-
+  mixins: [characterConfigs],
+};
 </script>

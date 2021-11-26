@@ -1,18 +1,16 @@
 <template>
-    <div class="wrapper">
-      <img :src="src" alt="containerized image">
-    </div>
+  <div class="wrapper">
+    <img :src="src" alt="containerized image" />
+  </div>
 </template>
 <script>
 export default {
   name: "ImageContainer",
-  props: ['src']
+  props: ["src"],
 };
-
 </script>
 
 <style scoped>
-
 .wrapper {
   background-color: #a94ed2;
   position: relative;

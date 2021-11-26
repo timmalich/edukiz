@@ -36,7 +36,8 @@ $generalPaddingLeft: 10pt;
   max-height: 100%;
 }
 
-.clickable-elements, .game-button {
+.clickable-elements,
+.game-button {
   color: #ffffff;
   background-color: #4385f4f0;
   border-radius: 5pt;
@@ -95,5 +96,4 @@ body {
   -o-user-drag: none;
   user-drag: none;
 }
-
 </style>

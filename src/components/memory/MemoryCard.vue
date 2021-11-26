@@ -1,11 +1,20 @@
 <template>
   <div class="memory-card" v-on:click="flipCard">
     <div>
-      <div class="front-face" v-bind:class="[{ flipped : !isFlipped } ]">
-        <img class="front-face-inner no-drag" :src="frontFace" alt="front face"/>
+      <div class="front-face" v-bind:class="[{ flipped: !isFlipped }]">
+        <img
+          class="front-face-inner no-drag"
+          :src="frontFace"
+          alt="front face"
+        />
       </div>
       <div>
-        <img class="back-face no-drag" src="img/cat_wallpaper.svg" alt="back face" v-bind:class="[{ flipped : isFlipped } ]"/>
+        <img
+          class="back-face no-drag"
+          src="img/cat_wallpaper.svg"
+          alt="back face"
+          v-bind:class="[{ flipped: isFlipped }]"
+        />
       </div>
     </div>
   </div>
@@ -17,26 +26,26 @@ export default {
   data() {
     return {
       isFlipped: true,
-      isFlippable: true
-    }
+      isFlippable: true,
+    };
   },
-  props: ['frontFace', 'isBoardLocked', 'sound'],
+  props: ["frontFace", "isBoardLocked", "sound"],
   methods: {
     flipCard: function () {
       if (this.isFlippable && !this.isBoardLocked && !this.isFlipped) {
         this.isFlipped = !this.isFlipped;
-        this.$emit('flipped', this);
+        this.$emit("flipped", this);
       }
     },
     forceFlip: function () {
       this.isFlipped = true;
     },
-    reset: function() {
+    reset: function () {
       this.isFlipped = false;
       this.isFlippable = true;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -51,7 +60,6 @@ export default {
 .flipped {
   transform: rotateY(180deg);
 }
-
 
 .front-face,
 .back-face {
@@ -81,5 +89,4 @@ export default {
   max-width: 100%;
   max-height: 100%;
 }
-
 </style>

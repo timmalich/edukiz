@@ -3,21 +3,21 @@
 </template>
 
 <script>
-import MemoryGame from './MemoryGame.vue';
+import MemoryGame from "./MemoryGame.vue";
 
 export default {
   name: "MemoryCharacters",
   components: {
-    MemoryGame
+    MemoryGame,
   },
   data() {
     let possibleCardConfigs = [];
-    let add = function (img, sound, filetype){
+    let add = function (img, sound, filetype) {
       possibleCardConfigs.push({
         image: "img/" + img + "." + (filetype ? filetype : "svg"),
         sound: "de/words/" + sound,
-      })
-    }
+      });
+    };
     add("ambulance1", "krankenwagen");
     add("bird1", "eule");
     add("bird2", "eule");
@@ -27,7 +27,7 @@ export default {
     add("cat1", "katze", "png");
     add("chicken1", "huhn");
     add("christmas_tree1", "weihnachtsbaum");
-    add("christmas_tree2","weihnachtsbaum");
+    add("christmas_tree2", "weihnachtsbaum");
     add("dino1", "dino");
     add("dino2", "dino");
     add("dog1", "hund");
@@ -82,11 +82,10 @@ export default {
     add("tractor2", "traktor");
     add("tree1", "baum");
     add("unicorn1", "einhorn");
-    add("unicorn2","einhorn");
+    add("unicorn2", "einhorn");
     return {
-      possibleCardConfigs: possibleCardConfigs
-    }
-  }
-}
-
+      possibleCardConfigs: possibleCardConfigs,
+    };
+  },
+};
 </script>

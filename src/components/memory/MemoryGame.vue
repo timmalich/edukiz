@@ -1,40 +1,57 @@
 <template>
-  <Game :is-highlight-animation-running="isGameOver" :explanation="explanation" nav-back-path="/memory"
-        @previous="previousLevel" @restart="generateCards"
-        @next="nextLevel" :current-level="selectedLevel">
+  <Game
+    :is-highlight-animation-running="isGameOver"
+    :explanation="explanation"
+    nav-back-path="/memory"
+    @previous="previousLevel"
+    @restart="generateCards"
+    @next="nextLevel"
+    :current-level="selectedLevel"
+  >
     <template v-slot:header>
-      <select class="clickable-elements" id="levels" v-model="selectedLevel" @change="generateCards()">
+      <select
+        class="clickable-elements"
+        id="levels"
+        v-model="selectedLevel"
+        @change="generateCards()"
+      >
         <option v-for="(level, index) in levels" :key="index" :value="index">
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
     </template>
     <div v-bind:style="gridContainer" class="grid-container">
-      <button v-if="!isGameStarted" v-on:click="startGame" class="play-button"><i class="fas fa-play-circle"></i>
+      <button v-if="!isGameStarted" v-on:click="startGame" class="play-button">
+        <i class="fas fa-play-circle"></i>
       </button>
-      <memory-card class="column" v-for="card in cards" :key="card.key"
-                   :front-face="card.frontFace"
-                   :sound="card.sound"
-                   :is-board-locked="isBoardLocked" @flipped="cardFlipped" :ref="setMemoryCardRef"/>
+      <memory-card
+        class="column"
+        v-for="card in cards"
+        :key="card.key"
+        :front-face="card.frontFace"
+        :sound="card.sound"
+        :is-board-locked="isBoardLocked"
+        @flipped="cardFlipped"
+        :ref="setMemoryCardRef"
+      />
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
 <script>
-import MemoryCard from './MemoryCard.vue';
-import {SoundUtils} from "../utils/SoundUtils";
-import Game from "../Game.vue"
-import {ArrayUtils} from "../utils/ArrayUtils";
+import MemoryCard from "./MemoryCard.vue";
+import { SoundUtils } from "../utils/SoundUtils";
+import Game from "../Game.vue";
+import { ArrayUtils } from "../utils/ArrayUtils";
 import ErrorAnimation from "../ErrorAnimation";
-
 
 export default {
   name: "MemoryGame",
   components: {
     MemoryCard,
     Game,
-    ErrorAnimation
+    ErrorAnimation,
   },
   data() {
     function calculateLevels() {
@@ -44,12 +61,12 @@ export default {
       let levels = [];
       while (level < maxLevels) {
         let minRows = cols - 1;
-        if (cols * (minRows) % 2 === 0) {
-          levels.push({rows: minRows, columns: cols});
+        if ((cols * minRows) % 2 === 0) {
+          levels.push({ rows: minRows, columns: cols });
           level++;
         }
-        if (cols * cols % 2 === 0) {
-          levels.push({rows: cols, columns: cols})
+        if ((cols * cols) % 2 === 0) {
+          levels.push({ rows: cols, columns: cols });
           level++;
         }
         cols++;
@@ -68,23 +85,23 @@ export default {
       levels: calculateLevels(),
       timeoutUntilGameStarts: undefined,
       isGameOver: false,
-      explanation: 'memory'
+      explanation: "memory",
     };
   },
   created: function () {
     SoundUtils.playExplanation(this.explanation);
     this.generateCards();
   },
-  unmounted: function (){
+  unmounted: function () {
     SoundUtils.stopAll();
   },
-  props: ['possibleCardConfigs'],
+  props: ["possibleCardConfigs"],
   beforeUpdate() {
     this.memoryCards = [];
   },
   methods: {
-    setMemoryCardRef(el){
-      if(el){
+    setMemoryCardRef(el) {
+      if (el) {
         this.memoryCards.push(el);
       }
     },
@@ -133,7 +150,7 @@ export default {
         key: key,
         frontFace: cardConfig.image,
         sound: cardConfig.sound,
-      }
+      };
     },
     generateCards: function () {
       this.isBoardLocked = true;
@@ -152,12 +169,17 @@ export default {
       }
       ArrayUtils.shuffleArray(this.cards);
       this.showAllCards();
-      this.timeoutUntilGameStarts = setTimeout(function () {
-        this.startGame();
-      }.bind(this), 10000);
+      this.timeoutUntilGameStarts = setTimeout(
+        function () {
+          this.startGame();
+        }.bind(this),
+        10000
+      );
     },
     checkGameOver: function () {
-      let cardsInCurrentLevel = this.getCardAmount(this.levels[this.selectedLevel]);
+      let cardsInCurrentLevel = this.getCardAmount(
+        this.levels[this.selectedLevel]
+      );
       this.isGameOver = this.solvedCards === cardsInCurrentLevel;
       return this.isGameOver;
     },
@@ -165,12 +187,12 @@ export default {
       this.isBoardLocked = true;
       let cardsMatch = function (firstCard, secondCard) {
         return firstCard.frontFace === secondCard.frontFace;
-      }
+      };
 
       let blockCards = function (firstCard, secondCard) {
         firstCard.isFlippable = false;
         secondCard.isFlippable = false;
-      }
+      };
 
       if (!this.flippedCard) {
         SoundUtils.playSound(currentCard.sound);
@@ -180,44 +202,48 @@ export default {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
           if (this.checkGameOver()) {
-            this.emitter.emit('showReward', [this.selectedLevel+1]);
+            this.emitter.emit("showReward", [this.selectedLevel + 1]);
             SoundUtils.playBigSuccess();
           } else {
-            this.emitter.emit('showRewardPreview');
+            this.emitter.emit("showRewardPreview");
             SoundUtils.playSuccess();
           }
 
-          blockCards(this.flippedCard, currentCard)
+          blockCards(this.flippedCard, currentCard);
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
           SoundUtils.playSound(currentCard.sound);
-          setTimeout(function () {
-            this.$refs.errorAnimation.showError();
-            if (this.flippedCard) {
-              this.flippedCard.isFlipped = false;
-              this.flippedCard = null;
-            }
-            currentCard.isFlipped = false;
-            this.isBoardLocked = false;
-          }.bind(this), 1000);
+          setTimeout(
+            function () {
+              this.$refs.errorAnimation.showError();
+              if (this.flippedCard) {
+                this.flippedCard.isFlipped = false;
+                this.flippedCard = null;
+              }
+              currentCard.isFlipped = false;
+              this.isBoardLocked = false;
+            }.bind(this),
+            1000
+          );
         }
       }
-    }
+    },
   },
   computed: {
     gridContainer: function () {
       return {
-        'grid-template-columns': "repeat(" + this.levels[this.selectedLevel].columns + ", minmax(20pt, 1fr))",
-      }
-    }
-  }
-}
-
+        "grid-template-columns":
+          "repeat(" +
+          this.levels[this.selectedLevel].columns +
+          ", minmax(20pt, 1fr))",
+      };
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
-
 .grid-container {
   width: 100%;
   height: 100%;
@@ -247,7 +273,7 @@ export default {
   }
   100% {
     left: 100%;
-    visibility: hidden
+    visibility: hidden;
   }
 }
 
@@ -263,5 +289,4 @@ export default {
   animation-fill-mode: forwards;
   visibility: visible;
 }
-
 </style>

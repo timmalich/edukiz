@@ -1,9 +1,24 @@
 <template>
-    <NavPage>
-      <LinkTile title="Memory" nav-path="/memory" src="img/games/MemoryBackface.png" alt="memory games"/>
-      <LinkTile title="Bewegen" nav-path="/dragdrop" src="img/games/DD.png" alt="drag and drop games"/>
-      <LinkTile title="Rechnen" nav-path="/arithmetic" src="img/games/Calculate.png" alt="calculation games"/>
-    </NavPage>
+  <NavPage>
+    <LinkTile
+      title="Memory"
+      nav-path="/memory"
+      src="img/games/MemoryBackface.png"
+      alt="memory games"
+    />
+    <LinkTile
+      title="Bewegen"
+      nav-path="/dragdrop"
+      src="img/games/DD.png"
+      alt="drag and drop games"
+    />
+    <LinkTile
+      title="Rechnen"
+      nav-path="/arithmetic"
+      src="img/games/Calculate.png"
+      alt="calculation games"
+    />
+  </NavPage>
 </template>
 
 <script>
@@ -12,12 +27,11 @@ import LinkTile from "./LinkTile";
 
 export default {
   name: "Home",
-  components: {LinkTile, NavPage},
+  components: { LinkTile, NavPage },
   props: {
     msg: String,
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

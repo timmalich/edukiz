@@ -1,13 +1,30 @@
 <template>
   <div class="footer">
-    <div @click="previous()"
-         v-bind:class="[{ highlight : isHighlightAnimationRunning && !previousLevelDisabled}, {disabled: previousLevelDisabled} ]"
-         class="game-button"><i class="fas fa-arrow-alt-circle-left"></i></div>
-    <div @click="restart()" v-bind:class="[{ highlight : isHighlightAnimationRunning } ]" class="game-button">
+    <div
+      @click="previous()"
+      v-bind:class="[
+        { highlight: isHighlightAnimationRunning && !previousLevelDisabled },
+        { disabled: previousLevelDisabled },
+      ]"
+      class="game-button"
+    >
+      <i class="fas fa-arrow-alt-circle-left"></i>
+    </div>
+    <div
+      @click="restart()"
+      v-bind:class="[{ highlight: isHighlightAnimationRunning }]"
+      class="game-button"
+    >
       <i class="fas fa-redo-alt"></i>
     </div>
-    <div @click="next()" v-bind:class="[{ highlight : isHighlightAnimationRunning && !nextLevelDisabled}, {disabled: nextLevelDisabled} ]"
-         class="game-button">
+    <div
+      @click="next()"
+      v-bind:class="[
+        { highlight: isHighlightAnimationRunning && !nextLevelDisabled },
+        { disabled: nextLevelDisabled },
+      ]"
+      class="game-button"
+    >
       <i class="fas fa-arrow-alt-circle-right"></i>
     </div>
     <slot></slot>
@@ -17,22 +34,26 @@
 <script>
 export default {
   name: "Footer",
-  props: ['isHighlightAnimationRunning', 'nextLevelDisabled', 'previousLevelDisabled'],
+  props: [
+    "isHighlightAnimationRunning",
+    "nextLevelDisabled",
+    "previousLevelDisabled",
+  ],
   methods: {
     previous: function () {
-      if(!this.previousLevelDisabled){
-        this.$emit('previous');
+      if (!this.previousLevelDisabled) {
+        this.$emit("previous");
       }
     },
     restart: function () {
-      this.$emit('restart');
+      this.$emit("restart");
     },
     next: function () {
-      if(!this.nextLevelDisabled){
-        this.$emit('next');
+      if (!this.nextLevelDisabled) {
+        this.$emit("next");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
