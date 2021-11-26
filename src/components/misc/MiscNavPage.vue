@@ -1,10 +1,16 @@
 <template>
   <NavPage nav-back-path="/">
     <link-tile
-      title="Zahlen 0-19"
-      nav-path="/arithmetic/numbers-0-to-19"
+      title="Zahlen 0-18"
+      nav-path="/misc/numbers-0-to-18"
       src="img/games/Calculate.png"
-      alt="calculate with numbers from 0 to 19"
+      alt="calculate with numbers from 0 to 18"
+    />
+    <link-tile
+      title="Text zu Sprache"
+      nav-path="/misc/t2s"
+      src="img/games/DDBuildWords.png"
+      alt="text to speech"
     />
   </NavPage>
 </template>
@@ -14,7 +20,7 @@ import NavPage from "../NavPage";
 import LinkTile from "../LinkTile";
 
 export default {
-  name: "ArithmeticNavPage",
+  name: "MiscNavPage",
   components: { LinkTile, NavPage },
 };
 </script>

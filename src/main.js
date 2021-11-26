@@ -11,8 +11,9 @@ import MemoryCharacters from "./components/memory/MemoryCharacters";
 import DDNavPage from "./components/drag_drop/DDNavPage";
 import DDBuildWordsGame from "./components/drag_drop/DDBuildWordsGame";
 import DDCharacters from "./components/drag_drop/DDCharacters";
-import ArithmeticNavPage from "./components/arithmetic/ArithmeticNavPage";
-import CalculateNumbers0To18 from "./components/arithmetic/CalculateNumbers0To18";
+import MiscNavPage from "./components/misc/MiscNavPage";
+import CalculateNumbers0To18 from "./components/misc/CalculateNumbers0To18";
+import TextToSppech from "./components/misc/TextToSpeech";
 import "./registerServiceWorker";
 
 if (!localStorage.rewards) {
@@ -58,14 +59,19 @@ const router = createRouter({
       component: DDCharacters,
     },
     {
-      path: "/arithmetic",
-      name: "Arithmetic",
-      component: ArithmeticNavPage,
+      path: "/misc",
+      name: "Misc",
+      component: MiscNavPage,
     },
     {
-      path: "/arithmetic/numbers-0-to-19",
+      path: "/misc/numbers-0-to-18",
       name: "CalculateNumbers0To18",
       component: CalculateNumbers0To18,
+    },
+    {
+      path: "/misc/t2s",
+      name: "TextToSpeech",
+      component: TextToSppech,
     },
     {
       path: "/github",
