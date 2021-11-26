@@ -71,7 +71,7 @@ export default {
     this.restart();
     this.initDragDrop(true);
   },
-  destroyed: function (){
+  unmounted: function (){
     SoundUtils.stopAll();
   },
   computed: {
@@ -113,12 +113,12 @@ export default {
         this.solvedCharacters++;
         if (this.solvedCharacters === this.levels[this.selectedLevel].elementAmount) {
           setTimeout(function () {
-            this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
+            this.emitter.emit('showReward', [this.selectedLevel+1]);
             this.isGameOver = true;
             SoundUtils.playBigSuccess();
           }.bind(this), 800);
         }else{
-          this.$eventHub.$emit('showRewardPreview');
+          this.emitter.emit('showRewardPreview');
         }
         return true;
       } else {

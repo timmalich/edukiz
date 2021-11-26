@@ -1,8 +1,9 @@
 import Vue from "vue";
+import { createApp } from 'vue'
 import App from "./App.vue";
-import VueRouter from "vue-router";
+import {createRouter, createWebHashHistory} from "vue-router";
 import "@fortawesome/fontawesome-free/css/all.css";
-import VueLogger from 'vuejs-logger';
+import mitt from 'mitt';
 
 import Home from "./components/Home.vue";
 import Memory from "./components/memory/MemoryNavPage.vue";
@@ -16,14 +17,13 @@ import CalculateNumbers0To18 from "./components/arithmetic/CalculateNumbers0To18
 import './registerServiceWorker'
 
 Vue.config.productionTip = false;
-Vue.use(VueRouter);
-Vue.use(VueLogger);
-Vue.prototype.$eventHub = new Vue();
+
 if(!localStorage.rewards){
   localStorage.rewards=0;
 }
 
-const router = new VueRouter({
+const router = createRouter({
+  history: createWebHashHistory(),
   routes: [
     {
       path: "/",
@@ -77,8 +77,8 @@ const router = new VueRouter({
   ],
 });
 
-new Vue({
-  el: "#app",
-  router,
-  render: (h) => h(App),
-});
+const emitter = mitt();
+const app = createApp(App);
+app.use(router);
+app.config.globalProperties.emitter = emitter;
+app.mount('#app');

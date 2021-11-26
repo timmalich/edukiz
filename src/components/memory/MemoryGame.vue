@@ -15,7 +15,7 @@
       <memory-card class="column" v-for="card in cards" :key="card.key"
                    :front-face="card.frontFace"
                    :sound="card.sound"
-                   :is-board-locked="isBoardLocked" @flipped="cardFlipped" ref="memoryCards"/>
+                   :is-board-locked="isBoardLocked" @flipped="cardFlipped" :ref="setMemoryCardRef"/>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
@@ -58,6 +58,7 @@ export default {
     }
 
     return {
+      memoryCards: [],
       cards: undefined,
       flippedCard: undefined,
       isBoardLocked: false,
@@ -74,11 +75,19 @@ export default {
     SoundUtils.playExplanation(this.explanation);
     this.generateCards();
   },
-  destroyed: function (){
+  unmounted: function (){
     SoundUtils.stopAll();
   },
   props: ['possibleCardConfigs'],
+  beforeUpdate() {
+    this.memoryCards = [];
+  },
   methods: {
+    setMemoryCardRef(el){
+      if(el){
+        this.memoryCards.push(el);
+      }
+    },
     isCurrentLevelMaxLevel: function () {
       return this.selectedLevel === this.levels.length - 1;
     },
@@ -101,8 +110,8 @@ export default {
       return level.columns * level.rows;
     },
     showAllCards: function () {
-      if (this.$refs.memoryCards) {
-        for (let card of this.$refs.memoryCards) {
+      if (this.memoryCards) {
+        for (let card of this.memoryCards) {
           card.forceFlip();
         }
       }
@@ -110,8 +119,8 @@ export default {
     startGame: function () {
       if (!this.isGameStarted) {
         this.solvedCards = 0;
-        if (this.$refs.memoryCards) {
-          for (let card of this.$refs.memoryCards) {
+        if (this.memoryCards) {
+          for (let card of this.memoryCards) {
             card.reset();
           }
         }
@@ -171,10 +180,10 @@ export default {
         if (cardsMatch(this.flippedCard, currentCard)) {
           this.solvedCards += 2;
           if (this.checkGameOver()) {
-            this.$eventHub.$emit('showReward', [this.selectedLevel+1]);
+            this.emitter.emit('showReward', [this.selectedLevel+1]);
             SoundUtils.playBigSuccess();
           } else {
-            this.$eventHub.$emit('showRewardPreview');
+            this.emitter.emit('showRewardPreview');
             SoundUtils.playSuccess();
           }
 

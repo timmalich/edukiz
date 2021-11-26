@@ -20,7 +20,7 @@
       <ImageContainer v-for="(numberConfig, index) in choices" :key="index"
                       :data-identifier="numberConfig.number" :data-draggable-index="index" :src="numberConfig.image"
                       v-bind:class="[{'level-finished': isLevelFinished}]"
-                      class="draggable-element" ref="draggables"></ImageContainer>
+                      class="draggable-element" :ref="setDraggableRef"></ImageContainer>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
@@ -46,6 +46,7 @@ export default {
   mixins: [numberConfigs, dragDrop],
   data() {
     return {
+      draggables: [],
       selectedLevel: 1,
       unlockedLevels: 1,
       maxLevel: 6,
@@ -77,21 +78,27 @@ export default {
     } else {
       localStorage.calculateNumbers0To18_unlockedLevels = this.unlockedLevels;
     }
-    this.restart(true);
+    SoundUtils.playExplanation(this.explanation);
+    this.restart();
   },
   watch: {
-    selectedLevel(newValue) {
-      localStorage.calculateNumbers0To18_selectedLevel = newValue;
+    selectedLevel: {
+      handler(newValue) {
+        localStorage.calculateNumbers0To18_selectedLevel = newValue;
+      },
+      deep: true
     },
-    unlockedLevels(newValue) {
-      localStorage.calculateNumbers0To18_unlockedLevels = newValue;
+    unlockedLevels: {
+      handler(newValue) {
+        localStorage.calculateNumbers0To18_unlockedLevels = newValue;
+      },
+      deep: true
     }
   },
   created: function () {
     this.initDragDrop(false);
-    SoundUtils.playExplanation(this.explanation).addEventListener('ended', this.playHelpWord.bind(this));
   },
-  destroyed: function () {
+  unmounted: function () {
     SoundUtils.stopAll();
   },
   computed: {
@@ -119,16 +126,14 @@ export default {
       }
     }
   },
+  beforeUpdate() {
+    this.draggables = [];
+  },
   methods: {
-    playHelpWord: function () {
-      /*
-      let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + 3];
-      for (let char of this.currentWordCharacters) {
-        audios.push('de/characters/dad/' + char.toLowerCase());
+    setDraggableRef(el) {
+      if (el) {
+        this.draggables.push(el);
       }
-      SoundUtils.playSoundsInRow(audios);
-
-       */
     },
     randomNumberFrom0ToN(highestPossibleNumber) {
       return Math.floor(Math.random() * (highestPossibleNumber + 1));
@@ -154,14 +159,14 @@ export default {
         'de/words/dad/istgleich',
         'de/characters/dad/' + this.solution.asInt];
       let levelIncreased = this.increaseLevel();
-      if(levelIncreased){
+      if (levelIncreased) {
         audios.push('de/helpers/next_level')
       }
 
       SoundUtils.playSoundsInRow(audios);
       setTimeout(function () {
         this.isGameOver = true;
-        this.$eventHub.$emit('showReward', [this.selectedLevel]);
+        this.emitter.emit('showReward', [this.selectedLevel]);
       }.bind(this), 2000);
     },
     ondrop: function (event) {
@@ -291,12 +296,12 @@ export default {
       this.nextLevelDisabled = this.selectedLevel >= this.unlockedLevels;
       this.previousLevelDisabled = this.selectedLevel <= 1;
     },
-    restart: function (muteWordSound) {
+    restart: function () {
       this.isGameOver = false;
       this.isLevelFinished = false;
       this.choices = [];
       this.droppedNumbers = [];
-      SoundUtils.stopAll();
+      //SoundUtils.stopAll();
       this.handleLevelButtons();
       this.generateLevel();
 
@@ -314,9 +319,6 @@ export default {
       this.choices = ArrayUtils.shuffleArray(this.choices);
 
       ArrayUtils.shuffleArray(this.choices);
-      if (!muteWordSound) {
-        //this.playHelpWord();
-      }
     }
     ,
     resetGameComponents: function () {

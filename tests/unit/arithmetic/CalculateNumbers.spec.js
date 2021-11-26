@@ -1,6 +1,9 @@
 import {shallowMount} from '@vue/test-utils'
 import CalculateNumbers0To18 from '@/components/arithmetic/CalculateNumbers0To18.vue'
 
+jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {})
+jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+
 const factory = (values = {}) => {
   return shallowMount(CalculateNumbers0To18, {
     data() {

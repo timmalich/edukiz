@@ -39,18 +39,21 @@ export default {
     }
   },
   mounted: function () {
-    this.$eventHub.$on('showRewardPreview', this.showRewardPreview);
-    this.$eventHub.$on('showReward', this.showReward)
+    this.emitter.on('showRewardPreview', this.showRewardPreview);
+    this.emitter.on('showReward', this.showReward)
     this.rewards = localStorage.rewards ? localStorage.rewards : 0;
   },
   watch: {
-    rewards(newRewards) {
-      localStorage.rewards = newRewards;
+    rewards: {
+      handler(newRewards) {
+        localStorage.rewards = newRewards;
+      },
+      deep: true
     }
   },
-  beforeDestroy() {
-    this.$eventHub.$off('showRewardPreview');
-    this.$eventHub.$off('showReward');
+  beforeUnmount() {
+    this.emitter.off('showRewardPreview');
+    this.emitter.off('showReward');
   },
   computed: {
     rewardFinal: function () {
@@ -60,9 +63,9 @@ export default {
     }
   },
   methods: {
-    getDecimalPart: function(n){
-      n+="";
-      return n = parseInt(n.slice(n.length-2, n.length-1)) || 0;
+    getDecimalPart: function (n) {
+      n += "";
+      return n = parseInt(n.slice(n.length - 2, n.length - 1)) || 0;
     },
     getRewardHeaderImage: function () {
       let n = this.getDecimalPart(this.rewards);
@@ -70,13 +73,13 @@ export default {
       n = n % this.rewardImages.length;
       return "img/" + this.rewardImages[n] + ".svg";
     },
-    getNextRewardImage: function (){
-      let lastNumberOfCurrentRewards = this.rewards+"";
-      lastNumberOfCurrentRewards = parseInt(lastNumberOfCurrentRewards.slice(lastNumberOfCurrentRewards.length-1)) || 0;
+    getNextRewardImage: function () {
+      let lastNumberOfCurrentRewards = this.rewards + "";
+      lastNumberOfCurrentRewards = parseInt(lastNumberOfCurrentRewards.slice(lastNumberOfCurrentRewards.length - 1)) || 0;
 
       let n = this.getDecimalPart(this.rewards);
       // only show the next reward animation if it can be reached on current success
-      if(this.currentLevel + 1 + lastNumberOfCurrentRewards >= 10){
+      if (this.currentLevel + 1 + lastNumberOfCurrentRewards >= 10) {
         n++;
       }
       n = n % this.rewardImages.length;

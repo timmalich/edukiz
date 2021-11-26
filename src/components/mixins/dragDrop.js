@@ -1,7 +1,7 @@
 import interact from '@interactjs/interactjs'
 
 export const dragDrop = {
-  destroyed() {
+  unmounted() {
     interact('.dropzone').unset();
     interact('.draggable-element').unset();
   },

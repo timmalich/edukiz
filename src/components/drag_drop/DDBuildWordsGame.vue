@@ -11,7 +11,7 @@
     <div class="drag-section" v-bind:style="gridContainer" ref="dragSection">
       <ImageContainer v-for="(charConfig, index) in draggableCharacters" :key="index"
                       :data-identifier="charConfig.character" :data-draggable-index="index" :src="charConfig.image"
-                      class="draggable-element" ref="draggables"></ImageContainer>
+                      class="draggable-element" :ref="setDraggableRef"></ImageContainer>
     </div>
     <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
@@ -37,6 +37,7 @@ export default {
   mixins: [dragDrop, wordConfigs],
   data() {
     return {
+      draggables: [],
       selectedLevel: 2,
       droppedCharacters: [],
       currentWordCharacters: [],
@@ -53,7 +54,7 @@ export default {
     SoundUtils.playExplanation(this.explanation).addEventListener('ended',
         this.playHelpWord.bind(this));
   },
-  destroyed: function () {
+  unmounted: function () {
     SoundUtils.stopAll();
   },
   computed: {
@@ -67,7 +68,15 @@ export default {
       }
     }
   },
+  beforeUpdate() {
+    this.draggables = [];
+  },
   methods: {
+    setDraggableRef(el){
+      if(el){
+        this.draggables.push(el);
+      }
+    },
     playHelpWord: function () {
       let audios = ['de/helpers/wir_schreiben_das_wort', 'de/words/dad/' + this.currentWord.toLowerCase()];
       for (let char of this.currentWordCharacters) {
@@ -91,13 +100,13 @@ export default {
         this.droppedCharacters.push(characterConfigForMove);
         if (this.solvedCharacters === this.wordConfigs[this.selectedLevel].wordLength) {
           this.isGameOver = true;
-          this.$eventHub.$emit('showReward', [this.selectedLevel + 1]);
+          this.emitter.emit('showReward', [this.selectedLevel + 1]);
           SoundUtils.playSound('de/words/dad/' + this.currentWord.toLowerCase())
               .addEventListener('ended', SoundUtils.playBigSuccess.bind(SoundUtils), {once: true}
               );
         } else {
           let nextCharacter = this.currentWordCharacters[this.solvedCharacters].toLowerCase();
-          this.$eventHub.$emit('showRewardPreview');
+          this.emitter.emit('showRewardPreview');
           SoundUtils.playSoundsInRow([
             'de/helpers/super_und_jetzt_ein',
             'de/characters/dad/' + nextCharacter,
