@@ -18,9 +18,14 @@ Simple HTML/JS educational games for children
 This section shows a list of implemented Games, for planned Games see Project Page Issues. 
 
 ### Memory
-Memory Game with:
+Memory Games with:
 - Letters and numbers
 - Animals
+Alphabetic Games with:
+- Drag and Drop letters on letters
+- Drag letters to a word
+Arithmetic Games:
+- Calculations with +- for equations with solutions between 0 and 18
 
 ## Project setup
 ### Framework decision
