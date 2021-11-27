@@ -8,14 +8,14 @@
       ]"
       class="game-button"
     >
-      <i class="fas fa-arrow-alt-circle-left"></i>
+      <em class="fas fa-arrow-alt-circle-left"></em>
     </div>
     <div
       @click="restart()"
       v-bind:class="[{ highlight: isHighlightAnimationRunning }]"
       class="game-button"
     >
-      <i class="fas fa-redo-alt"></i>
+      <em class="fas fa-redo-alt"></em>
     </div>
     <div
       @click="next()"
@@ -25,7 +25,7 @@
       ]"
       class="game-button"
     >
-      <i class="fas fa-arrow-alt-circle-right"></i>
+      <em class="fas fa-arrow-alt-circle-right"></em>
     </div>
     <slot></slot>
   </div>

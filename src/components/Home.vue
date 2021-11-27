@@ -13,10 +13,10 @@
       alt="drag and drop games"
     />
     <LinkTile
-      title="Rechnen"
-      nav-path="/arithmetic"
+      title="Sonstiges"
+      nav-path="/misc"
       src="img/games/Calculate.png"
-      alt="calculation games"
+      alt="Other uncategorized games"
     />
   </NavPage>
 </template>

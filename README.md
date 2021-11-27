@@ -26,6 +26,8 @@ Alphabetic Games with:
 - Drag letters to a word
 Arithmetic Games:
 - Calculations with +- for equations with solutions between 0 and 18
+Other Games:
+- Text to speech. Provide a text and let the computer read it out loud. Uses the Web Speech API. This currently might not function well on all browsers. Furthermore, it definitely has some room for improvements.
 
 ## Project setup
 ### Framework decision

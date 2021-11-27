@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "npm run prettier; vue-cli-service build",
     "lint": "vue-cli-service lint",
     "distribute": "scripts/distribute.sh",
     "deploy-github": "scripts/deploy_github.sh",

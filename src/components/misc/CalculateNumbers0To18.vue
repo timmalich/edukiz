@@ -3,7 +3,7 @@
     :is-highlight-animation-running="isGameOver"
     :previous-level-disabled="previousLevelDisabled"
     :next-level-disabled="nextLevelDisabled"
-    nav-back-path="/arithmetic"
+    nav-back-path="/misc"
     :explanation="explanation"
     :current-level="selectedLevel"
     @previous="previousLevel"
