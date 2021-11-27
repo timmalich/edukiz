@@ -2,11 +2,11 @@
   <div class="header">
     <div class="header-left">
       <div v-if="navBackPath" @click="navBack" class="game-button">
-        <i class="fas fa-reply"></i>
+        <em class="fas fa-reply"></em>
       </div>
       <div v-if="sound" @click="playGameExplanation" class="game-button">
-        <i class="fas fa-question" style="font-size: 1.3rem"></i
-        ><i style="font-size: 1.2rem" class="fas fa-headphones"></i>
+        <em class="fas fa-question" style="font-size: 1.3rem"></em>
+        <em style="font-size: 1.2rem" class="fas fa-headphones"></em>
       </div>
     </div>
     <div class="header-center">

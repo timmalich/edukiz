@@ -7,9 +7,9 @@
       alt="calculate with numbers from 0 to 18"
     />
     <link-tile
-      title="Text zu Sprache"
+      title="Text sprechen"
       nav-path="/misc/t2s"
-      src="img/games/DDBuildWords.png"
+      src="img/games/T2S.png"
       alt="text to speech"
     />
   </NavPage>

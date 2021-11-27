@@ -1,220 +1,305 @@
 <template>
   <Game
-    :is-highlight-animation-running="isGameOver"
-    nav-back-path="/dragdrop"
+    nav-back-path="/misc"
     :explanation="explanation"
-    @previous="previousLevel"
     @restart="restart"
-    :current-level="selectedLevel"
-    @next="nextLevel"
+    @previous="deleteCharacter"
+    @next="writeSpace"
   >
-    <div class="drop-section" v-bind:style="gridContainer">
-      <ImageContainer
-        v-for="charConfig in droppableCharacters"
-        :key="charConfig.character"
-        :data-identifier="charConfig.character"
-        :src="charConfig.image"
-        class="dropzone empty-droppable-element"
-      ></ImageContainer>
+    <div class="upper-section">
+      <textarea class="textarea" v-model="inputText"></textarea>
     </div>
-    <div class="spacer"></div>
-    <div class="drag-section" v-bind:style="gridContainer">
+    <div class="middle-section">
+      <div class="syn-settings">
+        <div class="syn-setting">
+          <em class="fas fa-comment-dots syn-setting-icon"></em>
+          <select v-model="selectedVoice" class="syn-setting-input">
+            <option
+              v-for="voice in voices"
+              :key="voice.voiceURI"
+              :value="voice"
+            >
+              {{ voice.lang }} {{ voice.name }}
+            </option>
+          </select>
+        </div>
+        <div class="syn-setting">
+          <em class="fas fa-arrows-alt-v syn-setting-icon"></em>
+          <input
+            v-model="pitch"
+            type="range"
+            id="pitch"
+            name="pitch"
+            min="0"
+            max="200"
+            class="syn-setting-input"
+          />
+        </div>
+        <div class="syn-setting">
+          <em class="fas fa-tachometer-alt syn-setting-icon"></em>
+          <input
+            v-model="rate"
+            type="range"
+            id="rate"
+            name="rate"
+            min="0"
+            max="1000"
+            class="syn-setting-input"
+          />
+        </div>
+        <div class="syn-setting">
+          <em class="fas fa-volume-down syn-setting-icon"></em>
+          <input
+            v-model="volume"
+            type="range"
+            id="volume"
+            name="volume"
+            min="0"
+            max="100"
+            class="syn-setting-input"
+          />
+        </div>
+      </div>
+      <div class="syn-actions">
+        <div @click="speak" class="game-button play-button">
+          <em style="font-size: 1.8rem" class="fas fa-headphones"></em>
+          <em class="fas fa-play-circle" style="font-size: 1rem"></em>
+        </div>
+        <div class="syn-actions-lower">
+          <div @click="clearInput" class="game-button syn-actions-lower-button">
+            <em style="font-size: 1.8rem" class="fas fa-trash"></em>
+          </div>
+          <div @click="pause" class="game-button syn-actions-lower-button">
+            <em style="font-size: 1.8rem" class="fas fa-stop"></em>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="lower-section" v-bind:style="gridContainer">
       <ImageContainer
-        v-for="charConfig in draggableCharacters"
+        v-for="charConfig in characterConfigs"
         :key="charConfig.character"
         :data-identifier="charConfig.character"
         :src="charConfig.image"
         class="draggable-element"
+        @click="writeCharacter(charConfig, $event)"
       ></ImageContainer>
     </div>
-    <ErrorAnimation ref="errorAnimation"></ErrorAnimation>
   </Game>
 </template>
 
 <script>
 import Game from "../Game";
 import ImageContainer from "../ImageContainer";
-import { dragDrop } from "../mixins/dragDrop";
 import { characterConfigs } from "../mixins/characterConfigs";
-import { ArrayUtils } from "../utils/ArrayUtils";
 import { SoundUtils } from "../utils/SoundUtils";
-import ErrorAnimation from "../ErrorAnimation";
+
+let dummyText =
+  "Schreib mir etwas und ich lese es dir vor. Hier ist ein Beispiel:\n" +
+  "Leb deinen Traum, denn er wird wahr.\n" +
+  "Geh deinen Weg, stelle dich der Gefahr.\n" +
+  "Alles was wichtig ist, wirst du erkennen, wenn die Zeit gekommen ist.\n" +
+  "Ja! Greif nach den Sternen, du bist bereit.\n" +
+  "Glaub an dich, bald ist es soweit.\n" +
+  "Wir werden bei dir sein. Sei bereit.";
 
 export default {
   name: "TextToSpeech",
   components: {
     ImageContainer,
     Game,
-    ErrorAnimation,
   },
-  mixins: [dragDrop, characterConfigs],
+  mixins: [characterConfigs],
   data() {
     return {
-      selectedLevel: 2,
-      levels: [
-        { elementAmount: 2 },
-        { elementAmount: 3 },
-        { elementAmount: 4 },
-        { elementAmount: 5 },
-        { elementAmount: 6 },
-        { elementAmount: 7 },
-        { elementAmount: 8 },
-        { elementAmount: 9 },
-        { elementAmount: 10 },
-        { elementAmount: 11 },
-        { elementAmount: 12 },
-        { elementAmount: 13 },
-        { elementAmount: 14 },
-        { elementAmount: 15 },
-        { elementAmount: 16 },
-        { elementAmount: 17 },
-        { elementAmount: 18 },
-        { elementAmount: 19 },
-        { elementAmount: 20 },
-        { elementAmount: 21 },
-      ],
-      droppableCharacters: [],
-      draggableCharacters: [],
-      solvedCharacters: 0,
-      isGameOver: false,
-      explanation: "dragdrop_characters",
+      inputText: dummyText,
+      explanation: "t2s",
+      speech: new SpeechSynthesisUtterance(),
+      voices: window.speechSynthesis.getVoices(),
+      selectedVoice: undefined,
+      pitch: 100, // to have nice slider well convert this value later divided by 100 to a float. def=1, min=0.0, max=2.0
+      rate: 100, // to have nice slider well convert this value later divided by 100 to a float. def=1, min=0.1, max=10
+      volume: 100, // to have nice slider well convert this value later divided by 100 to a float. def1, min=0.0, max=1.0
     };
   },
   created: function () {
     SoundUtils.playExplanation(this.explanation);
-    this.restart();
-    this.initDragDrop(true);
+    this.speech.lang = "de";
+    for (const characterConfig of this.characterConfigs) {
+      SoundUtils.preload(
+        "de/characters/" + characterConfig.character.toLowerCase()
+      );
+    }
+    if (this.voices) {
+      let orderedVoices = [];
+      for (const voice of this.voices) {
+        if (voice.lang.toLowerCase().startsWith("de")) {
+          orderedVoices.unshift(voice);
+        } else {
+          orderedVoices.push(voice);
+        }
+      }
+      this.voices = orderedVoices;
+      this.selectedVoice = this.voices[0];
+    } else {
+      console.error(
+        "No voices. Good luck. Most likely the browser doesn't support this."
+      );
+    }
   },
   unmounted: function () {
     SoundUtils.stopAll();
   },
   computed: {
     gridContainer: function () {
-      let maxElementsInRow = 7;
-      let elementAmount = this.levels[this.selectedLevel].elementAmount;
-      let gridGap = 10;
-      if (elementAmount / maxElementsInRow > 2) {
-        gridGap = 3;
-      } else if (elementAmount / maxElementsInRow > 1) {
-        gridGap = 7;
-      }
-
-      let elementsInRow;
-      if (elementAmount > maxElementsInRow) {
-        elementsInRow = maxElementsInRow;
-      } else {
-        elementsInRow = elementAmount;
-      }
-
+      let maxElementsInRow = 7; // TODO Add more keys (shift, dot, comma, +, -) and set to 10
       return {
         "grid-template-columns":
-          "repeat(" + elementsInRow + ", minmax(20pt, 1fr))",
+          "repeat(" + maxElementsInRow + ", minmax(20pt, 1fr))",
         display: "grid",
-        "grid-gap": gridGap + "pt",
+        "grid-gap": "7pt",
       };
     },
   },
   methods: {
-    ondragstart: function (event) {
-      let dragElement = event.target;
-      SoundUtils.playCharacter(dragElement.getAttribute("data-identifier"));
-    },
-    ondrop: function (event) {
-      let dropElement = event.currentTarget;
-      let dragElement = event.relatedTarget;
-      let character = dropElement.getAttribute("data-identifier");
-      SoundUtils.playCharacter(character);
-      if (character === dragElement.getAttribute("data-identifier")) {
-        this.solvedCharacters++;
-        if (
-          this.solvedCharacters ===
-          this.levels[this.selectedLevel].elementAmount
-        ) {
-          setTimeout(
-            function () {
-              this.emitter.emit("showReward", [this.selectedLevel + 1]);
-              this.isGameOver = true;
-              SoundUtils.playBigSuccess();
-            }.bind(this),
-            800
-          );
-        } else {
-          this.emitter.emit("showRewardPreview");
-        }
-        return true;
-      } else {
-        this.$refs.errorAnimation.showError();
-        return false;
-      }
-    },
     restart: function () {
-      this.isGameOver = false;
-      this.solvedCharacters = 0;
-      this.droppableCharacters = [];
-      this.draggableCharacters = [];
-      ArrayUtils.shuffleArray(this.characterConfigs);
-      for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
-        let config = this.characterConfigs[i];
-        SoundUtils.preload("de/characters/" + config.character.toLowerCase());
-        this.droppableCharacters.push(config);
-        this.draggableCharacters.push(config);
-      }
-      ArrayUtils.shuffleArray(this.droppableCharacters);
-      this.resetGameComponents();
+      this.speech.text = "";
+      this.inputText = dummyText;
     },
-    resetGameComponents: function () {
-      this.resetDragAndDropSuccessions();
+    clearInput: function () {
+      this.inputText = "";
+      this.speech.text = "";
     },
-    previousLevel: function () {
-      if (this.selectedLevel > 0) {
-        this.selectedLevel--;
+    writeCharacter: function (charConfig) {
+      if (charConfig) {
+        this.inputText += charConfig.character.toLowerCase();
+        SoundUtils.playSound(charConfig.sound);
+      } else {
+        this.inputText += "⚠";
       }
-      this.restart();
     },
-    nextLevel: function () {
-      if (this.selectedLevel < this.levels.length - 1) {
-        this.selectedLevel++;
+    deleteCharacter: function () {
+      this.inputText = this.inputText.slice(0, -1);
+    },
+    writeSpace: function () {
+      this.inputText += " ";
+    },
+    speak: function () {
+      SoundUtils.stopAll();
+
+      window.speechSynthesis.cancel();
+      this.speech.text = this.inputText;
+      if (this.selectedVoice) {
+        this.speech.voice = this.selectedVoice;
       }
-      this.restart();
+      if (this.pitch >= 0 && this.pitch <= 200) {
+        this.speech.pitch = this.pitch / 100;
+      }
+      if (this.rate >= 0 && this.rate <= 1000) {
+        if (this.rate <= 0.1) {
+          this.rate = 0.1;
+        }
+        this.speech.rate = this.rate / 100;
+      }
+      if (this.volume >= 0 && this.volume <= 100) {
+        this.speech.volume = this.volume / 100;
+      }
+      window.speechSynthesis.speak(this.speech);
+    },
+    pause: function () {
+      // since window.speechSynthesis.pause() is currently working on many devices we'll just implement a cancel
+      window.speechSynthesis.cancel();
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.spacer {
-  height: 20%;
-  max-height: 20%;
+.textarea {
+  font-family: "Comic Sans MS", "sans-serif";
+  border-radius: 5pt;
+  resize: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-top: 15pt;
+  width: 100%;
+  height: 90%;
 }
 
-.drop-section,
-.drag-section {
+.play-button {
   width: 100%;
-  height: 40%;
-  max-height: 40%;
+  height: 50%;
+  margin-bottom: 5pt;
+}
+
+.syn-settings {
+  width: 70%;
+  max-width: 70%;
+  padding-top: 5pt;
+}
+
+.syn-setting {
+  width: 100%;
+  display: flex;
+}
+
+.syn-setting-icon {
+  width: 20pt;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.syn-setting-input {
+  height: 18%; // hack to vertical align the settings a bit nicer
+  width: 80%;
+  background-color: #4385f482;
+  border-color: #4385f482;
+  color: #ffffff;
+}
+
+.syn-actions {
+  height: 93%;
+  width: 30%;
+  padding-left: 10pt;
+  padding-top: 5pt;
+}
+
+.syn-actions-lower {
+  display: flex;
+  width: 100%;
+  height: 35%;
+}
+
+.syn-actions-lower-button {
+  width: 45%;
+  height: 100%;
+  margin-bottom: 5pt;
+  margin-left: 5pt;
+  margin-right: 5pt;
+}
+
+.middle-section {
+  height: 20%;
+  max-height: 20%;
+  display: flex;
+}
+
+.upper-section,
+.lower-section {
+  width: 100%;
+  height: 45%;
+  max-height: 45%;
   justify-items: center;
   align-items: center;
   position: relative;
 }
 
+.upper-section {
+  height: 35%;
+}
+
 .draggable-element {
-  touch-action: none;
   background-color: transparent;
-}
-
-.empty-droppable-element {
-  filter: grayscale(85%);
-}
-
-.drop-target-active {
-  background-color: #6060d7;
-}
-
-.drop-success {
-  background-color: #24ff02;
-}
-
-.drag-success {
-  visibility: hidden;
 }
 </style>
