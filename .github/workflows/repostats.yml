@@ -23,3 +23,5 @@ jobs:
           # repository (which this workflow file lives in),
           # to store data and the report files.
           ghtoken: ${{ secrets.ghrs_github_api_token }}
+          databranch: github-repo-stats
+
