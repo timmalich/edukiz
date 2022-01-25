@@ -1,6 +1,14 @@
 <template>
   <div class="content-window">
     <router-view></router-view>
+    <cookie-law theme="dark-lime">
+      <!-- TODO implement consent and decline (see main.js enabled: property) -->
+      <button class="skew" @click="props.accept"><span>I accept</span></button>
+      <p>
+        This site uses 🍪
+      </p>
+      <button class="skew" @click="props.close"><span>Ignore me</span></button>
+    </cookie-law>
   </div>
 </template>
 

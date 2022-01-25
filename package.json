@@ -21,6 +21,8 @@
     "sass": "^1.26.12",
     "sass-loader": "^10.0.2",
     "vue": "^3.2.23",
+    "vue-cookie-law": "^1.13.3",
+    "vue-gtag": "^2.0.1",
     "vue-router": "^4.0.12",
     "webpack": "^5.64.4",
     "workbox-strategies": "^6.4.1"

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 import "@fortawesome/fontawesome-free/css/all.css";
 import mitt from "mitt";
+import VueGtag from "vue-gtag";
 
 import Home from "./components/Home.vue";
 import Memory from "./components/memory/MemoryNavPage.vue";
@@ -86,5 +87,6 @@ const router = createRouter({
 const emitter = mitt();
 const app = createApp(App);
 app.use(router);
+app.use(VueGtag, {config: {id: "G-WFDHBCWETB"}, enabled: false}) // TODO enable on consent
 app.config.globalProperties.emitter = emitter;
 app.mount("#app");
