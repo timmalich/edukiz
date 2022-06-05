@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/timmalich/edukiz,14,10
+/timmalich/edukiz/tree/main/original_svg_images_which_are_to_huge,2,1
+/timmalich/edukiz/blob/main/.gitattributes,1,1
+/timmalich/edukiz/blob/main/original_svg_images_which_are_to_huge/cat1.svg,1,1
+/timmalich/edukiz/blob/main/original_svg_images_which_are_to_huge/dragon4.svg,1,1
+/timmalich/edukiz/blob/main/scripts/distribute.sh,1,1
+/timmalich/edukiz/blob/main/scripts/edukiz.freecluster.eu.key,1,1
+/timmalich/edukiz/blob/main/scripts/tagDeployment.sh,1,1
+/timmalich/edukiz/blob/main/src/App.vue,1,1
+/timmalich/edukiz/blob/main/src/components/ErrorAnimation.vue,1,1
