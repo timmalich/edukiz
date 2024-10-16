@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/timmalich/edukiz,13,13
+/timmalich/edukiz/tree/main/src,3,1
+/timmalich/edukiz/tree/main/src/components,3,1
+/timmalich/edukiz/blob/main/index.html,2,2
+/timmalich/edukiz/tree/main/scripts,2,2
+/timmalich/edukiz/blob/main/src/components/drag_drop/DDBuildWordsGame.vue,2,1
+/timmalich/edukiz/tree/main/src/components/drag_drop,2,1
+/timmalich/edukiz/blob/main/scripts/deploy_github.sh,1,1
+/timmalich/edukiz/blob/main/src/components/Game.vue,1,1
+/timmalich/edukiz/blob/main/src/components/ImageContainer.vue,1,1
