@@ -45,7 +45,9 @@ Why?
 1. Clone the repository
 2. Install npm:
 [npm](https://www.npmjs.com/get-npm)
-3. cd into the root folder and run `npm install`
+3. Install nvm [nvm](https://github.com/nvm-sh/nvm)
+4. run `nvm install 16; nvm use 16`
+5. run `npm install`
 
 ### Compiles and hot-reloads for development
 
