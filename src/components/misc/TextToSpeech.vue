@@ -125,11 +125,6 @@ export default {
   created: function () {
     SoundUtils.playExplanation(this.explanation);
     this.speech.lang = "de";
-    for (const characterConfig of this.characterConfigs) {
-      SoundUtils.preload(
-        "de/characters/" + characterConfig.character.toLowerCase()
-      );
-    }
     if (this.voices) {
       let orderedVoices = [];
       for (const voice of this.voices) {
@@ -173,7 +168,7 @@ export default {
     writeCharacter: function (charConfig) {
       if (charConfig) {
         this.inputText += charConfig.character.toLowerCase();
-        SoundUtils.playSound(charConfig.sound);
+        SoundUtils.play(charConfig.sound);
       } else {
         this.inputText += "⚠";
       }

@@ -165,7 +165,6 @@ export default {
         let cardConfig = this.possibleCardConfigs[i];
         this.cards.push(this.createCard(this.cards.length + "A", cardConfig));
         this.cards.push(this.createCard(this.cards.length + "B", cardConfig));
-        SoundUtils.preload(cardConfig.sound);
       }
       ArrayUtils.shuffleArray(this.cards);
       this.showAllCards();
@@ -195,7 +194,9 @@ export default {
       };
 
       if (!this.flippedCard) {
-        SoundUtils.playSound(currentCard.sound);
+        // eslint-disable-next-line no-debugger
+        debugger;
+        SoundUtils.play(currentCard.sound);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
       } else {
@@ -213,7 +214,10 @@ export default {
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          SoundUtils.playSound(currentCard.sound);
+          // eslint-disable-next-line no-debugger
+          debugger;
+          SoundUtils.play(currentCard.sound);
+
           setTimeout(
             function () {
               this.$refs.errorAnimation.showError();

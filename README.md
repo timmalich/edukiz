@@ -109,3 +109,9 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
 #### Distribute
     ./scripts/distribute.sh 
 
+## Feature TODOs
+// highlight boy voice "left" , girl void "right" to the star, choose random default
+// find out why "chicken" is mssing and resolve comment in soundlib
+// add additional success sounds
+// resolve todos
+// consider tts on sound not found

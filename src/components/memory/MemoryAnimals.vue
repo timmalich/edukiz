@@ -4,6 +4,7 @@
 
 <script>
 import MemoryGame from "./MemoryGame.vue";
+import { SoundLib } from "../utils/SoundUtils";
 
 export default {
   name: "MemoryCharacters",
@@ -15,74 +16,74 @@ export default {
     let add = function (img, sound, filetype) {
       possibleCardConfigs.push({
         image: "img/" + img + "." + (filetype ? filetype : "svg"),
-        sound: "de/words/" + sound,
+        sound: sound,
       });
     };
-    add("ambulance1", "krankenwagen");
-    add("bird1", "eule");
-    add("bird2", "eule");
-    add("butterfly", "schmetterling");
-    add("car1", "auto");
-    add("car2", "auto");
-    add("cat1", "katze", "png");
-    add("chicken1", "huhn");
-    add("christmas_tree1", "weihnachtsbaum");
-    add("christmas_tree2", "weihnachtsbaum");
-    add("dino1", "dino");
-    add("dino2", "dino");
-    add("dog1", "hund");
-    add("dragon1", "dad/drache");
-    add("dragon2", "dad/drache");
-    add("dragon3", "dad/drache");
-    add("dragon4", "dad/drache", "png");
-    add("dragon5", "dad/drache");
-    add("dragon6", "dad/drache");
-    add("dragon7", "dad/drache");
-    add("dragon8", "dad/drache", "png");
-    add("dragon9", "dad/drache");
-    add("dragon1", "dad/drache");
-    add("fire_truck1", "feuerwehr");
-    add("fire_truck2", "feuerwehrauto");
-    add("fish1", "fisch");
-    add("fish2", "fisch");
-    add("fish3", "fisch");
-    add("fish4", "regenbogenfisch");
-    add("fish5", "fisch");
-    add("fish6", "fisch");
-    add("fish7", "fisch");
-    add("fish8", "fisch");
-    add("frog1", "frosch");
-    add("frog2", "frosch");
-    add("goat1", "ziege");
-    add("goat2", "ziege");
-    add("ninja1", "ninja");
-    add("penguin1", "pinguin");
-    add("penguin2", "pinguin");
-    add("penguin3", "pinguin");
-    add("penguin5", "pinguin");
-    add("penguin6", "pinguin");
-    add("penguin7", "pinguin");
-    add("penguin8", "pinguin");
-    add("penguin9", "pinguin");
-    add("penguin10", "pinguin");
-    add("penguin11", "pinguin");
-    add("penguin12", "pinguin");
-    add("penguin13", "pinguin");
-    add("penguin14", "pinguin");
-    add("penguin15", "pinguin");
-    add("police_car", "polizei");
-    add("rabbit1", "hase");
-    add("rainbow1", "regenbogen");
-    add("santa1", "weihnachtsmann");
-    add("snail1", "schnecke");
-    add("snail2", "schnecke");
-    add("snail3", "schnecke");
-    add("snowman1", "schneemann");
-    add("tractor1", "traktor");
-    add("tractor2", "traktor");
-    add("tree1", "baum");
-    add("unicorn1", "einhorn");
-    add("unicorn2", "einhorn");
+    add("ambulance1", SoundLib.ambulance);
+    add("bird1", SoundLib.owl);
+    add("bird2", SoundLib.owl);
+    add("butterfly", SoundLib.butterfly);
+    add("car1", SoundLib.car);
+    add("car2", SoundLib.car);
+    add("cat1", SoundLib.cat, "png");
+    add("chicken1", SoundLib.chicken);
+    add("christmas_tree1", SoundLib.christmasTree);
+    add("christmas_tree2", SoundLib.christmasTree);
+    add("dino1", SoundLib.dino);
+    add("dino2", SoundLib.dino);
+    add("dog1", SoundLib.dog);
+    add("dragon1", SoundLib.dad_dragon);
+    add("dragon2", SoundLib.dad_dragon);
+    add("dragon3", SoundLib.dad_dragon);
+    add("dragon4", SoundLib.dad_dragon, "png");
+    add("dragon5", SoundLib.dad_dragon);
+    add("dragon6", SoundLib.dad_dragon);
+    add("dragon7", SoundLib.dad_dragon);
+    add("dragon8", SoundLib.dad_dragon, "png");
+    add("dragon9", SoundLib.dad_dragon);
+    add("dragon1", SoundLib.dad_dragon);
+    add("fire_truck1", SoundLib.fireEngine);
+    add("fire_truck2", SoundLib.fireEngine);
+    add("fish1", SoundLib.fish);
+    add("fish2", SoundLib.fish);
+    add("fish3", SoundLib.fish);
+    add("fish4", SoundLib.rainbowFish);
+    add("fish5", SoundLib.fish);
+    add("fish6", SoundLib.fish);
+    add("fish7", SoundLib.fish);
+    add("fish8", SoundLib.fish);
+    add("frog1", SoundLib.frog);
+    add("frog2", SoundLib.frog);
+    add("goat1", SoundLib.goat);
+    add("goat2", SoundLib.goat);
+    add("ninja1", SoundLib.ninja);
+    add("penguin1", SoundLib.penguin);
+    add("penguin2", SoundLib.penguin);
+    add("penguin3", SoundLib.penguin);
+    add("penguin5", SoundLib.penguin);
+    add("penguin6", SoundLib.penguin);
+    add("penguin7", SoundLib.penguin);
+    add("penguin8", SoundLib.penguin);
+    add("penguin9", SoundLib.penguin);
+    add("penguin10", SoundLib.penguin);
+    add("penguin11", SoundLib.penguin);
+    add("penguin12", SoundLib.penguin);
+    add("penguin13", SoundLib.penguin);
+    add("penguin14", SoundLib.penguin);
+    add("penguin15", SoundLib.penguin);
+    add("police_car", SoundLib.police);
+    add("rabbit1", SoundLib.bunny);
+    add("rainbow1", SoundLib.rainbow);
+    add("santa1", SoundLib.santa);
+    add("snail1", SoundLib.snail);
+    add("snail2", SoundLib.snail);
+    add("snail3", SoundLib.snail);
+    add("snowman1", SoundLib.snowman);
+    add("tractor1", SoundLib.tractor);
+    add("tractor2", SoundLib.tractor);
+    add("tree1", SoundLib.tree);
+    add("unicorn1", SoundLib.unicorn);
+    add("unicorn2", SoundLib.unicorn);
     return {
       possibleCardConfigs: possibleCardConfigs,
     };

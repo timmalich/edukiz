@@ -137,6 +137,9 @@ export default {
         ) {
           this.isGameOver = true;
           this.emitter.emit("showReward", [this.selectedLevel + 1]);
+          /* TODO: do we need i18n SoundLib here?
+              This might look more 'clean', but the approach with the untranslated words here is just so nice and easy.
+              I'd also like to add tts as fallback in case, a word is missing */
           SoundUtils.playSound(
             "de/words/dad/" + this.currentWord.toLowerCase()
           ).addEventListener(

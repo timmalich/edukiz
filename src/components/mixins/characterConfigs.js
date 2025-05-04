@@ -1,4 +1,5 @@
 import { ImageUtils } from "../utils/ImageUtils";
+import { SoundLib } from "@/components/utils/SoundUtils";
 
 export const characterConfigs = {
   data() {
@@ -8,7 +9,7 @@ export const characterConfigs = {
       characterConfigs.push({
         character: character,
         image: ImageUtils.getCharacterImagePath(character),
-        sound: "de/characters/" + character.toLowerCase(),
+        sound: SoundLib[character.toLowerCase()],
       });
     }
     return {
