@@ -1,11 +1,14 @@
-import {Voice} from "@/models/Voice";
+import { Voice } from "@/models/Voice";
 
 const savedVoice = JSON.parse(localStorage.getItem("selectedVoice"));
 const voices = {
   boy0: new Voice("boy0", "Boy Voice"),
-  girl0: new Voice("girl0", "Girl Voice")
-}
-const randomVoice = voices[Object.keys(voices)[Math.floor(Math.random() * Object.keys(voices).length)]];
+  girl0: new Voice("girl0", "Girl Voice"),
+};
+const randomVoice =
+  voices[
+    Object.keys(voices)[Math.floor(Math.random() * Object.keys(voices).length)]
+  ];
 
 export const SoundUtils = {
   voices: voices,
@@ -39,7 +42,7 @@ export const SoundUtils = {
     this.eventListeners.shift();
     if (srcArray.length > 0) {
       let nextSound = this.playSoundsInRow.bind(this, srcArray);
-      this.eventListeners.push({src: src, listener: nextSound});
+      this.eventListeners.push({ src: src, listener: nextSound });
       return this.playSound(src).addEventListener("ended", nextSound, {
         once: true,
       });
@@ -61,12 +64,22 @@ export const SoundUtils = {
     return audio;
   },
   playError: function () {
-    let errors = ["error1", /*"error2" too "strong" as default*,*/ "error3", "error4"];
+    let errors = [
+      "error1",
+      /*"error2" too "strong" as default*,*/ "error3",
+      "error4",
+    ];
     let randomError = errors[Math.floor(Math.random() * errors.length)];
     return this.playSound(randomError);
   },
   playSuccess: function () {
-    let successes = ["success1", "success2", "success3", "success4", "success5"];
+    let successes = [
+      "success1",
+      "success2",
+      "success3",
+      "success4",
+      "success5",
+    ];
     let randomSuccess = successes[Math.floor(Math.random() * successes.length)];
     return this.playSound(randomSuccess);
   },
@@ -84,8 +97,10 @@ export const SoundUtils = {
   },
   play: function (src) {
     // helper function to handle exception, to avoid crashing if the user of the new SoundLib tries to play a sound that is not properly setup.
-    if(!src) {
-      console.error("No sound source provided, check if the input was extracted from SoundLib correctly.");
+    if (!src) {
+      console.error(
+        "No sound source provided, check if the input was extracted from SoundLib correctly."
+      );
       return;
     }
     try {
@@ -103,7 +118,7 @@ export const SoundUtils = {
   },
   useGirl0Voice() {
     this.setVoice(this.voices.girl0);
-  }
+  },
 };
 
 class Sound {
@@ -128,7 +143,8 @@ class KidSound extends Sound {
 
   play() {
     let language = "de/";
-    let path = language + this.group + "/" + SoundUtils.selectedVoice.id + "/" + this.id;
+    let path =
+      language + this.group + "/" + SoundUtils.selectedVoice.id + "/" + this.id;
     SoundUtils.playSound(path);
   }
 }

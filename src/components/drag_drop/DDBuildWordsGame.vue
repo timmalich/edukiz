@@ -41,7 +41,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import { dragDrop } from "../mixins/dragDrop";
 import { ArrayUtils } from "../utils/ArrayUtils";
-import {SoundLib, SoundUtils} from "../utils/SoundUtils";
+import { SoundLib, SoundUtils } from "../utils/SoundUtils";
 import { wordConfigs } from "../mixins/wordConfigs";
 import { CharacterUtils } from "../utils/CharacterUtils";
 import ErrorAnimation from "../ErrorAnimation";
@@ -112,10 +112,12 @@ export default {
     ondragstart: function (event) {
       let dragElement = event.target;
       try {
-        SoundUtils.play(SoundLib[dragElement.getAttribute("data-identifier").toLowerCase()]);
+        SoundUtils.play(
+          SoundLib[dragElement.getAttribute("data-identifier").toLowerCase()]
+        );
       } catch (e) {
         console.error("Error dragging. See event content below ", e);
-        console.error(event)
+        console.error(event);
       }
     },
     ondrop: function (event) {

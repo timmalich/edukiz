@@ -10,9 +10,9 @@
     </div>
     <div>
       <Footer
-          :previous-level-disabled="true"
-          :next-level-disabled="true"
-          :game-switches-hidden="true"
+        :previous-level-disabled="true"
+        :next-level-disabled="true"
+        :game-switches-hidden="true"
       />
     </div>
   </div>
@@ -24,7 +24,7 @@ import Footer from "@/components/Footer.vue";
 
 export default {
   name: "NavPage",
-  components: {Footer, Header },
+  components: { Footer, Header },
   props: ["navBackPath"],
 };
 </script>
