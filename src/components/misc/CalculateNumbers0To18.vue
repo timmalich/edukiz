@@ -69,6 +69,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import { ArrayUtils } from "../utils/ArrayUtils";
 import { SoundUtils } from "../utils/SoundUtils";
+import { SoundLib } from "../utils/SoundUtils";
 import { numberConfigs } from "../mixins/numberConfigs";
 import ErrorAnimation from "../ErrorAnimation";
 import { CharacterUtils } from "../utils/CharacterUtils";
@@ -217,6 +218,15 @@ export default {
         }.bind(this),
         2000
       );
+    },
+    ondragstart: function (event) {
+      let dragElement = event.target;
+      try {
+        SoundUtils.play(SoundLib[dragElement.getAttribute("data-identifier").toLowerCase()]);
+      } catch (e) {
+        console.error("Error dragging. See event content below ", e);
+        console.error(event)
+      }
     },
     ondrop: function (event) {
       SoundUtils.stopAll();
@@ -379,7 +389,7 @@ export default {
       this.isLevelFinished = false;
       this.choices = [];
       this.droppedNumbers = [];
-      //SoundUtils.stopAll();
+      SoundUtils.stopAll();
       this.handleLevelButtons();
       this.generateLevel();
 
@@ -392,13 +402,11 @@ export default {
           this.numberConfigs
         );
         this.choices.push(randomNumberConfig);
-        SoundUtils.preload("de/characters/" + randomNumberConfig.number);
       }
 
       for (let el in this.solution.numberConfigs) {
         let numberConfig = this.solution.numberConfigs[el];
         this.choices.push(numberConfig);
-        SoundUtils.preload("de/characters/" + numberConfig.number);
       }
       this.choices = ArrayUtils.shuffleArray(this.choices);
 

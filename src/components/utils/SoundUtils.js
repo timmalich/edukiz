@@ -84,6 +84,10 @@ export const SoundUtils = {
   },
   play: function (src) {
     // helper function to handle exception, to avoid crashing if the user of the new SoundLib tries to play a sound that is not properly setup.
+    if(!src) {
+      console.error("No sound source provided, check if the input was extracted from SoundLib correctly.");
+      return;
+    }
     try {
       src.play();
     } catch (e) {
