@@ -8,15 +8,23 @@
     <div class="link-area">
       <slot></slot>
     </div>
+    <div>
+      <Footer
+          :previous-level-disabled="true"
+          :next-level-disabled="true"
+          :game-switches-hidden="true"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "./Header";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "NavPage",
-  components: { Header },
+  components: {Footer, Header },
   props: ["navBackPath"],
 };
 </script>
@@ -28,8 +36,8 @@ export default {
   justify-content: center;
   position: relative;
   max-width: 100%;
-  height: auto;
-  max-height: 100%;
+  height: calc(100% - 35pt - 35pt);
+  max-height: calc(100% - 35pt - 35pt);
   overflow: auto;
 }
 </style>

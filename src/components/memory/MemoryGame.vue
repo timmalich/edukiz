@@ -194,8 +194,6 @@ export default {
       };
 
       if (!this.flippedCard) {
-        // eslint-disable-next-line no-debugger
-        debugger;
         SoundUtils.play(currentCard.sound);
         this.flippedCard = currentCard;
         this.isBoardLocked = false;
@@ -214,8 +212,6 @@ export default {
           this.flippedCard = null;
           this.isBoardLocked = false;
         } else {
-          // eslint-disable-next-line no-debugger
-          debugger;
           SoundUtils.play(currentCard.sound);
 
           setTimeout(
