@@ -115,3 +115,5 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
 // add additional success sounds
 // resolve todos
 // consider tts on sound not found
+// Add the 3 missing boy words: dragon, laugh1, laugh2, laugh3, chicken, hi
+// sounds in math game broken

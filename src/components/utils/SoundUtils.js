@@ -1,4 +1,15 @@
+import {Voice} from "@/models/Voice";
+
+const savedVoice = JSON.parse(localStorage.getItem("selectedVoice"));
+const voices = {
+  boy0: new Voice("boy0", "Boy Voice"),
+  girl0: new Voice("girl0", "Girl Voice")
+}
+const randomVoice = voices[Object.keys(voices)[Math.floor(Math.random() * Object.keys(voices).length)]];
+
 export const SoundUtils = {
+  voices: voices,
+  selectedVoice: savedVoice ? voices[savedVoice.id] : randomVoice,
   audios: {},
   eventListeners: [],
   preload: function (src) {
@@ -28,7 +39,7 @@ export const SoundUtils = {
     this.eventListeners.shift();
     if (srcArray.length > 0) {
       let nextSound = this.playSoundsInRow.bind(this, srcArray);
-      this.eventListeners.push({ src: src, listener: nextSound });
+      this.eventListeners.push({src: src, listener: nextSound});
       return this.playSound(src).addEventListener("ended", nextSound, {
         once: true,
       });
@@ -79,6 +90,16 @@ export const SoundUtils = {
       console.error("Error playing sound: " + src, e);
     }
   },
+  setVoice(voice) {
+    this.selectedVoice = voice;
+    localStorage.setItem("selectedVoice", JSON.stringify(voice));
+  },
+  useBoy0Voice() {
+    this.setVoice(this.voices.boy0);
+  },
+  useGirl0Voice() {
+    this.setVoice(this.voices.girl0);
+  }
 };
 
 class Sound {
@@ -88,7 +109,8 @@ class Sound {
   }
 
   play() {
-    throw new Error("play() not implemented for this sound");
+    let path = this.id ? this.group + "/" + this.id : this.group;
+    SoundUtils.playSound(path);
   }
 }
 
@@ -102,11 +124,8 @@ class KidSound extends Sound {
 
   play() {
     let language = "de/";
-    let selectedKid = "boy0";
-    if (selectedKid === "boy0") {
-      let path = language + this.group + "/" + selectedKid + "/" + this.id;
-      SoundUtils.playSound(path);
-    }
+    let path = language + this.group + "/" + SoundUtils.selectedVoice.id + "/" + this.id;
+    SoundUtils.playSound(path);
   }
 }
 
@@ -180,7 +199,7 @@ export const SoundLib = {
   butterfly: new KidSound("words", "butterfly"),
   car: new KidSound("words", "car"),
   cat: new KidSound("words", "cat"),
-  chicken: new KidSound("words", "chicken"), // FIXME: looks like chicken was missing the entire time
+  chicken: new KidSound("words", "chicken"),
   christmasTree: new KidSound("words", "christmas_tree"),
   dino: new KidSound("words", "dino"),
   dog: new KidSound("words", "dog"),
@@ -190,6 +209,10 @@ export const SoundLib = {
   fish: new KidSound("words", "fish"),
   frog: new KidSound("words", "frog"),
   goat: new KidSound("words", "goat"),
+  hi: new KidSound("words", "hi"),
+  laugh1: new KidSound("words", "laugh1"),
+  laugh2: new KidSound("words", "laugh2"),
+  laugh3: new KidSound("words", "laugh3"),
   ninja: new KidSound("words", "ninja"),
   owl: new KidSound("words", "owl"),
   penguin: new KidSound("words", "penguin"),
@@ -204,4 +227,6 @@ export const SoundLib = {
   unicorn: new KidSound("words", "unicorn"),
   // dad sounds
   dad_dragon: new DadSound("words", "drache"),
+  // general
+  success1: new Sound("success1"),
 };
