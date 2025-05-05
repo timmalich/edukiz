@@ -12,34 +12,27 @@
       <em class="fas fa-arrow-alt-circle-left"></em>
     </div>
     <div @click="useBoyVoice()" class="voiceOption">
-      <img
-          :src="voiceOptionImageBoy"
-          alt="Boys Voice"
-      />
+      <img :src="voiceOptionImageBoy" alt="Boys Voice" />
     </div>
     <div
       @click="restart()"
       v-bind:class="[
-          { highlight: isHighlightAnimationRunning },
-          { gameSwitchesHidden: gameSwitchesHidden }
+        { highlight: isHighlightAnimationRunning },
+        { gameSwitchesHidden: gameSwitchesHidden },
       ]"
       class="game-button"
     >
       <em class="fas fa-redo-alt"></em>
     </div>
     <div @click="useGirlVoice()" class="voiceOption">
-      <img
-          class="voiceOption"
-          :src="voiceOptionImageGirl"
-          alt="Girls Voice"
-      />
+      <img class="voiceOption" :src="voiceOptionImageGirl" alt="Girls Voice" />
     </div>
     <div
       @click="next()"
       v-bind:class="[
         { highlight: isHighlightAnimationRunning && !nextLevelDisabled },
         { disabled: nextLevelDisabled },
-        { gameSwitchesHidden: gameSwitchesHidden }
+        { gameSwitchesHidden: gameSwitchesHidden },
       ]"
       class="game-button"
     >
@@ -47,29 +40,29 @@
     </div>
     <slot></slot>
     <img
-        v-if="isShowBoyVoiceAnimationActive"
-        v-bind:class="[
+      v-if="isShowBoyVoiceAnimationActive"
+      v-bind:class="[
         { 'voiceAnimationBoy-show': isShowBoyVoiceAnimationActive },
       ]"
-        src="img/boy_happy.png"
-        class="no-drag"
-        alt="Voice animation boy"
+      src="img/boy_happy.png"
+      class="no-drag"
+      alt="Voice animation boy"
     />
     <img
-        v-if="isShowGirlVoiceAnimationActive"
-        v-bind:class="[
+      v-if="isShowGirlVoiceAnimationActive"
+      v-bind:class="[
         { 'voiceAnimationGirl-show': isShowGirlVoiceAnimationActive },
       ]"
-        src="img/girl_happy.png"
-        class="no-drag"
-        alt="Voice animation girl"
+      src="img/girl_happy.png"
+      class="no-drag"
+      alt="Voice animation girl"
     />
   </div>
 </template>
 
 <script>
-import {SoundUtils} from "./utils/SoundUtils";
-import {SoundLib} from "./utils/SoundUtils";
+import { SoundUtils } from "./utils/SoundUtils";
+import { SoundLib } from "./utils/SoundUtils";
 export default {
   name: "Footer",
   data() {
@@ -87,8 +80,14 @@ export default {
     "gameSwitchesHidden",
   ],
   mounted() {
-    this.voiceOptionImageBoy = SoundUtils.selectedVoice.id !== "boy0" ? "img/boy_bored.png" : "img/boy_happy.png";
-    this.voiceOptionImageGirl = SoundUtils.selectedVoice.id !== "girl0" ? "img/girl_bored.png" : "img/girl_happy.png";
+    this.voiceOptionImageBoy =
+      SoundUtils.selectedVoice.id !== "boy0"
+        ? "img/boy_bored.png"
+        : "img/boy_happy.png";
+    this.voiceOptionImageGirl =
+      SoundUtils.selectedVoice.id !== "girl0"
+        ? "img/girl_bored.png"
+        : "img/girl_happy.png";
   },
   methods: {
     previous: function () {
@@ -112,10 +111,10 @@ export default {
       if (!this.isShowBoyVoiceAnimationActive) {
         this.isShowBoyVoiceAnimationActive = true;
         setTimeout(
-            function () {
-              this.isShowBoyVoiceAnimationActive = false;
-            }.bind(this),
-            2000
+          function () {
+            this.isShowBoyVoiceAnimationActive = false;
+          }.bind(this),
+          2000
         );
       }
     },
@@ -134,13 +133,13 @@ export default {
       if (!this.isShowGirlVoiceAnimationActive) {
         this.isShowGirlVoiceAnimationActive = true;
         setTimeout(
-            function () {
-              this.isShowGirlVoiceAnimationActive = false;
-            }.bind(this),
-            2000
+          function () {
+            this.isShowGirlVoiceAnimationActive = false;
+          }.bind(this),
+          2000
         );
       }
-    }
+    },
   },
 };
 </script>
