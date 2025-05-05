@@ -41,7 +41,7 @@ import Game from "../Game";
 import ImageContainer from "../ImageContainer";
 import { dragDrop } from "../mixins/dragDrop";
 import { ArrayUtils } from "../utils/ArrayUtils";
-import { SoundUtils } from "../utils/SoundUtils";
+import {SoundLib, SoundUtils} from "../utils/SoundUtils";
 import { wordConfigs } from "../mixins/wordConfigs";
 import { CharacterUtils } from "../utils/CharacterUtils";
 import ErrorAnimation from "../ErrorAnimation";
@@ -111,7 +111,12 @@ export default {
     },
     ondragstart: function (event) {
       let dragElement = event.target;
-      SoundUtils.playCharacter(dragElement.getAttribute("data-identifier"));
+      try {
+        SoundUtils.play(SoundLib[dragElement.getAttribute("data-identifier").toLowerCase()]);
+      } catch (e) {
+        console.error("Error dragging. See event content below ", e);
+        console.error(event)
+      }
     },
     ondrop: function (event) {
       SoundUtils.stopAll();
@@ -137,9 +142,6 @@ export default {
         ) {
           this.isGameOver = true;
           this.emitter.emit("showReward", [this.selectedLevel + 1]);
-          /* TODO: do we need i18n SoundLib here?
-              This might look more 'clean', but the approach with the untranslated words here is just so nice and easy.
-              I'd also like to add tts as fallback in case, a word is missing */
           SoundUtils.playSound(
             "de/words/dad/" + this.currentWord.toLowerCase()
           ).addEventListener(
@@ -180,7 +182,6 @@ export default {
       ).toUpperCase();
       this.currentWordCharacters = this.currentWord.split("");
       for (let character of this.currentWordCharacters) {
-        SoundUtils.preload("de/characters/" + character.toLowerCase());
         this.draggableCharacters.push(CharacterUtils.createConfig(character));
       }
       ArrayUtils.shuffleArray(this.draggableCharacters);
