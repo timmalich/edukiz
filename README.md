@@ -110,10 +110,9 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
     ./scripts/distribute.sh 
 
 ## Feature TODOs
-// highlight boy voice "left" , girl void "right" to the star, choose random default
+
 // find out why "chicken" is mssing and resolve comment in soundlib
-// add additional success sounds
 // resolve todos
 // consider tts on sound not found
-// Add the 3 missing boy words: dragon, laugh1, laugh2, laugh3, chicken, hi
+// Add the missing boy words: dragon, laugh1, laugh2, laugh3, chicken, hi
 // sounds in math game broken

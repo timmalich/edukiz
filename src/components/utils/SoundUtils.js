@@ -60,17 +60,17 @@ export const SoundUtils = {
     }
     return audio;
   },
-  // TODO: check if its better to have these inside the SoundLib instead
   playError: function () {
-    // TODO: choose random success
-    return this.playSound("error1");
+    let errors = ["error1", /*"error2" too "strong" as default*,*/ "error3", "error4"];
+    let randomError = errors[Math.floor(Math.random() * errors.length)];
+    return this.playSound(randomError);
   },
   playSuccess: function () {
-    // TODO: choose random success
-    return this.playSound("success1");
+    let successes = ["success1", "success2", "success3", "success4", "success5"];
+    let randomSuccess = successes[Math.floor(Math.random() * successes.length)];
+    return this.playSound(randomSuccess);
   },
   playBigSuccess: function () {
-    // TODO: choose random success
     return this.playSound("big_success1");
   },
   playCharacter: function (character) {
