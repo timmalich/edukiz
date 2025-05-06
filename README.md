@@ -58,7 +58,7 @@ npm run serve
 ### Compiles and minifies for production
 
 ```
-npm run build
+nvm use 16; npm run build
 ```
 
 ### Lints and fixes files
@@ -73,7 +73,7 @@ npm run prettier
 ```
 
 ### Release
-Run: `npm run-script tag-deployment`
+Run: `npm run tag-deployment`
 
 ### Distribute
 For some reason it's currently almost impossible to get a free and valid SSL certificate for the current webhoster (see distribute old).
@@ -85,7 +85,7 @@ To distribute:
 - clone the other repository too
 - Name it edukiz_live
 - put it next to this repository
-- run: `npm run-script deploy-github`
+- run: `nvm use 16; npm run deploy-github`
 
 ### Distribute (deprecated but still alive)
 I'm just using the first recommended free webhoster for distribution. 
