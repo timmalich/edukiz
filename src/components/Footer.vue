@@ -107,7 +107,15 @@ export default {
       this.voiceOptionImageBoy = "img/boy_happy.png";
       this.voiceOptionImageGirl = "img/girl_bored.png";
       SoundUtils.useBoy0Voice();
-      SoundUtils.play(SoundLib.success1);
+      let sounds = [
+        SoundLib.hi,
+        SoundLib.laugh1,
+        SoundLib.laugh2,
+        SoundLib.laugh3,
+        SoundLib.success1,
+      ];
+      let randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+      SoundUtils.play(randomSound);
       if (!this.isShowBoyVoiceAnimationActive) {
         this.isShowBoyVoiceAnimationActive = true;
         setTimeout(
@@ -127,6 +135,11 @@ export default {
         SoundLib.laugh1,
         SoundLib.laugh2,
         SoundLib.laugh3,
+        SoundLib.success2,
+        SoundLib.success2,
+        SoundLib.success3,
+        SoundLib.success4,
+        SoundLib.success5,
       ];
       let randomSound = sounds[Math.floor(Math.random() * sounds.length)];
       SoundUtils.play(randomSound);

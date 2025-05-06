@@ -249,4 +249,8 @@ export const SoundLib = {
   dad_dragon: new DadSound("words", "drache"),
   // general
   success1: new Sound("success1"),
+  success2: new Sound("success2"),
+  success3: new Sound("success3"),
+  success4: new Sound("success4"),
+  success5: new Sound("success5"),
 };

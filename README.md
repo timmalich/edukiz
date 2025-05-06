@@ -110,5 +110,3 @@ If you want to contribute you may just contact me for the transcrypted ftp passw
     ./scripts/distribute.sh 
 
 ## Feature TODOs
-
-// Add the missing boy words: dragon, laugh1, laugh2, laugh3, chicken, hi
