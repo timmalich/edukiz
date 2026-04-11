@@ -1,0 +1,11 @@
+url_path,views_total,views_unique
+/timmalich/edukiz,35,31
+/timmalich/edukiz/blob/main/scripts/tagDeployment.sh,6,1
+/timmalich/edukiz/blob/main/index.html,2,2
+/timmalich/edukiz/tree/main/.github,2,2
+/timmalich/edukiz/tree/main/scripts,2,2
+/timmalich/edukiz/blame/main/babel.config.js,1,1
+/timmalich/edukiz/blame/main/index.html,1,1
+/timmalich/edukiz/blob/main/babel.config.js,1,1
+/timmalich/edukiz/blob/main/scripts/deploy_github.sh,1,1
+/timmalich/edukiz/blob/main/scripts/distribute.sh,1,1
