@@ -1,6 +1,4 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { mount } from '@vue/test-utils'
-import mitt from 'mitt'
 import { wordConfigs as wordPhoneConfigs } from '@/components/mixins/wordPhoneConfigs.js'
 import { logger } from '@/utils/logger.js'
 
@@ -19,20 +17,6 @@ Object.defineProperty(window, 'localStorage', {
   },
   writable: true
 })
-
-const createWrapper = (component, options = {}) => {
-  const emitter = mitt()
-  return mount(component, {
-    global: {
-      config: {
-        globalProperties: {
-          emitter
-        }
-      }
-    },
-    ...options
-  })
-}
 
 vi.mock('@interactjs/interactjs', () => {
   const mockInteract = vi.fn(() => ({
@@ -64,18 +48,6 @@ describe('Mixins and Utils Integration Tests', () => {
   })
 
   describe('dragDrop mixin', () => {
-    let testComponent
-
-    beforeEach(() => {
-      testComponent = {
-        mixins: [dragDrop],
-        methods: {
-          ondrop: vi.fn(() => true),
-          ondragstart: vi.fn(),
-        },
-        template: '<div><div class="dropzone"></div><div class="draggable-element" data-x="0" data-y="0"></div></div>'
-      }
-    })
 
     it('has unmounted method that unsets interact', () => {
       expect(typeof dragDrop.unmounted).toBe('function')

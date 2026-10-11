@@ -3,7 +3,6 @@ import { mount, flushPromises } from '@vue/test-utils'
 import mitt from 'mitt'
 import DDBuildWordsGame from '@/components/drag_drop/DDBuildWordsGame.vue'
 import DDCharacters from '@/components/drag_drop/DDCharacters.vue'
-import { ArrayUtils } from '@/components/utils/ArrayUtils.js'
 import { CharacterUtils } from '@/components/utils/CharacterUtils.js'
 
 vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())
@@ -189,7 +188,6 @@ describe('Drag Drop Games Integration Tests', () => {
       wrapper.vm.restart(true)
       await flushPromises()
 
-      const firstWord = wrapper.vm.currentWord
       const firstChars = [...wrapper.vm.currentWordCharacters]
 
       wrapper.vm.restart(true)

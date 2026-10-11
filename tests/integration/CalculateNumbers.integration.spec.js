@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import mitt from 'mitt'
 import CalculateNumbers0To18 from '@/components/misc/CalculateNumbers0To18.vue'
-import { ArrayUtils } from '@/components/utils/ArrayUtils.js'
 import { CharacterUtils } from '@/components/utils/CharacterUtils.js'
 
 vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())

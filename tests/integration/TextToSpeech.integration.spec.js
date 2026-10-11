@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import mitt from 'mitt'
 import TextToSpeech from '@/components/misc/TextToSpeech.vue'
 
@@ -246,7 +246,6 @@ describe('TextToSpeech Integration Tests', () => {
       wrapper = createWrapper(TextToSpeech)
       const initialText = wrapper.vm.inputText
       const charConfig = { character: 'A', sound: 'soundA' }
-      const playSpy = vi.spyOn(wrapper.vm, 'writeCharacter')
       
       wrapper.vm.writeCharacter(charConfig)
       
