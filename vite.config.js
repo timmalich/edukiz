@@ -6,7 +6,7 @@ import { resolve } from 'path'
 const isProduction = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
-  base: '/edukiz/',
+  base: '',
   plugins: [
     vue(),
     isProduction && VitePWA({

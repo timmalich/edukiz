@@ -35,7 +35,7 @@ jobs:
         run: npm run test
 
       - name: Build production
-        run: npm run build
+        run: npm run build:edukiz
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

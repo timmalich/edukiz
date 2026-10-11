@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run format && vite build",
+    "build:edukiz": "npm run format && vite build --base=/edukiz/",
+    "build:edukiz_live": "npm run format && vite build --base=/edukiz_live/",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix",
     "format": "prettier --write \"src/**/*.{vue,js,scss}\"",

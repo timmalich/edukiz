@@ -2,7 +2,7 @@
 cd "${0%/*}../"
 
 nvm use 16
-npm run build
+npm run build:edukiz_live
 cp -r ./dist/* ../edukiz_live/
 COMMIT_ID=$(git rev-parse --short HEAD)
 LATEST_TAG=$(git describe origin --abbrev=0 --tags)
