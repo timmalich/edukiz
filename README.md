@@ -2,12 +2,34 @@
 
 Simple HTML/JS educational games for children, built with Vue 3 and Vite. Runs offline as a PWA.
 
-The runnable version is available at [https://timmalich.github.io/edukiz/](https://timmalich.github.io/edukiz/).
-Each commit on the main branch directly deploys to it.
+## Deployments
 
-Old distribution with manual effort are also present
-here: [https://timmalich.github.io/edukiz_live/#/](https://timmalich.github.io/edukiz_live/#/)
-and [https://edukiz.freecluster.eu/#/](https://edukiz.freecluster.eu/#/).
+| Environment | URL | Trigger | Base Path |
+|-------------|-----|---------|-----------|
+| **GitHub Pages (main)** | https://timmalich.github.io/edukiz/ | Push to `main` branch via GitHub Actions | `/edukiz/` |
+| **GitHub Pages (legacy)** | https://timmalich.github.io/edukiz_live/ | Manual `npm run deploy-github` | `/edukiz_live/` |
+| **Custom Domain** | https://edukiz.freecluster.eu/ | Manual deploy to freecluster.eu | `/` (root) |
+
+### GitHub Pages (main) - Automatic
+- **Workflow**: `.github/workflows/deploy.yml`
+- **Trigger**: Push to `main` branch
+- **Build**: `npm run build:edukiz` (uses `--base=/edukiz/`)
+- **Deploy**: GitHub Actions → GitHub Pages
+- **Important**: Repository Settings → Pages → Build and deployment → Source must be **"GitHub Actions"**
+
+### GitHub Pages (legacy) - Manual
+- **Script**: `scripts/deploy_github.sh`
+- **Command**: `npm run deploy-github`
+- **Build**: `npm run build:edukiz_live` (uses `--base=/edukiz_live/`)
+- **Target**: Separate repo `timmalich/edukiz_live`
+- **Use case**: Keep main repo clean from generated dist code
+
+### Custom Domain - Manual
+- **Target**: `edukiz.freecluster.eu` (FTP/SSH deploy)
+- **Build**: `npm run build` (uses `base: ''` from vite.config.js)
+- **Use case**: Production domain with root path
+
+All three versions are built from the same source but with different `base` paths for correct asset loading.
 
 ## Objective
 
@@ -170,7 +192,7 @@ tests/
 
 - Hash router mode (`createWebHashHistory`) for file:// protocol compatibility
 - Service worker caches all assets for offline use
-- Relative paths (`base: ''`) for flexible deployment
+- Configurable base path per deployment (see Deployments table)
 
 ### Sound System
 

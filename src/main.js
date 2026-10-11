@@ -5,6 +5,15 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import mitt from 'mitt';
 
 import Home from './components/Home.vue';
+
+const APP_VERSION = import.meta.env.APP_VERSION;
+const APP_COMMIT = import.meta.env.APP_COMMIT;
+
+if (typeof window !== 'undefined') {
+  window.__APP_VERSION__ = APP_VERSION;
+  window.__APP_COMMIT__ = APP_COMMIT;
+  console.log(`Edukiz v${APP_VERSION} (${APP_COMMIT})`);
+}
 import Memory from './components/memory/MemoryNavPage.vue';
 import MemoryAnimals from './components/memory/MemoryAnimals.vue';
 import MemoryCharacters from './components/memory/MemoryCharacters.vue';
