@@ -2,6 +2,13 @@
 
 Simple HTML/JS educational games for children, built with Vue 3 and Vite. Runs offline as a PWA.
 
+The runnable version is available at [https://timmalich.github.io/edukiz/](https://timmalich.github.io/edukiz/).
+Each commit on the main branch directly deploys to it.
+
+Old distribution with manual effort are also present
+here: [https://timmalich.github.io/edukiz_live/#/](https://timmalich.github.io/edukiz_live/#/)
+and [https://edukiz.freecluster.eu/#/](https://edukiz.freecluster.eu/#/).
+
 ## Objective
 
 Simple educational games for children that work offline on any device (smartphone, tablet, Raspberry Pi, laptop, etc.).
@@ -14,18 +21,23 @@ Simple educational games for children that work offline on any device (smartphon
 ## Available Games
 
 ### Memory
+
 Memory Games with:
+
 - Letters and numbers
 - Animals
 
 ### Alphabetic Games
+
 - Drag and Drop letters on letters
 - Drag letters to a word
 
 ### Arithmetic Games
+
 - Calculations with +- for equations with solutions between 0 and 18
 
 ### Other Games
+
 - Text to speech. Provide a text and let the computer read it out loud. Uses the Web Speech API.
 
 ## Tech Stack
@@ -43,6 +55,7 @@ Memory Games with:
 ## Project Setup
 
 ### Prerequisites
+
 - Node.js >= 24
 - npm >= 10
 
@@ -154,16 +167,19 @@ tests/
 ## Key Features
 
 ### Offline-First / PWA
+
 - Hash router mode (`createWebHashHistory`) for file:// protocol compatibility
 - Service worker caches all assets for offline use
 - Relative paths (`base: ''`) for flexible deployment
 
 ### Sound System
+
 - `SoundUtils` singleton manages audio caching, playback, voice selection (boy/girl)
 - `SoundLib` exports pre-configured sound objects for letters, numbers, words
 - Audio files organized by language: `public/sounds/de/`
 
 ### Game Flow
+
 1. User selects game from Home → NavPage
 2. Game component loads config from mixins
 3. User interaction triggers sounds, level progression, rewards
