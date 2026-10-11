@@ -11,14 +11,8 @@
     >
       <em class="fas fa-arrow-alt-circle-left" />
     </div>
-    <div
-      class="voiceOption"
-      @click="useBoyVoice()"
-    >
-      <img
-        :src="voiceOptionImageBoy"
-        alt="Boys Voice"
-      >
+    <div class="voiceOption" @click="useBoyVoice()">
+      <img :src="voiceOptionImageBoy" alt="Boys Voice" />
     </div>
     <div
       :class="[
@@ -30,15 +24,8 @@
     >
       <em class="fas fa-redo-alt" />
     </div>
-    <div
-      class="voiceOption"
-      @click="useGirlVoice()"
-    >
-      <img
-        class="voiceOption"
-        :src="voiceOptionImageGirl"
-        alt="Girls Voice"
-      >
+    <div class="voiceOption" @click="useGirlVoice()">
+      <img class="voiceOption" :src="voiceOptionImageGirl" alt="Girls Voice" />
     </div>
     <div
       :class="[
@@ -58,14 +45,14 @@
       :src="boyAnimationImage"
       class="no-drag"
       alt="Voice animation boy"
-    >
+    />
     <img
       v-if="isShowGirlVoiceAnimationActive"
       :class="[{ 'voiceAnimationGirl-show': isShowGirlVoiceAnimationActive }]"
       :src="girlAnimationImage"
       class="no-drag"
       alt="Voice animation girl"
-    >
+    />
   </div>
 </template>
 

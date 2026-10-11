@@ -6,7 +6,7 @@
       :src="error.image"
       class="error-animation"
       alt="error animation"
-    >
+    />
   </div>
 </template>
 

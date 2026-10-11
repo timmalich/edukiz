@@ -35,7 +35,7 @@ export default [
       'vue/require-explicit-emits': 'off',
       'vue/require-default-prop': 'off',
       'no-console': 'warn',
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
     }
   },
   {
@@ -51,6 +51,12 @@ export default [
         beforeAll: 'readonly',
         afterAll: 'readonly'
       }
+    }
+  },
+  {
+    files: ['src/utils/logger.js'],
+    rules: {
+      'no-console': 'off'
     }
   }
 ]
