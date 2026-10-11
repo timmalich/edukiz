@@ -7,14 +7,24 @@
     @next="writeSpace"
   >
     <div class="upper-section">
-      <textarea v-model="inputText" class="textarea" />
+      <textarea
+        v-model="inputText"
+        class="textarea"
+      />
     </div>
     <div class="middle-section">
       <div class="syn-settings">
         <div class="syn-setting">
           <em class="fas fa-comment-dots syn-setting-icon" />
-          <select v-model="selectedVoice" class="syn-setting-input">
-            <option v-for="voice in voices" :key="voice.voiceURI" :value="voice">
+          <select
+            v-model="selectedVoice"
+            class="syn-setting-input"
+          >
+            <option
+              v-for="voice in voices"
+              :key="voice.voiceURI"
+              :value="voice"
+            >
               {{ voice.lang }} {{ voice.name }}
             </option>
           </select>
@@ -29,7 +39,7 @@
             min="0"
             max="200"
             class="syn-setting-input"
-          />
+          >
         </div>
         <div class="syn-setting">
           <em class="fas fa-tachometer-alt syn-setting-icon" />
@@ -41,7 +51,7 @@
             min="0"
             max="1000"
             class="syn-setting-input"
-          />
+          >
         </div>
         <div class="syn-setting">
           <em class="fas fa-volume-down syn-setting-icon" />
@@ -53,25 +63,49 @@
             min="0"
             max="100"
             class="syn-setting-input"
-          />
+          >
         </div>
       </div>
       <div class="syn-actions">
-        <div class="game-button play-button" @click="speak">
-          <em style="font-size: 1.8rem" class="fas fa-headphones" />
-          <em class="fas fa-play-circle" style="font-size: 1rem" />
+        <div
+          class="game-button play-button"
+          @click="speak"
+        >
+          <em
+            style="font-size: 1.8rem"
+            class="fas fa-headphones"
+          />
+          <em
+            class="fas fa-play-circle"
+            style="font-size: 1rem"
+          />
         </div>
         <div class="syn-actions-lower">
-          <div class="game-button syn-actions-lower-button" @click="clearInput">
-            <em style="font-size: 1.8rem" class="fas fa-trash" />
+          <div
+            class="game-button syn-actions-lower-button"
+            @click="clearInput"
+          >
+            <em
+              style="font-size: 1.8rem"
+              class="fas fa-trash"
+            />
           </div>
-          <div class="game-button syn-actions-lower-button" @click="pause">
-            <em style="font-size: 1.8rem" class="fas fa-stop" />
+          <div
+            class="game-button syn-actions-lower-button"
+            @click="pause"
+          >
+            <em
+              style="font-size: 1.8rem"
+              class="fas fa-stop"
+            />
           </div>
         </div>
       </div>
     </div>
-    <div class="lower-section" :style="gridContainer">
+    <div
+      class="lower-section"
+      :style="gridContainer"
+    >
       <ImageContainer
         v-for="charConfig in characterConfigs"
         :key="charConfig.character"

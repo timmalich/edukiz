@@ -15,13 +15,24 @@
         class="clickable-elements"
         @change="generateCards()"
       >
-        <option v-for="(level, index) in levels" :key="index" :value="index">
+        <option
+          v-for="(level, index) in levels"
+          :key="index"
+          :value="index"
+        >
           {{ index + 1 }} ({{ level.rows * level.columns }} Cards)
         </option>
       </select>
     </template>
-    <div :style="gridContainer" class="grid-container">
-      <button v-if="!isGameStarted" class="play-button" @click="startGame">
+    <div
+      :style="gridContainer"
+      class="grid-container"
+    >
+      <button
+        v-if="!isGameStarted"
+        class="play-button"
+        @click="startGame"
+      >
         <i class="fas fa-play-circle" />
       </button>
       <memory-card

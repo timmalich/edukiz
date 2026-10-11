@@ -8,7 +8,10 @@
     @restart="restart"
     @next="nextLevel"
   >
-    <div class="drop-section" :style="gridContainer">
+    <div
+      class="drop-section"
+      :style="gridContainer"
+    >
       <ImageContainer
         v-for="charConfig in droppableCharacters"
         :key="charConfig.character"
@@ -18,7 +21,10 @@
       />
     </div>
     <div class="spacer" />
-    <div class="drag-section" :style="gridContainer">
+    <div
+      class="drag-section"
+      :style="gridContainer"
+    >
       <ImageContainer
         v-for="charConfig in draggableCharacters"
         :key="charConfig.character"

@@ -2,7 +2,10 @@
   <div class="content">
     <Header :nav-back-path="navBackPath">
       <div class="game-button">
-        <a href="https://github.com/timmalich/edukiz" class="fab fa-github" />
+        <a
+          href="https://github.com/timmalich/edukiz"
+          class="fab fa-github"
+        />
       </div>
     </Header>
     <div class="link-area">

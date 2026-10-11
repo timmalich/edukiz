@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
-    <img :src="src" alt="containerized image" />
+    <img
+      :src="src"
+      alt="containerized image"
+    >
   </div>
 </template>
 <script>
