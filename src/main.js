@@ -1,20 +1,20 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import { createRouter, createWebHashHistory } from "vue-router";
-import "@fortawesome/fontawesome-free/css/all.css";
-import mitt from "mitt";
+import { createApp } from 'vue';
+import App from './App.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import '@fortawesome/fontawesome-free/css/all.css';
+import mitt from 'mitt';
 
-import Home from "./components/Home.vue";
-import Memory from "./components/memory/MemoryNavPage.vue";
-import MemoryAnimals from "./components/memory/MemoryAnimals.vue";
-import MemoryCharacters from "./components/memory/MemoryCharacters";
-import DDNavPage from "./components/drag_drop/DDNavPage";
-import DDBuildWordsGame from "./components/drag_drop/DDBuildWordsGame";
-import DDCharacters from "./components/drag_drop/DDCharacters";
-import MiscNavPage from "./components/misc/MiscNavPage";
-import CalculateNumbers0To18 from "./components/misc/CalculateNumbers0To18";
-import TextToSppech from "./components/misc/TextToSpeech";
-import "./registerServiceWorker";
+import Home from './components/Home.vue';
+import Memory from './components/memory/MemoryNavPage.vue';
+import MemoryAnimals from './components/memory/MemoryAnimals.vue';
+import MemoryCharacters from './components/memory/MemoryCharacters.vue';
+import DDNavPage from './components/drag_drop/DDNavPage.vue';
+import DDBuildWordsGame from './components/drag_drop/DDBuildWordsGame.vue';
+import DDCharacters from './components/drag_drop/DDCharacters.vue';
+import MiscNavPage from './components/misc/MiscNavPage.vue';
+import CalculateNumbers0To18 from './components/misc/CalculateNumbers0To18.vue';
+import TextToSpeech from './components/misc/TextToSpeech.vue';
+import './registerServiceWorker';
 
 if (!localStorage.rewards) {
   localStorage.rewards = 0;
@@ -24,60 +24,60 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: "/",
-      name: "Home",
+      path: '/',
+      name: 'Home',
       component: Home,
     },
     {
-      path: "/memory",
-      name: "Memory",
+      path: '/memory',
+      name: 'Memory',
       component: Memory,
     },
     {
-      path: "/memory/animals",
-      name: "MemoryAnimals",
+      path: '/memory/animals',
+      name: 'MemoryAnimals',
       component: MemoryAnimals,
     },
     {
-      path: "/memory/characters",
-      name: "MemoryCharacters",
+      path: '/memory/characters',
+      name: 'MemoryCharacters',
       component: MemoryCharacters,
     },
     {
-      path: "/dragdrop",
-      name: "DragDrop",
+      path: '/dragdrop',
+      name: 'DragDrop',
       component: DDNavPage,
     },
     {
-      path: "/dragdrop/build-words",
-      name: "DDBuildWords",
+      path: '/dragdrop/build-words',
+      name: 'DDBuildWords',
       component: DDBuildWordsGame,
     },
     {
-      path: "/dragdrop/characters",
-      name: "DDCharacters",
+      path: '/dragdrop/characters',
+      name: 'DDCharacters',
       component: DDCharacters,
     },
     {
-      path: "/misc",
-      name: "Misc",
+      path: '/misc',
+      name: 'Misc',
       component: MiscNavPage,
     },
     {
-      path: "/misc/numbers-0-to-18",
-      name: "CalculateNumbers0To18",
+      path: '/misc/numbers-0-to-18',
+      name: 'CalculateNumbers0To18',
       component: CalculateNumbers0To18,
     },
     {
-      path: "/misc/t2s",
-      name: "TextToSpeech",
-      component: TextToSppech,
+      path: '/misc/t2s',
+      name: 'TextToSpeech',
+      component: TextToSpeech,
     },
     {
-      path: "/github",
-      name: "github",
+      path: '/github',
+      name: 'github',
       beforeEnter() {
-        location.href = "https://github.com/timmalich/edukiz";
+        location.href = 'https://github.com/timmalich/edukiz';
       },
     },
   ],
@@ -87,4 +87,4 @@ const emitter = mitt();
 const app = createApp(App);
 app.use(router);
 app.config.globalProperties.emitter = emitter;
-app.mount("#app");
+app.mount('#app');

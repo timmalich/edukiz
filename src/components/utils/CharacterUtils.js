@@ -1,5 +1,5 @@
-import { SoundUtils } from "./SoundUtils";
-import { ImageUtils } from "./ImageUtils";
+import { SoundUtils } from './SoundUtils.js';
+import { ImageUtils } from './ImageUtils.js';
 
 export const CharacterUtils = {
   createConfig: function (character) {

@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import NavPage from "../NavPage";
-import LinkTile from "../LinkTile";
+  import NavPage from '../NavPage.vue';
+  import LinkTile from '../LinkTile.vue';
 
-export default {
-  name: "MiscNavPage",
-  components: { LinkTile, NavPage },
-};
+  export default {
+    name: 'MiscNavPage',
+    components: { LinkTile, NavPage },
+  };
 </script>
 <style scoped></style>
