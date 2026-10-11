@@ -23,11 +23,7 @@
     <div class="spacer">
       {{ currentWord }}
     </div>
-    <div
-      ref="dragSection"
-      class="drag-section"
-      :style="gridContainer"
-    >
+    <div ref="dragSection" class="drag-section" :style="gridContainer">
       <ImageContainer
         v-for="(charConfig, index) in draggableCharacters"
         :key="index"

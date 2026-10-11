@@ -4,12 +4,7 @@
       <figcaption>
         <b>{{ title }}</b>
       </figcaption>
-      <img
-        :src="src"
-        class="link-tile clickable-elements"
-        :alt="alt"
-        @click="nav"
-      >
+      <img :src="src" class="link-tile clickable-elements" :alt="alt" @click="nav" />
     </figure>
   </div>
 </template>

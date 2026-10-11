@@ -14,31 +14,12 @@
       class="grid-container4 exercise-section dropzone"
       :class="[{ 'all-drops-successful': isGameOver }]"
     >
-      <ImageContainer
-        key="firstElement"
-        class="drop-element"
-        :src="firstElement.image"
-      />
-      <ImageContainer
-        key="operatorElement"
-        class="drop-element"
-        :src="operator.image"
-      />
-      <ImageContainer
-        key="secondElement"
-        class="drop-element"
-        :src="secondElement.image"
-      />
-      <ImageContainer
-        key="equals"
-        class="drop-element"
-        src="img/characters/=.svg"
-      />
+      <ImageContainer key="firstElement" class="drop-element" :src="firstElement.image" />
+      <ImageContainer key="operatorElement" class="drop-element" :src="operator.image" />
+      <ImageContainer key="secondElement" class="drop-element" :src="secondElement.image" />
+      <ImageContainer key="equals" class="drop-element" src="img/characters/=.svg" />
     </div>
-    <div
-      class="solution-section dropzone"
-      :style="gridContainerSolutionZone"
-    >
+    <div class="solution-section dropzone" :style="gridContainerSolutionZone">
       <div />
       <ImageContainer
         v-for="(numberConfig, index) in droppedNumbers"
@@ -48,11 +29,7 @@
       />
     </div>
     <div class="spacer" />
-    <div
-      ref="dragSection"
-      class="choice-section"
-      :style="gridContainer"
-    >
+    <div ref="dragSection" class="choice-section" :style="gridContainer">
       <ImageContainer
         v-for="(numberConfig, index) in choices"
         :key="index"

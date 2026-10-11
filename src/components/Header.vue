@@ -1,33 +1,16 @@
 <template>
   <div class="header">
     <div class="header-left">
-      <div
-        v-if="navBackPath"
-        class="game-button"
-        @click="navBack"
-      >
+      <div v-if="navBackPath" class="game-button" @click="navBack">
         <em class="fas fa-reply" />
       </div>
-      <div
-        v-if="sound"
-        class="game-button"
-        @click="playGameExplanation"
-      >
-        <em
-          class="fas fa-question"
-          style="font-size: 1.3rem"
-        />
-        <em
-          style="font-size: 1.2rem"
-          class="fas fa-headphones"
-        />
+      <div v-if="sound" class="game-button" @click="playGameExplanation">
+        <em class="fas fa-question" style="font-size: 1.3rem" />
+        <em style="font-size: 1.2rem" class="fas fa-headphones" />
       </div>
     </div>
     <div class="header-center">
-      <div
-        class="reward"
-        @click="showRewardPreview()"
-      >
+      <div class="reward" @click="showRewardPreview()">
         <div>{{ rewards }}</div>
         <img
           class="no-drag"
@@ -35,7 +18,7 @@
           :style="rewardFinal"
           :src="getRewardHeaderImage()"
           alt="reward"
-        >
+        />
       </div>
     </div>
     <div class="header-right">
@@ -47,7 +30,7 @@
       :src="getNextRewardImage()"
       class="no-drag"
       alt="reward-preview"
-    >
+    />
   </div>
 </template>
 
