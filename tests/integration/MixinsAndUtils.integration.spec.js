@@ -2,34 +2,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { wordConfigs as wordPhoneConfigs } from '@/components/mixins/wordPhoneConfigs.js';
 import { logger } from '@/utils/logger.js';
 
-vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve());
-vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
-vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {});
-vi.spyOn(window.HTMLMediaElement.prototype, 'addEventListener').mockImplementation(() => {});
-vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplementation(() => {});
-
-Object.defineProperty(window, 'localStorage', {
-  value: {
-    getItem: vi.fn(() => '0'),
-    setItem: vi.fn(),
-    removeItem: vi.fn(),
-    clear: vi.fn(),
-  },
-  writable: true,
-});
-
-vi.mock('@interactjs/interactjs', () => {
-  const mockInteract = vi.fn(() => ({
-    dropzone: vi.fn().mockReturnThis(),
-    draggable: vi.fn().mockReturnThis(),
-    unset: vi.fn(),
-  }));
-  mockInteract.dropzone = vi.fn().mockReturnThis();
-  mockInteract.draggable = vi.fn().mockReturnThis();
-  mockInteract.unset = vi.fn();
-  return { default: mockInteract };
-});
-
 import { dragDrop } from '@/components/mixins/dragDrop.js';
 
 describe('Mixins and Utils Integration Tests', () => {
@@ -135,7 +107,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('initDragDrop calls interact.dropzone and interact.draggable', async () => {
-      const interactModule = await import('@interactjs/interactjs');
+      const interactModule = await import('@interactjs/interact');
       const interact = interactModule.default;
       const vm = {
         ...dragDrop.methods,
@@ -151,7 +123,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('initDragDrop with lockDropzoneSuccessfulAfterDrag=true checks drop-success class', async () => {
-      const interactModule = await import('@interactjs/interactjs');
+      const interactModule = await import('@interactjs/interact');
       const interact = interactModule.default;
       const vm = {
         ...dragDrop.methods,
@@ -167,7 +139,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('unmounted calls interact.unset', async () => {
-      const interactModule = await import('@interactjs/interactjs');
+      const interactModule = await import('@interactjs/interact');
       const interact = interactModule.default;
       dragDrop.unmounted();
       expect(interact).toHaveBeenCalledTimes(2);

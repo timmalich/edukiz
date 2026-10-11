@@ -61,7 +61,7 @@ describe('CalculateNumbers0To18 Integration Tests', () => {
       wrapper.vm.numberConfigs.forEach((config, index) => {
         expect(config.number).toBe(index);
         expect(config.image).toContain('img/characters/');
-        expect(config.sound).toContain('de/characters/');
+        expect(config.sound).toBeUndefined();
       });
     });
 
@@ -498,29 +498,32 @@ describe('CalculateNumbers0To18 Integration Tests', () => {
   });
 
   describe('CharacterUtils', () => {
-    it('creates character config with image and sound', () => {
+    it('creates character config with image', () => {
       const config = CharacterUtils.createConfig('A');
       expect(config.character).toBe('A');
       expect(config.image).toBe('img/characters/A.svg');
-      expect(config.sound).toContain('de/characters/');
+      expect(config.sound).toBeUndefined();
     });
 
     it('creates config for numbers', () => {
       const config = CharacterUtils.createConfig('1');
       expect(config.character).toBe('1');
       expect(config.image).toBe('img/characters/1.svg');
+      expect(config.sound).toBeUndefined();
     });
 
     it('creates config for operators', () => {
       const config = CharacterUtils.createConfig('+');
       expect(config.character).toBe('+');
       expect(config.image).toBe('img/characters/+.svg');
+      expect(config.sound).toBeUndefined();
     });
 
     it('creates config for equals', () => {
       const config = CharacterUtils.createConfig('=');
       expect(config.character).toBe('=');
       expect(config.image).toBe('img/characters/=.svg');
+      expect(config.sound).toBeUndefined();
     });
   });
 });

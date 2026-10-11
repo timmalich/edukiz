@@ -6,6 +6,18 @@ vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {})
 vi.spyOn(window.HTMLMediaElement.prototype, 'addEventListener').mockImplementation(() => {});
 vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplementation(() => {});
 
+vi.mock('@interactjs/interact', () => {
+  const mockInteract = vi.fn(() => ({
+    dropzone: vi.fn().mockReturnThis(),
+    draggable: vi.fn().mockReturnThis(),
+    unset: vi.fn(),
+  }));
+  mockInteract.dropzone = vi.fn().mockReturnThis();
+  mockInteract.draggable = vi.fn().mockReturnThis();
+  mockInteract.unset = vi.fn();
+  return { default: mockInteract };
+});
+
 Object.defineProperty(window, 'localStorage', {
   value: {
     getItem: vi.fn(() => '0'),

@@ -272,25 +272,25 @@ describe('Utilities Integration Tests', () => {
   });
 
   describe('CharacterUtils', () => {
-    it('createConfig creates config with character, sound, image', () => {
+    it('createConfig creates config with character and image', () => {
       const config = CharacterUtils.createConfig('A');
       expect(config.character).toBe('A');
       expect(config.image).toBe('img/characters/A.svg');
-      expect(config.sound).toBe('de/characters/a');
+      expect(config.sound).toBeUndefined();
     });
 
     it('createConfig works for numbers', () => {
       const config = CharacterUtils.createConfig('5');
       expect(config.character).toBe('5');
       expect(config.image).toBe('img/characters/5.svg');
-      expect(config.sound).toBe('de/characters/5');
+      expect(config.sound).toBeUndefined();
     });
 
     it('createConfig works for operators', () => {
       const config = CharacterUtils.createConfig('+');
       expect(config.character).toBe('+');
       expect(config.image).toBe('img/characters/+.svg');
-      expect(config.sound).toBe('de/characters/+');
+      expect(config.sound).toBeUndefined();
     });
   });
 });

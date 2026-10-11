@@ -8,7 +8,6 @@ export const numberConfigs = {
       numberConfigs.push({
         number: parseInt(number),
         image: ImageUtils.getCharacterImagePath(number),
-        sound: 'de/characters/' + number,
       });
     }
     return {

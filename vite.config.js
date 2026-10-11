@@ -26,6 +26,7 @@ export default defineConfig({
     vue(),
     isProduction && VitePWA({
       registerType: 'autoUpdate',
+      filename: 'service-worker.js',
       includeAssets: ['favicon.svg', 'img/**/*', 'sounds/**/*'],
       manifest: {
         name: 'Edukiz - Educational Games for Kids',
