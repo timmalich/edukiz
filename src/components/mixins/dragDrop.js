@@ -1,4 +1,7 @@
-import interact from '@interactjs/interact';
+import interact from '@interactjs/interactjs';
+import actionsPlugin from '@interactjs/actions/plugin.js';
+
+interact.use(actionsPlugin);
 
 export const dragDrop = {
   unmounted() {

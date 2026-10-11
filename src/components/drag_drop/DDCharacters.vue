@@ -157,7 +157,6 @@
         ArrayUtils.shuffleArray(this.characterConfigs);
         for (let i = 0; i < this.levels[this.selectedLevel].elementAmount; i++) {
           let config = this.characterConfigs[i];
-          SoundUtils.preload('de/characters/' + config.character.toLowerCase());
           this.droppableCharacters.push(config);
           this.draggableCharacters.push(config);
         }

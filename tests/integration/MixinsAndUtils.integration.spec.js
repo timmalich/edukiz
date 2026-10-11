@@ -107,7 +107,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('initDragDrop calls interact.dropzone and interact.draggable', async () => {
-      const interactModule = await import('@interactjs/interact');
+      const interactModule = await import('@interactjs/interactjs');
       const interact = interactModule.default;
       const vm = {
         ...dragDrop.methods,
@@ -123,7 +123,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('initDragDrop with lockDropzoneSuccessfulAfterDrag=true checks drop-success class', async () => {
-      const interactModule = await import('@interactjs/interact');
+      const interactModule = await import('@interactjs/interactjs');
       const interact = interactModule.default;
       const vm = {
         ...dragDrop.methods,
@@ -139,7 +139,7 @@ describe('Mixins and Utils Integration Tests', () => {
     });
 
     it('unmounted calls interact.unset', async () => {
-      const interactModule = await import('@interactjs/interact');
+      const interactModule = await import('@interactjs/interactjs');
       const interact = interactModule.default;
       dragDrop.unmounted();
       expect(interact).toHaveBeenCalledTimes(2);

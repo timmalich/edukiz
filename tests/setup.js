@@ -6,7 +6,7 @@ vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {})
 vi.spyOn(window.HTMLMediaElement.prototype, 'addEventListener').mockImplementation(() => {});
 vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplementation(() => {});
 
-vi.mock('@interactjs/interact', () => {
+vi.mock('@interactjs/interactjs', () => {
   const mockInteract = vi.fn(() => ({
     dropzone: vi.fn().mockReturnThis(),
     draggable: vi.fn().mockReturnThis(),
@@ -15,8 +15,13 @@ vi.mock('@interactjs/interact', () => {
   mockInteract.dropzone = vi.fn().mockReturnThis();
   mockInteract.draggable = vi.fn().mockReturnThis();
   mockInteract.unset = vi.fn();
+  mockInteract.use = vi.fn();
   return { default: mockInteract };
 });
+
+vi.mock('@interactjs/actions/plugin.js', () => ({
+  default: { id: 'actions', install: vi.fn() },
+}));
 
 Object.defineProperty(window, 'localStorage', {
   value: {
