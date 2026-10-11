@@ -16,7 +16,7 @@ getNextVersion() {
       printf "%0${#BASH_REMATCH[2]}d" "$((10#${BASH_REMATCH[2]} + 1))" || \
     printf "${1}"
 }
-lastTag=$(git describe origin --abbrev=0 --tags)
+lastTag=$(git tag --sort=-v:refname | head -1)
 nextVersion=$(getNextVersion "$lastTag")
 echo $nextVersion
 
