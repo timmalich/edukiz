@@ -1,10 +1,6 @@
 <template>
   <div class="content">
-    <Header
-      :nav-back-path="navBackPath"
-      :sound="explanation"
-      :current-level="currentLevel"
-    >
+    <Header :nav-back-path="navBackPath" :sound="explanation" :current-level="currentLevel">
       <slot name="header" />
     </Header>
     <div class="game-content">

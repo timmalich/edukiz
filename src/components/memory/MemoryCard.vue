@@ -1,18 +1,8 @@
 <template>
-  <div
-    class="memory-card"
-    @click="flipCard"
-  >
+  <div class="memory-card" @click="flipCard">
     <div>
-      <div
-        class="front-face"
-        :class="[{ flipped: !isFlipped }]"
-      >
-        <img
-          class="front-face-inner no-drag"
-          :src="frontFace"
-          alt="front face"
-        >
+      <div class="front-face" :class="[{ flipped: !isFlipped }]">
+        <img class="front-face-inner no-drag" :src="frontFace" alt="front face" />
       </div>
       <div>
         <img
@@ -20,7 +10,7 @@
           :src="backFace"
           alt="back face"
           :class="[{ flipped: isFlipped }]"
-        >
+        />
       </div>
     </div>
   </div>

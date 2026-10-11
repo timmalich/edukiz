@@ -1,4 +1,5 @@
 import { Voice } from '@/models/Voice.js';
+import { logger } from '@/utils/logger.js';
 
 const savedVoice = localStorage.getItem('selectedVoice');
 const savedVoiceParsed = savedVoice ? JSON.parse(savedVoice) : null;
@@ -55,7 +56,7 @@ export const SoundUtils = {
     try {
       audio.play();
     } catch (e) {
-      console.error('no audio file for: sounds/' + src + '.mp3');
+      logger.error('Audio playback failed for: sounds/' + src + '.mp3', e);
     }
     return audio;
   },
@@ -84,15 +85,12 @@ export const SoundUtils = {
   play: function (src) {
     // helper function to handle exception, to avoid crashing if the user of the new SoundLib tries to play a sound that is not properly setup.
     if (!src) {
-      console.error(
-        'No sound source provided, check if the input was extracted from SoundLib correctly.'
-      );
       return;
     }
     try {
       src.play();
     } catch (e) {
-      console.error('Error playing sound: ' + src, e);
+      logger.error('Error playing sound: ' + src, e);
     }
   },
   setVoice(voice) {

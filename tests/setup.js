@@ -30,5 +30,7 @@ Object.defineProperty(window, 'matchMedia', {
   writable: true
 })
 
+// eslint-disable-next-line no-console
 console.error = vi.fn()
+// eslint-disable-next-line no-console
 console.warn = vi.fn()

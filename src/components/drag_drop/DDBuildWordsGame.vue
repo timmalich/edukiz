@@ -23,11 +23,7 @@
     <div class="spacer">
       {{ currentWord }}
     </div>
-    <div
-      ref="dragSection"
-      class="drag-section"
-      :style="gridContainer"
-    >
+    <div ref="dragSection" class="drag-section" :style="gridContainer">
       <ImageContainer
         v-for="(charConfig, index) in draggableCharacters"
         :key="index"
@@ -50,6 +46,7 @@
   import { SoundLib, SoundUtils } from '../utils/SoundUtils.js';
   import { wordConfigs } from '../mixins/wordConfigs.js';
   import { CharacterUtils } from '../utils/CharacterUtils.js';
+  import { logger } from '@/utils/logger.js';
   import ErrorAnimation from '../ErrorAnimation.vue';
 
   export default {
@@ -119,8 +116,8 @@
         try {
           SoundUtils.play(SoundLib[dragElement.getAttribute('data-identifier').toLowerCase()]);
         } catch (e) {
-          console.error('Error dragging. See event content below ', e);
-          console.error(event);
+          logger.error('Error dragging. See event content below', e);
+          logger.error(event);
         }
       },
       ondrop: function (event) {

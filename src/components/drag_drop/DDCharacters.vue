@@ -8,10 +8,7 @@
     @restart="restart"
     @next="nextLevel"
   >
-    <div
-      class="drop-section"
-      :style="gridContainer"
-    >
+    <div class="drop-section" :style="gridContainer">
       <ImageContainer
         v-for="charConfig in droppableCharacters"
         :key="charConfig.character"
@@ -21,10 +18,7 @@
       />
     </div>
     <div class="spacer" />
-    <div
-      class="drag-section"
-      :style="gridContainer"
-    >
+    <div class="drag-section" :style="gridContainer">
       <ImageContainer
         v-for="charConfig in draggableCharacters"
         :key="charConfig.character"
@@ -44,6 +38,7 @@
   import { characterConfigs } from '../mixins/characterConfigs.js';
   import { ArrayUtils } from '../utils/ArrayUtils.js';
   import { SoundLib, SoundUtils } from '../utils/SoundUtils.js';
+  import { logger } from '@/utils/logger.js';
   import ErrorAnimation from '../ErrorAnimation.vue';
 
   export default {
@@ -125,8 +120,8 @@
         try {
           SoundUtils.play(SoundLib[dragElement.getAttribute('data-identifier').toLowerCase()]);
         } catch (e) {
-          console.error('Error dragging. See event content below ', e);
-          console.error(event);
+          logger.error('Error dragging. See event content below', e);
+          logger.error(event);
         }
       },
       ondrop: function (event) {
