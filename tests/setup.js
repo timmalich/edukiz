@@ -1,23 +1,23 @@
-import { vi } from 'vitest'
+import { vi } from 'vitest';
 
-vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())
-vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
-vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {})
-vi.spyOn(window.HTMLMediaElement.prototype, 'addEventListener').mockImplementation(() => {})
-vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplementation(() => {})
+vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve());
+vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+vi.spyOn(window.HTMLMediaElement.prototype, 'load').mockImplementation(() => {});
+vi.spyOn(window.HTMLMediaElement.prototype, 'addEventListener').mockImplementation(() => {});
+vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplementation(() => {});
 
 Object.defineProperty(window, 'localStorage', {
   value: {
     getItem: vi.fn(() => '0'),
     setItem: vi.fn(),
     removeItem: vi.fn(),
-    clear: vi.fn()
+    clear: vi.fn(),
   },
-  writable: true
-})
+  writable: true,
+});
 
 Object.defineProperty(window, 'matchMedia', {
-  value: vi.fn().mockImplementation(query => ({
+  value: vi.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -25,12 +25,12 @@ Object.defineProperty(window, 'matchMedia', {
     removeListener: vi.fn(),
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
-    dispatchEvent: vi.fn()
+    dispatchEvent: vi.fn(),
   })),
-  writable: true
-})
+  writable: true,
+});
 
 // eslint-disable-next-line no-console
-console.error = vi.fn()
+console.error = vi.fn();
 // eslint-disable-next-line no-console
-console.warn = vi.fn()
+console.warn = vi.fn();

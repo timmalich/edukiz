@@ -1,5 +1,6 @@
 import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
+import pluginPrettier from 'eslint-plugin-prettier'
 
 export default [
   js.configs.recommended,
@@ -18,6 +19,9 @@ export default [
   },
   {
     files: ['**/*.{js,vue}'],
+    plugins: {
+      prettier: pluginPrettier
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -34,8 +38,15 @@ export default [
       'vue/require-prop-types': 'off',
       'vue/require-explicit-emits': 'off',
       'vue/require-default-prop': 'off',
+      // Disable vue rules that conflict with prettier
+      'vue/html-self-closing': 'off',
+      'vue/max-attributes-per-line': 'off',
+      'vue/first-attribute-linebreak': 'off',
+      'vue/html-indent': 'off',
+      'vue/html-closing-bracket-newline': 'off',
       'no-console': 'warn',
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }]
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' }],
+      'prettier/prettier': 'error'
     }
   },
   {
