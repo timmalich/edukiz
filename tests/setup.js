@@ -1,5 +1,4 @@
 import { vi } from 'vitest'
-import mitt from 'mitt'
 
 vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())
 vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
@@ -35,5 +34,3 @@ Object.defineProperty(window, 'matchMedia', {
 console.error = vi.fn()
 // eslint-disable-next-line no-console
 console.warn = vi.fn()
-
-global.mitt = mitt

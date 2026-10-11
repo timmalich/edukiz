@@ -4,7 +4,6 @@ import mitt from 'mitt'
 import MemoryAnimals from '@/components/memory/MemoryAnimals.vue'
 import MemoryCharacters from '@/components/memory/MemoryCharacters.vue'
 import MemoryGame from '@/components/memory/MemoryGame.vue'
-import MemoryCard from '@/components/memory/MemoryCard.vue'
 import { ArrayUtils } from '@/components/utils/ArrayUtils.js'
 
 vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())
@@ -246,7 +245,7 @@ describe('Memory Game Integration Tests', () => {
         cardsByFace[card.frontFace].push(card)
       })
 
-      for (const [face, cards] of Object.entries(cardsByFace)) {
+      for (const cards of Object.values(cardsByFace)) {
         wrapper.vm.cardFlipped(cards[0])
         wrapper.vm.cardFlipped(cards[1])
         vi.advanceTimersByTime(100)
