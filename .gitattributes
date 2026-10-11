@@ -1,3 +1,5 @@
 #pattern  filter=crypt diff=crypt
 scripts/distribute.sh  filter=crypt diff=crypt
 scripts/edukiz.freecluster.eu.key  filter=crypt diff=crypt
+
+* text=auto eol=lf

@@ -70,7 +70,8 @@
     "tabWidth": 2,
     "trailingComma": "es5",
     "printWidth": 100,
-    "vueIndentScriptAndStyle": true
+    "vueIndentScriptAndStyle": true,
+    "endOfLine": "lf"
   },
   "browserslist": [
     "> 1%",
