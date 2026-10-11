@@ -21,6 +21,10 @@ export const logger = {
       console.log(...args);
     }
   },
+  // Always log version info in production
+  version: (...args) => {
+    console.log(...args);
+  },
 };
 
 export default logger;

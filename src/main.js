@@ -3,6 +3,7 @@ import App from './App.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import '@fortawesome/fontawesome-free/css/all.css';
 import mitt from 'mitt';
+import { logger } from './utils/logger.js';
 
 import Home from './components/Home.vue';
 
@@ -12,7 +13,7 @@ const APP_COMMIT = import.meta.env.APP_COMMIT;
 if (typeof window !== 'undefined') {
   window.__APP_VERSION__ = APP_VERSION;
   window.__APP_COMMIT__ = APP_COMMIT;
-  console.log(`Edukiz v${APP_VERSION} (${APP_COMMIT})`);
+  logger.version(`Edukiz v${APP_VERSION} (${APP_COMMIT})`);
 }
 import Memory from './components/memory/MemoryNavPage.vue';
 import MemoryAnimals from './components/memory/MemoryAnimals.vue';
