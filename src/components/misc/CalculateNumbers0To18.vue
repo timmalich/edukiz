@@ -126,7 +126,7 @@
         deep: true,
       },
     },
-    mounted: function () {
+    created: function () {
       if (localStorage.calculateNumbers0To18_selectedLevel) {
         this.selectedLevel = Number.parseInt(localStorage.calculateNumbers0To18_selectedLevel);
       } else {
@@ -141,7 +141,7 @@
       SoundUtils.playExplanation(this.explanation);
       this.restart();
     },
-    created: function () {
+    mounted: function () {
       this.initDragDrop(false);
     },
     unmounted: function () {

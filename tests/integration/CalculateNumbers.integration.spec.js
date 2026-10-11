@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mount, flushPromises } from '@vue/test-utils';
 import mitt from 'mitt';
 import CalculateNumbers0To18 from '@/components/misc/CalculateNumbers0To18.vue';
 import { CharacterUtils } from '@/components/utils/CharacterUtils.js';
@@ -76,10 +76,11 @@ describe('CalculateNumbers0To18 Integration Tests', () => {
       expect(wrapper.vm.operator.character).toBe('+');
     });
 
-    it('loads selected level from localStorage', () => {
+    it('loads selected level from localStorage', async () => {
       localStorage.calculateNumbers0To18_selectedLevel = '3';
       localStorage.calculateNumbers0To18_unlockedLevels = '4';
       wrapper = createWrapper(CalculateNumbers0To18);
+      await flushPromises();
       expect(wrapper.vm.selectedLevel).toBe(3);
       expect(wrapper.vm.unlockedLevels).toBe(4);
     });

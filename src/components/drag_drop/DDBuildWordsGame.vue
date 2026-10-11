@@ -83,11 +83,13 @@
     },
     created: function () {
       this.restart(true);
-      this.initDragDrop(false);
       SoundUtils.playExplanation(this.explanation).addEventListener(
         'ended',
         this.playHelpWord.bind(this)
       );
+    },
+    mounted: function () {
+      this.initDragDrop(false);
     },
     unmounted: function () {
       SoundUtils.stopAll();
