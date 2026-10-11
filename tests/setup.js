@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+import mitt from 'mitt'
 
 vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => Promise.resolve())
 vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
@@ -8,7 +9,7 @@ vi.spyOn(window.HTMLMediaElement.prototype, 'removeEventListener').mockImplement
 
 Object.defineProperty(window, 'localStorage', {
   value: {
-    getItem: vi.fn(),
+    getItem: vi.fn(() => '0'),
     setItem: vi.fn(),
     removeItem: vi.fn(),
     clear: vi.fn()
@@ -34,3 +35,5 @@ Object.defineProperty(window, 'matchMedia', {
 console.error = vi.fn()
 // eslint-disable-next-line no-console
 console.warn = vi.fn()
+
+global.mitt = mitt
