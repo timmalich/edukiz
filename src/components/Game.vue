@@ -1,14 +1,14 @@
 <template>
   <div class="content">
     <Header
-      :nav-back-path="this.navBackPath"
-      :sound="this.explanation"
+      :nav-back-path="navBackPath"
+      :sound="explanation"
       :current-level="currentLevel"
     >
-      <slot name="header"></slot>
+      <slot name="header" />
     </Header>
     <div class="game-content">
-      <slot></slot>
+      <slot />
     </div>
     <Footer
       :is-highlight-animation-running="isHighlightAnimationRunning"
@@ -22,44 +22,44 @@
 </template>
 
 <script>
-import Header from "./Header.vue";
-import Footer from "./Footer.vue";
+  import Header from './Header.vue';
+  import Footer from './Footer.vue';
 
-export default {
-  name: "Game",
-  components: {
-    Header,
-    Footer,
-  },
-  props: [
-    "navBackPath",
-    "isHighlightAnimationRunning",
-    "explanation",
-    "currentLevel",
-    "previousLevelDisabled",
-    "nextLevelDisabled",
-  ],
-  methods: {
-    previous: function () {
-      this.$emit("previous");
+  export default {
+    name: 'Game',
+    components: {
+      Header,
+      Footer,
     },
-    restart: function () {
-      this.$emit("restart");
+    props: [
+      'navBackPath',
+      'isHighlightAnimationRunning',
+      'explanation',
+      'currentLevel',
+      'previousLevelDisabled',
+      'nextLevelDisabled',
+    ],
+    methods: {
+      previous: function () {
+        this.$emit('previous');
+      },
+      restart: function () {
+        this.$emit('restart');
+      },
+      next: function () {
+        this.$emit('next');
+      },
     },
-    next: function () {
-      this.$emit("next");
-    },
-  },
-};
+  };
 </script>
 
 <style scoped lang="scss">
-.game-content {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  height: calc(100% - 35pt - 35pt);
-  max-height: calc(100% - 35pt - 35pt);
-  overflow: hidden;
-}
+  .game-content {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: calc(100% - 35pt - 35pt);
+    max-height: calc(100% - 35pt - 35pt);
+    overflow: hidden;
+  }
 </style>

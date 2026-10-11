@@ -1,13 +1,10 @@
-# simple educational games for kids
+# Edukiz - Educational Games for Kids
 
-The project is WIP. I only got a couple of _hours_ in the next month. Will see how far I can push this...
-Project _coding_ language is english.
-Anyway: As long as no native english speaker can contribute to this project, I am only able to provide german sounds.
-Soon I may add chinese as well...
+Simple HTML/JS educational games for children, built with Vue 3 and Vite. Runs offline as a PWA.
 
 ## Objective
 
-Simple HTML/JS educational games for children
+Simple educational games for children that work offline on any device (smartphone, tablet, Raspberry Pi, laptop, etc.).
 
 ## Boundaries
 
@@ -15,98 +12,195 @@ Simple HTML/JS educational games for children
 - Must run offline (e.g. by simply copying to a smartphone, tablet, raspberry pi, laptop, ...)
 
 ## Available Games
-This section shows a list of implemented Games, for planned Games see Project Page Issues. 
 
 ### Memory
 Memory Games with:
 - Letters and numbers
 - Animals
-Alphabetic Games with:
+
+### Alphabetic Games
 - Drag and Drop letters on letters
 - Drag letters to a word
-Arithmetic Games:
+
+### Arithmetic Games
 - Calculations with +- for equations with solutions between 0 and 18
-Other Games:
-- Text to speech. Provide a text and let the computer read it out loud. Uses the Web Speech API. This currently might not function well on all browsers. Furthermore, it definitely has some room for improvements.
 
-## Project setup
-### Framework decision
-This project uses vue now.
-Why? 
+### Other Games
+- Text to speech. Provide a text and let the computer read it out loud. Uses the Web Speech API.
 
-- After the first super simple game, I realized that it's way more pain in the a* than expected to do everything vanilla.  
-- Vue is completely new for me, but even with my pretty limited web ui experience, I felt quite comfortable with it after only about 3 hours of practice. 
-- I also considered Angular, but even though I did make small PoC apps with it, it felt more complicated. 
-- React seems to be a bit more complicated. At least for me after reading the first tutorial.   
-- OpenUi5 suites games not really well. It's rather made for enterprise applications with tables, diagrams and formulars.
-- ... Another one from the thousands of frameworks I didn't even google, because there are just too many.   
+## Tech Stack
 
-### Setup
-1. Clone the repository
-2. Install npm:
-[npm](https://www.npmjs.com/get-npm)
-3. Install nvm [nvm](https://github.com/nvm-sh/nvm)
-4. run `nvm install 16; nvm use 16`
-5. run `npm install`
+- **Framework**: Vue 3 (Composition API)
+- **Build Tool**: Vite 6
+- **Router**: Vue Router 4 (Hash mode for offline support)
+- **State/Events**: Mitt (event emitter)
+- **Styling**: SCSS with CSS Grid/Flexbox
+- **Testing**: Vitest + Vue Test Utils
+- **Linting**: ESLint 9 (flat config) + Prettier
+- **PWA**: Vite PWA plugin (Workbox)
+- **CI/CD**: GitHub Actions
 
-### Compiles and hot-reloads for development
+## Project Setup
 
-```
-npm run serve
-```
+### Prerequisites
+- Node.js >= 20
+- npm >= 10
 
-### Compiles and minifies for production
+### Installation
 
-```
-nvm use 16; npm run build
+```bash
+# Clone the repository
+git clone <repository-url>
+cd edukiz
+
+# Install dependencies
+npm install
 ```
 
-### Lints and fixes files
+### Development
 
+```bash
+# Start dev server with hot reload
+npm run dev
+
+# Run tests
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage
+npm run test:coverage
 ```
+
+### Production Build
+
+```bash
+# Build for production (includes formatting)
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+### Code Quality
+
+```bash
+# Lint and auto-fix
 npm run lint
+
+# Format code with Prettier
+npm run format
 ```
 
-### Formate code:
+### Release & Deploy
+
+```bash
+# Create a version tag (triggers GitHub Pages deployment)
+npm run tag-deployment
+
+# Manual deploy to GitHub Pages
+npm run deploy-github
 ```
-npm run prettier
+
+## CI/CD Pipeline
+
+- **CI** (`.github/workflows/ci.yml`): Runs on every push/PR - lint, test, build
+- **Deploy** (`.github/workflows/deploy.yml`): Deploys to GitHub Pages on version tags (v*)
+
+## Project Structure
+
+```
+src/
+├── main.js                 # App entry point, router setup
+├── App.vue                 # Root component, global styles
+├── registerServiceWorker.js # PWA registration
+├── components/
+│   ├── Home.vue            # Landing page with game categories
+│   ├── Header.vue / Footer.vue / NavPage.vue / LinkTile.vue
+│   ├── Game.vue            # Base game layout component
+│   ├── ImageContainer.vue  # Image wrapper
+│   ├── ErrorAnimation.vue  # Error feedback animation
+│   ├── memory/
+│   │   ├── MemoryNavPage.vue
+│   │   ├── MemoryGame.vue  # Core memory game logic
+│   │   ├── MemoryCard.vue  # Individual card component
+│   │   ├── MemoryAnimals.vue / MemoryCharacters.vue
+│   ├── drag_drop/
+│   │   ├── DDNavPage.vue
+│   │   ├── DDBuildWordsGame.vue
+│   │   ├── DDCharacters.vue
+│   ├── misc/
+│   │   ├── MiscNavPage.vue
+│   │   ├── CalculateNumbers0To18.vue
+│   │   ├── TextToSpeech.vue
+│   ├── utils/
+│   │   ├── SoundUtils.js   # Audio management, SoundLib
+│   │   ├── ArrayUtils.js   # Shuffle, etc.
+│   │   ├── CharacterUtils.js / ImageUtils.js
+│   ├── mixins/
+│   │   ├── dragDrop.js     # Interact.js drag-drop logic
+│   │   ├── characterConfigs.js / wordConfigs.js / numberConfigs.js
+│   └── models/
+│       └── Voice.js
+public/
+├── img/                    # Game assets, characters
+└── sounds/                 # Audio files (de/ folder for German)
+tests/
+├── unit/                   # Vitest unit tests
+└── setup.js                # Vitest test setup
 ```
 
-### Release
-Run: `npm run tag-deployment`
+## Key Features
 
-### Distribute
-For some reason it's currently almost impossible to get a free and valid SSL certificate for the current webhoster (see distribute old).
-Therefore, I simply decided to a github page again to distribute the content. 
-But: This made the repository unnecessary huge and was horrible to maintain.
-Therefore, I just created a second repository https://github.com/timmalich/edukiz_live. 
+### Offline-First / PWA
+- Hash router mode (`createWebHashHistory`) for file:// protocol compatibility
+- Service worker caches all assets for offline use
+- Relative paths (`base: ''`) for flexible deployment
 
-To distribute: 
-- clone the other repository too
-- Name it edukiz_live
-- put it next to this repository
-- run: `nvm use 16; npm run deploy-github`
+### Sound System
+- `SoundUtils` singleton manages audio caching, playback, voice selection (boy/girl)
+- `SoundLib` exports pre-configured sound objects for letters, numbers, words
+- Audio files organized by language: `public/sounds/de/`
 
-### Distribute (deprecated but still alive)
-I'm just using the first recommended free webhoster for distribution. 
-Previously I just put the 'dist' folder on a separate github branch and distributed it directly as github page.
-But: This makes the repository unnecessary huge and is horrible to maintain.
-If you want to contribute you may just contact me for the transcrypted ftp password.
+### Game Flow
+1. User selects game from Home → NavPage
+2. Game component loads config from mixins
+3. User interaction triggers sounds, level progression, rewards
+4. Event emitter broadcasts rewards to Header for display
 
-#### install transcrypt
-    git clone https://github.com/elasticdog/transcrypt.git
-    cd transcrypt/
-    #Linux:
-    sudo ln -s ${PWD}/transcrypt /usr/local/bin/transcrypt
-    
-#### initialize transcrypt for this repo once by:
-    cd /c/dev/git-repos/runtime-api
-    transcrypt -c aes-256-cbc -p 'ThePassword' 
+## Adding a New Game
 
-#### install ncftp
-    sudo apt-get install ncftp
-    
-#### Distribute
-    ./scripts/distribute.sh 
+1. Create component in `src/components/<category>/`
+2. Add route in `src/main.js`
+3. Add LinkTile in appropriate NavPage
+4. Add sounds to `public/sounds/de/` and register in `SoundUtils.js`
+5. Write tests in `tests/unit/<category>/`
 
-## Feature TODOs
+## Updating Dependencies
+
+```bash
+# Check outdated packages
+npm outdated
+
+# Minor/patch updates
+npm update
+
+# Major updates (review carefully)
+npx npm-check-updates -u
+npm install
+
+# Verify
+npm run test
+npm run build
+```
+
+## Known Limitations
+
+- Only German audio currently (boy0/girl0 voices)
+- Text-to-speech uses Web Speech API (browser-dependent)
+- No TypeScript - consider migration for larger team
+
+## License
+
+MIT

@@ -1,72 +1,82 @@
 {
   "name": "edukiz",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "npm run prettier; vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "distribute": "scripts/distribute.sh",
+    "dev": "vite",
+    "build": "npm run format && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix",
+    "format": "prettier --write \"src/**/*.{vue,js,scss}\"",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
     "deploy-github": "scripts/deploy_github.sh",
-    "tag-deployment": "scripts/tagDeployment.sh",
-    "prettier": "npx prettier --write ./src",
-    "test": "jest"
+    "tag-deployment": "scripts/tagDeployment.sh"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
-    "core-js": "^3.19.1",
-    "font-awesome": "^4.7.0",
-    "mitt": "^3.0.0",
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "core-js": "^3.38.1",
+    "mitt": "^3.0.1",
     "register-service-worker": "^1.7.2",
-    "sass": "^1.26.12",
-    "sass-loader": "^10.0.2",
-    "vue": "^3.2.23",
-    "vue-router": "^4.0.12",
-    "webpack": "^5.64.4",
-    "workbox-strategies": "^6.4.1"
+    "sass": "^1.79.4",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
-    "@interactjs/interact": "^1.10.11",
-    "@interactjs/interactjs": "^1.10.11",
-    "@vue/cli-plugin-babel": "~4.5.15",
-    "@vue/cli-plugin-eslint": "~4.5.15",
-    "@vue/cli-plugin-pwa": "^4.5.15",
-    "@vue/cli-plugin-unit-jest": "^5.0.0-rc.1",
-    "@vue/cli-service": "~4.5.15",
-    "@vue/cli-service-global": "^4.5.15",
-    "@vue/compiler-sfc": "^3.2.23",
-    "@vue/test-utils": "^2.0.0-rc.17",
-    "@vue/vue3-jest": "^27.0.0-alpha.3",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "prettier": "^2.5.0",
-    "vue-devtools": "^5.1.4",
-    "vuejs-logger": "^1.5.5",
-    "workbox-expiration": "^6.4.1",
-    "workbox-routing": "^6.4.1"
+    "@interactjs/interact": "^1.10.27",
+    "@interactjs/interactjs": "^1.10.27",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitest/coverage-v8": "^2.1.1",
+    "@vue/test-utils": "^2.4.6",
+    "eslint": "^9.11.1",
+    "eslint-plugin-vue": "^9.28.0",
+    "jsdom": "^25.0.0",
+    "prettier": "^3.3.3",
+    "vite": "^5.4.8",
+    "vite-plugin-pwa": "^0.20.5",
+    "vitest": "^2.1.1",
+    "workbox-expiration": "^7.3.0",
+    "workbox-routing": "^7.3.0",
+    "workbox-strategies": "^7.3.0"
   },
   "eslintConfig": {
     "root": true,
     "env": {
-      "node": true
+      "node": true,
+      "browser": true,
+      "es2024": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/vue3-recommended",
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "babel-eslint"
+      "ecmaVersion": "latest",
+      "sourceType": "module"
     },
-    "rules": {}
+    "rules": {
+      "vue/multi-word-component-names": "off",
+      "no-console": "warn",
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "printWidth": 100,
+    "vueIndentScriptAndStyle": true
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
   ],
-  "engines" : {
-    "npm" : ">=10.8.2",
-    "node" : ">=16.0.0 <17.0.0"
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }

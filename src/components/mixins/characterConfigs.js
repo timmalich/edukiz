@@ -1,9 +1,9 @@
-import { ImageUtils } from "../utils/ImageUtils";
-import { SoundLib } from "@/components/utils/SoundUtils";
+import { ImageUtils } from '../utils/ImageUtils.js';
+import { SoundLib } from '../utils/SoundUtils.js';
 
 export const characterConfigs = {
   data() {
-    let possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789".split("");
+    let possibleCharacters = 'ABCDEFGHIJKLMNOPQRSTUVXYZ0123456789'.split('');
     let characterConfigs = [];
     for (let character of possibleCharacters) {
       characterConfigs.push({

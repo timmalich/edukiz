@@ -1,8 +1,9 @@
-import {shallowMount} from '@vue/test-utils'
+import { vi } from 'vitest'
+import { shallowMount } from '@vue/test-utils'
 import CalculateNumbers0To18 from '@/components/misc/CalculateNumbers0To18.vue'
 
-jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {})
-jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
+vi.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {})
+vi.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {})
 
 const factory = (values = {}) => {
   return shallowMount(CalculateNumbers0To18, {
