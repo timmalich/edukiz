@@ -93,10 +93,17 @@ npm run test:coverage # Coverage report
 ```
 
 ## Testing Strategy
-- **Unit tests**: Vitest + @vue/test-utils for component logic
-- **Test files**: `tests/unit/**/*.spec.js`
-- **Coverage**: v8 provider, HTML + text reports
-- **Mocking**: `vi.spyOn` for Audio, localStorage, etc.
+- **Integration tests** (primary): Test complete user flows through Vue components using Vitest + @vue/test-utils. Focus on features, not implementation details.
+- **Unit tests** (minimal): Only for pure utility functions with complex logic (e.g., `ArrayUtils.shuffleArray`, `SoundUtils.playSoundsInRow`).
+- **Test files**: `tests/unit/**/*.spec.js` (legacy) and `tests/integration/**/*.integration.spec.js` (new)
+- **Coverage**: v8 provider, HTML + text reports. **Minimum 95% for statements, branches, functions, and lines.**
+- **Mocking**: `vi.spyOn` for external APIs (Audio, localStorage, Web Speech API). Avoid mocking internal implementation.
+
+### Testing Principles
+1. **Test features, not code paths**: Write tests that verify user-visible behavior (e.g., "completing a level unlocks the next level") rather than internal method calls.
+2. **No internal mocking**: Don't mock component methods, stores, or mixins. Tests should interact with components as users do.
+3. **Refactor-friendly**: Tests should survive refactoring of internal logic (sound management, level generation, etc.) because they test outcomes, not implementation.
+4. **Coverage is mandatory**: CI fails if coverage drops below 95% for statements, branches, functions, or lines.
 
 ## CI/CD Pipeline (GitHub Actions)
 - **ci.yml**: Lint, typecheck, test, build on every PR/push

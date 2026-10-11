@@ -40,6 +40,35 @@ Simple educational games for children that work offline on any device (smartphon
 - Code should be as simple as possible, so it's easy for everyone to extend
 - Must run offline (e.g. by simply copying to a smartphone, tablet, raspberry pi, laptop, ...)
 
+## Testing Philosophy
+
+**Testing is a first-class concern in this project.** We maintain a minimum of 95% code coverage across all statements, branches, functions, and lines.
+
+### Why Testing Matters Here
+
+1. **Offline-First Reliability**: Since the app runs offline on children's devices without server-side fallbacks, bugs cannot be hotfixed remotely. Every feature must work correctly on first deploy.
+
+2. **Refactoring Confidence**: Integration tests focus on user-visible features (game flows, level progression, reward systems) rather than implementation details. This allows us to refactor internal logic (e.g., sound management, level generation) without rewriting tests.
+
+3. **Regression Prevention**: Educational games have complex state machines (game start → play → match → reward → next level). Automated tests catch regressions in these flows immediately.
+
+4. **Cross-Device Consistency**: Tests run in a headless browser (jsdom) ensuring consistent behavior across all target devices (phones, tablets, Raspberry Pi, laptops).
+
+### Testing Strategy
+
+- **Integration Tests** (primary): Test complete user flows through Vue components (e.g., "user plays memory game through 3 levels and gets reward")
+- **Unit Tests** (minimal): Only for pure utility functions with complex logic (e.g., `ArrayUtils.shuffleArray`, `SoundUtils.playSoundsInRow`)
+- **No Mocking of Internal Implementation**: We avoid mocking internal methods or stores. Tests interact with components as users do - clicking, dragging, navigating.
+
+### Coverage Requirements
+
+- **Statements**: ≥ 95%
+- **Branches**: ≥ 95%
+- **Functions**: ≥ 95%
+- **Lines**: ≥ 95%
+
+Run `npm run test:coverage` to verify. CI fails if coverage drops below threshold.
+
 ## Available Games
 
 ### Memory
