@@ -15,6 +15,7 @@
         :data-identifier="charConfig.character"
         :src="charConfig.image"
         class="dropzone empty-droppable-element"
+        draggable="false"
       />
     </div>
     <div class="spacer" />
@@ -25,6 +26,7 @@
         :data-identifier="charConfig.character"
         :src="charConfig.image"
         class="draggable-element"
+        draggable="false"
       />
     </div>
     <ErrorAnimation ref="errorAnimation" />

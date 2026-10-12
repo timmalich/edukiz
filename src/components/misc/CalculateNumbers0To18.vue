@@ -14,10 +14,30 @@
       class="grid-container4 exercise-section dropzone"
       :class="[{ 'all-drops-successful': isGameOver }]"
     >
-      <ImageContainer key="firstElement" class="drop-element" :src="firstElement.image" />
-      <ImageContainer key="operatorElement" class="drop-element" :src="operator.image" />
-      <ImageContainer key="secondElement" class="drop-element" :src="secondElement.image" />
-      <ImageContainer key="equals" class="drop-element" src="img/characters/=.svg" />
+      <ImageContainer
+        key="firstElement"
+        class="drop-element"
+        :src="firstElement.image"
+        draggable="false"
+      />
+      <ImageContainer
+        key="operatorElement"
+        class="drop-element"
+        :src="operator.image"
+        draggable="false"
+      />
+      <ImageContainer
+        key="secondElement"
+        class="drop-element"
+        :src="secondElement.image"
+        draggable="false"
+      />
+      <ImageContainer
+        key="equals"
+        class="drop-element"
+        src="img/characters/=.svg"
+        draggable="false"
+      />
     </div>
     <div class="solution-section dropzone" :style="gridContainerSolutionZone">
       <div />
@@ -26,6 +46,7 @@
         :key="index"
         :src="numberConfig.image"
         class="drop-element"
+        draggable="false"
       />
     </div>
     <div class="spacer" />
@@ -39,6 +60,7 @@
         :src="numberConfig.image"
         :class="[{ 'level-finished': isLevelFinished }]"
         class="draggable-element"
+        draggable="false"
       />
     </div>
     <ErrorAnimation ref="errorAnimation" />

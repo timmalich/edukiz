@@ -79,6 +79,10 @@ export const dragDrop = {
         autoScroll: false,
         listeners: {
           start: function (event) {
+            // Prevent browser's native drag behavior
+            if (event.originalEvent) {
+              event.originalEvent.preventDefault();
+            }
             if (typeof this.ondragstart === 'function') {
               this.ondragstart(event);
             }

@@ -18,6 +18,7 @@
         :key="index"
         :src="charConfig.image"
         class="drop-element"
+        draggable="false"
       />
     </div>
     <div class="spacer">
@@ -32,6 +33,7 @@
         :data-draggable-index="index"
         :src="charConfig.image"
         class="draggable-element"
+        draggable="false"
       />
     </div>
     <ErrorAnimation ref="errorAnimation" />
