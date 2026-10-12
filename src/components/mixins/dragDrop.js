@@ -36,6 +36,34 @@ export const dragDrop = {
         }
         return false;
       }
+
+      // Debug: Check element dimensions before initializing
+      const dropzones = document.querySelectorAll('.dropzone');
+      const draggables = document.querySelectorAll('.draggable-element');
+      console.log(
+        'initDragDrop: Found dropzones:',
+        dropzones.length,
+        'draggables:',
+        draggables.length
+      );
+      dropzones.forEach((el, i) => {
+        const rect = el.getBoundingClientRect();
+        console.log(`Dropzone ${i}:`, el, 'rect:', rect, 'classes:', el.className);
+      });
+      draggables.forEach((el, i) => {
+        const rect = el.getBoundingClientRect();
+        console.log(
+          `Draggable ${i}:`,
+          el,
+          'rect:',
+          rect,
+          'classes:',
+          el.className,
+          'data-identifier:',
+          el.dataset.identifier
+        );
+      });
+
       interact('.dropzone').dropzone({
         overlap: 0.5,
         ondropactivate: function () {},
@@ -79,7 +107,7 @@ export const dragDrop = {
         autoScroll: false,
         listeners: {
           start: function (event) {
-            // Prevent browser's native drag behavior
+            console.log('drag start event:', event);
             event.preventDefault();
             if (typeof this.ondragstart === 'function') {
               this.ondragstart(event);

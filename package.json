@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run format && vite build --base=/edukiz/ && vite --base=/edukiz/",
     "build": "npm run format && vite build",
     "build:edukiz": "npm run format && vite build --base=/edukiz/",
     "build:edukiz_live": "npm run format && vite build --base=/edukiz_live/",
