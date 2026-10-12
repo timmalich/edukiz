@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper">
-    <img :src="src" alt="containerized image" />
+  <div class="wrapper" draggable="false">
+    <img :src="src" alt="containerized image" draggable="false" />
   </div>
 </template>
 <script>
