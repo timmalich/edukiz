@@ -80,9 +80,7 @@ export const dragDrop = {
         listeners: {
           start: function (event) {
             // Prevent browser's native drag behavior
-            if (event.originalEvent) {
-              event.originalEvent.preventDefault();
-            }
+            event.preventDefault();
             if (typeof this.ondragstart === 'function') {
               this.ondragstart(event);
             }
