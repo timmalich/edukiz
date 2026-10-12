@@ -21,7 +21,7 @@ export default defineConfig({
     'import.meta.env.APP_VERSION': JSON.stringify(pkg.version),
     'import.meta.env.APP_COMMIT': JSON.stringify(commitHash),
   },
-  base: '',
+  base: '/edukiz/',
   plugins: [
     vue(),
     isProduction && VitePWA({
