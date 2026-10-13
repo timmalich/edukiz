@@ -16,6 +16,21 @@ const commitHash = (() => {
   }
 })()
 
+const interactjsKeepSideEffects = () => ({
+  name: 'interactjs-keep-side-effects',
+  enforce: 'pre',
+  async resolveId(source, importer, options) {
+    const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
+    if (!resolved) return null
+    const id = typeof resolved === 'string' ? resolved : resolved.id
+    if (id.includes('@interactjs/')) {
+      if (typeof resolved === 'string') return { id: resolved, moduleSideEffects: true }
+      resolved.moduleSideEffects = true
+    }
+    return resolved
+  },
+})
+
 export default defineConfig({
   define: {
     'import.meta.env.APP_VERSION': JSON.stringify(pkg.version),
@@ -23,6 +38,7 @@ export default defineConfig({
   },
   base: '',
   plugins: [
+    interactjsKeepSideEffects(),
     vue(),
     isProduction && VitePWA({
       registerType: 'autoUpdate',
